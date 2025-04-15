@@ -1,0 +1,19 @@
+package com.xtensus.passosyf.utils;
+
+import java.util.List;
+
+import com.xtensus.passosyf.entities.Reunion;
+
+public class RapportModel {
+	private List<Reunion> listReunions;
+
+	public List<Reunion> getListReunions() {
+		return listReunions;
+	}
+
+	public void setListReunions(List<Reunion> listReunions) {
+		this.listReunions = listReunions;
+	}
+	
+	
+}

@@ -1,0 +1,21 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+
+import com.xtensus.passosyf.entities.CommissionType;
+import com.xtensus.passosyf.entities.Membre;
+
+public interface MembreService {
+
+	
+	public Membre save(Membre membre);
+	public Membre update(Membre membre,Integer id);
+	public void delete(Integer id);
+	public List<Membre> ListMembres();
+	public Membre getMembreById(Integer id);
+	public  List<Membre> listMembresDisponibleCAM();
+	public List<Membre> listMembresDisponibleCP();
+	public Membre getMembreByMatricule(String matricule);
+	public List<Membre> listMembresByReunion(int reunionId);
+
+}

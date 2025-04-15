@@ -1,0 +1,112 @@
+package com.xtensus.passosyf.utils;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.xtensus.passosyf.entities.Commission;
+import com.xtensus.passosyf.entities.DomaineActivite;
+import com.xtensus.passosyf.entities.Membre;
+import com.xtensus.passosyf.entities.TypeMembreCellulePassation;
+import com.xtensus.passosyf.entities.TypeMembreCommissionMarche;
+
+import lombok.ToString;
+
+@ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CommissionAffectationMembreModel{
+	
+	/**
+	 * 
+	 */
+	private Commission  commission;
+	private Membre membre;
+	//@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	private DomaineActivite selectedDomaineActivite;
+	private TypeMembreCommissionMarche selectedPosteCM;
+	private TypeMembreCellulePassation selectedPosteCP;
+	private Date dateAffectation;
+  
+  
+
+
+	public CommissionAffectationMembreModel(Commission commission, DomaineActivite selectedDomaineActivite,
+		 Membre membre, Date dateAffectation, TypeMembreCommissionMarche selectedPosteCM,
+			TypeMembreCellulePassation selectedPosteCP) {
+
+		this.commission = commission;
+		this.selectedDomaineActivite = selectedDomaineActivite;
+	//	this.selectedPoste = selectedPoste;
+		this.membre = membre;
+		this.dateAffectation = dateAffectation;
+		this.selectedPosteCM = selectedPosteCM;
+		this.selectedPosteCP = selectedPosteCP;
+	}
+
+
+	public CommissionAffectationMembreModel() {
+		// TODO Auto-generated constructor stub
+	}
+
+	
+	
+	public Commission getCommission() {
+		return commission;
+	}
+
+
+	public void setCommission(Commission commission) {
+		this.commission = commission;
+	}
+
+
+	public DomaineActivite getSelectedDomaineActivite() {
+		return selectedDomaineActivite;
+	}
+
+
+	public void setSelectedDomaineActivite(DomaineActivite selectedDomaineActivite) {
+		this.selectedDomaineActivite = selectedDomaineActivite;
+	}
+
+
+
+	public Membre getMembre() {
+		return membre;
+	}
+
+	public void setMembre(Membre membre) {
+		this.membre = membre;
+	}
+
+	public Date getDateAffectation() {
+		return dateAffectation;
+	}
+
+	public void setDateAffectation(Date dateAffectation) {
+		this.dateAffectation = dateAffectation;
+	}
+
+	public TypeMembreCommissionMarche getSelectedPosteCM() {
+		return selectedPosteCM;
+	}
+
+	public void setSelectedPosteCM(TypeMembreCommissionMarche selectedPosteCM) {
+		this.selectedPosteCM = selectedPosteCM;
+	}
+
+	public TypeMembreCellulePassation getSelectedPosteCP() {
+		return selectedPosteCP;
+	}
+
+	public void setSelectedPosteCP(TypeMembreCellulePassation selectedPosteCP) {
+		this.selectedPosteCP = selectedPosteCP;
+	}
+
+
+	
+	
+
+}

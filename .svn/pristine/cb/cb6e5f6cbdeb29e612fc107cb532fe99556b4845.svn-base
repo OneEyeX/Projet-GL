@@ -1,0 +1,81 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "typesalle")
+public class TypeSalle implements Serializable {
+
+	private static final long serialVersionUID = 478291466683301275L;
+
+	private int typesalleid;
+	private String typesallelibelle;
+	private String typesalledescription;
+	private String typesallelibellear;
+	private String typesalledescriptionar;
+
+	public TypeSalle(int typesalleid, String typesallelibelle) {
+		super();
+		this.typesalleid = typesalleid;
+		this.typesallelibelle = typesallelibelle;
+	}
+
+	public TypeSalle() {
+
+	}
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column( unique = true, nullable = false)
+	public int getTypesalleid() {
+		return typesalleid;
+	}
+
+	public void setTypesalleid(int typesalleid) {
+		this.typesalleid = typesalleid;
+	}
+
+	
+	public String getTypesallelibelle() {
+		return typesallelibelle;
+	}
+
+	public void setTypesallelibelle(String typesallelibelle) {
+		this.typesallelibelle = typesallelibelle;
+	}
+
+	
+	public String getTypesalledescription() {
+		return typesalledescription;
+	}
+
+	public void setTypesalledescription(String typesalledescription) {
+		this.typesalledescription = typesalledescription;
+	}
+
+
+	public String getTypesallelibellear() {
+		return typesallelibellear;
+	}
+
+	public void setTypesallelibellear(String typesallelibellear) {
+		this.typesallelibellear = typesallelibellear;
+	}
+
+	@Column(name = "typesalledescriptionar")
+	public String getTypesalledescriptionar() {
+		return typesalledescriptionar;
+	}
+
+	public void setTypesalledescriptionar(String typesalledescriptionar) {
+		this.typesalledescriptionar = typesalledescriptionar;
+	}
+}

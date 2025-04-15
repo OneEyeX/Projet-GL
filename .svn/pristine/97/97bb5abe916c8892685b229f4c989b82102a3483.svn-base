@@ -1,0 +1,94 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "typemembrecommissionmarche")
+public class TypeMembreCommissionMarche  implements Serializable {
+
+	private static final long serialVersionUID = -675292663733886636L;
+
+	private int typeMembreCommissionMarcheId;
+	private String typeMembreCommissionMarcheLibelle;
+	private String typeMembreCommissionMarcheDescription;
+	private Etat etat;
+	private int typeMembreCommissionMarcheUnique;
+
+	public TypeMembreCommissionMarche(int typeMembreCommissionMarcheId,
+			String typeMembreCommissionMarcheLibelle,
+			String typeMembreCommissionMarcheDescription, Etat etat) {
+		super();
+		this.typeMembreCommissionMarcheId = typeMembreCommissionMarcheId;
+		this.typeMembreCommissionMarcheLibelle = typeMembreCommissionMarcheLibelle;
+		this.typeMembreCommissionMarcheDescription = typeMembreCommissionMarcheDescription;
+		this.etat = etat;
+	}
+
+	public TypeMembreCommissionMarche() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "typeMembreCommissionMarcheId", unique = true, nullable = false)
+	public int getTypeMembreCommissionMarcheId() {
+		return typeMembreCommissionMarcheId;
+	}
+
+	public void setTypeMembreCommissionMarcheId(int typeMembreCommissionMarcheId) {
+		this.typeMembreCommissionMarcheId = typeMembreCommissionMarcheId;
+	}
+
+	
+	@Column(name = "typeMembreCommissionMarcheLibelle")
+	public String getTypeMembreCommissionMarcheLibelle() {
+		return typeMembreCommissionMarcheLibelle;
+	}
+
+	public void setTypeMembreCommissionMarcheLibelle(
+			String typeMembreCommissionMarcheLibelle) {
+		this.typeMembreCommissionMarcheLibelle = typeMembreCommissionMarcheLibelle;
+	}
+
+	@Column(name = "typeMembreCommissionMarcheDescription")
+	public String getTypeMembreCommissionMarcheDescription() {
+		return typeMembreCommissionMarcheDescription;
+	}
+
+	public void setTypeMembreCommissionMarcheDescription(
+			String typeMembreCommissionMarcheDescription) {
+		this.typeMembreCommissionMarcheDescription = typeMembreCommissionMarcheDescription;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "etatId", insertable = true, updatable = true)
+	public Etat getEtat() {
+		return etat;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
+
+	@Column(name = "typeMembreCommissionMarcheUnique")
+	public void setTypeMembreCommissionMarcheUnique(
+			int typeMembreCommissionMarcheUnique) {
+		this.typeMembreCommissionMarcheUnique = typeMembreCommissionMarcheUnique;
+	}
+
+	public int getTypeMembreCommissionMarcheUnique() {
+		return typeMembreCommissionMarcheUnique;
+	}
+}

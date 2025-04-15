@@ -1,0 +1,13 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+
+import com.xtensus.passosyf.entities.TypeMembreCommissionMarche;
+
+public interface TypeMembreCommissionMarcheService {
+
+	public TypeMembreCommissionMarche save(TypeMembreCommissionMarche typeMembreCM);
+	public TypeMembreCommissionMarche update(Integer idTypeMembreCM,TypeMembreCommissionMarche typeMembreCM);
+	public void delete(Integer id);
+	public List<TypeMembreCommissionMarche> ListTypeMembreCommissionMarche();
+}

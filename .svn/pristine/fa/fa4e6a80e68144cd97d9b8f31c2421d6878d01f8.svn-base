@@ -1,0 +1,132 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "salle")
+public class Salle implements java.io.Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5196076758286887105L;
+	private Integer salleId;
+	private String salleLibelle;
+	private String salleEmplacement;
+	private TypeSalle salleType;
+	private Integer salleCapaciteAcceuil;
+	private Integer salleNombrePlace;
+	private String salleDescription;
+//	private String sallePhoto;
+	private String salleResponsable;
+	private String salleEmailResponsable;
+//	private List<Disponibilite> disponibilites;
+//	private Responsable responsable;
+	
+	public Salle() {
+	}
+	public Salle(String salleLibelle, String salleDescription,
+			Integer salleNombrePlace, String salleResponsable,
+			String salleEmailResponsable, Integer responsableId) {
+		
+		this.salleLibelle = salleLibelle;
+		this.salleDescription = salleDescription;
+		this.salleNombrePlace = salleNombrePlace;
+		this.salleResponsable = salleResponsable;
+		this.salleEmailResponsable = salleEmailResponsable;
+//		this.disponibilites = disponibilites;
+	}
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "salleId", unique = true, nullable = false)
+	public Integer getSalleId() {
+		return salleId;
+	}
+
+	public void setSalleId(Integer salleId) {
+		this.salleId = salleId;
+	}
+
+	@Column(name = "salleLibelle")
+	public String getSalleLibelle() {
+		return salleLibelle;
+	}
+
+	public void setSalleLibelle(String salleLibelle) {
+		this.salleLibelle = salleLibelle;
+	}
+
+	@Column(name = "salleDescription")
+	public String getSalleDescription() {
+		return salleDescription;
+	}
+
+	public void setSalleDescription(String salleDescription) {
+		this.salleDescription = salleDescription;
+	}
+
+	@Column(name = "salleNombrePlace")
+	public Integer getSalleNombrePlace() {
+		return salleNombrePlace;
+	}
+
+	public void setSalleNombrePlace(Integer salleNombrePlace) {
+		this.salleNombrePlace = salleNombrePlace;
+	}
+
+	@Column(name = "salleResponsable")
+	public String getSalleResponsable() {
+		return salleResponsable;
+	}
+
+	public void setSalleResponsable(String salleResponsable) {
+		this.salleResponsable = salleResponsable;
+	}
+
+	@Column(name = "salleEmailResponsable")
+	public String getSalleEmailResponsable() {
+		return salleEmailResponsable;
+	}
+
+	public void setSalleEmailResponsable(String salleEmailResponsable) {
+		this.salleEmailResponsable = salleEmailResponsable;
+	}
+	
+	@Column(name = "salleEmplacement")
+	public String getSalleEmplacement() {
+		return salleEmplacement;
+	}
+	public void setSalleEmplacement(String salleEmplacement) {
+		this.salleEmplacement = salleEmplacement;
+	}
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="salleType")
+	public TypeSalle getSalleType() {
+		return salleType;
+	}
+	public void setSalleType(TypeSalle salleType) {
+		this.salleType = salleType;
+	}
+	
+	@Column(name = "salleCapaciteAcceuil")
+	public Integer getSalleCapaciteAcceuil() {
+		return salleCapaciteAcceuil;
+	}
+	public void setSalleCapaciteAcceuil(Integer salleCapaciteAcceuil) {
+		this.salleCapaciteAcceuil = salleCapaciteAcceuil;
+	}
+	
+	
+}
+
+

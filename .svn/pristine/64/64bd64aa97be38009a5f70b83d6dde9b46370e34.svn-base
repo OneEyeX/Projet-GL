@@ -1,0 +1,26 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.xtensus.passosyf.entities.Commission;
+import com.xtensus.passosyf.entities.MembreCellulePassation;
+import com.xtensus.passosyf.entities.MembreCommissionMarche;
+import com.xtensus.passosyf.utils.CommissionAffectationMembreModel;
+import com.xtensus.passosyf.utils.MembreAffecteCommission;
+
+public interface CommissionService {
+	
+	public Commission save(Commission commission);
+	public Commission update(Commission commission,int id);
+	public void delete(Integer id);
+	public List<Commission> listCommission();
+	public Commission getCommissionById(Integer id);
+	public void affectationMembreCommission(CommissionAffectationMembreModel commissionAffectationMembreModel);
+	public List<MembreCommissionMarche>  getListeMembreAffecteCommissionMarche(int id);
+	public  List<MembreCellulePassation> getListeMembreAffecteCellulePasassion(int id);
+	public void desaffectationMembreCommissionMarche(int membresCMId, int commissionId);
+	public void desaffectationMembreCellulePassation(int membresCPId);
+
+}

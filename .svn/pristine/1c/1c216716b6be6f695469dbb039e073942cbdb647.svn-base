@@ -1,0 +1,19 @@
+package com.xtensus.passosyf.repositories;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.xtensus.passosyf.entities.DocumentCategorie;
+import com.xtensus.passosyf.entities.DocumentTypeCategorie;
+
+public interface DocumentCategorieRepository extends JpaRepository<DocumentCategorie, Integer> {
+	
+	DocumentCategorie findByDocumentCategorieId(Integer id);
+
+	@Query(value = "SELECT d FROM DocumentCategorie d WHERE d.documentTypeCategorie =:documentTypeCategorie")
+	Iterable<DocumentCategorie> findDocumentCategorieByType(@Param(value = "documentTypeCategorie") DocumentTypeCategorie documentTypeCategorie);
+
+	
+}

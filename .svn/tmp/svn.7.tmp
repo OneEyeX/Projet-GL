@@ -1,0 +1,116 @@
+package com.xtensus.passosyf.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.Commission;
+import com.xtensus.passosyf.entities.MembreCellulePassation;
+import com.xtensus.passosyf.entities.MembreCommissionMarche;
+import com.xtensus.passosyf.services.CommissionService;
+import com.xtensus.passosyf.utils.CommissionAffectationMembreModel;
+import com.xtensus.passosyf.utils.MembreAffecteCommission;
+
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping(path = "/commissions")
+public class CommissionController {
+	
+	private CommissionService commissionService;
+	
+	@Autowired
+	public CommissionController(CommissionService commissionService) {
+		this.commissionService=commissionService;
+	}
+	
+	
+ 
+	@GetMapping(path = "all")
+	public ResponseEntity<List<Commission>> getAllCommission(){	
+								  
+		List<Commission> commissions=commissionService.listCommission();
+		return new ResponseEntity<>(commissions,HttpStatus.OK);
+	}
+	
+	@PostMapping(path = "add")
+	public ResponseEntity<Commission> save(@RequestBody Commission commission) {	
+		Commission com=commissionService.save(commission);
+		return new ResponseEntity<>(com,HttpStatus.CREATED);
+	}
+	
+	@GetMapping(path = "find/{id}")
+	public ResponseEntity<Commission>  commissionById(@PathVariable(name = "id") int id){
+		System.out.println("valeur de l'id  "+id);
+		
+		Commission commmi=commissionService.getCommissionById(id);
+		return new ResponseEntity<>(commmi,HttpStatus.CREATED);
+		
+	}
+	
+	@DeleteMapping(path = "deleteMembre/{id}")
+	public void delete(@PathVariable(name = "id") Integer id) {
+		System.out.println("dans méthode delete  "+id);
+		commissionService.delete(id);
+	}
+
+	 @PutMapping("/update/{id}")
+	    public ResponseEntity<Commission> updateEmployee(@RequestBody Commission commission,@PathVariable(name = "id") int id) {
+									
+		 Commission updateCommission = commissionService.update(commission,id);
+	        return new ResponseEntity<>(updateCommission, HttpStatus.OK);
+	    }
+	
+	 @PostMapping(path = "affectation")
+	 public void affectationMembreCommission(@RequestBody CommissionAffectationMembreModel commissionAffectationMembreModel) {
+		 System.out.println("commissionAffectationMembreModel "+commissionAffectationMembreModel.toString());
+		 commissionService.affectationMembreCommission(commissionAffectationMembreModel);
+		 
+	 }
+	 
+	 @GetMapping(path = "getAffectationMembreCP/{id}")
+		public ResponseEntity<List<MembreCellulePassation>>  getListeMembreAffecteCellulePasassion(@PathVariable(name = "id") int id){		
+		 List<MembreCellulePassation> membreAffecteCp=commissionService.getListeMembreAffecteCellulePasassion(id);
+		 System.out.println("membreAffecteCp "+membreAffecteCp.size());
+
+			return new ResponseEntity<>(membreAffecteCp,HttpStatus.CREATED);
+			
+		}
+	 
+	 	 
+	 @GetMapping(path = "getAffectationMembreCM/{id}")
+		public ResponseEntity<List<MembreCommissionMarche>>  getListeMembreAffecteCommissionMarche(@PathVariable(name = "id") int id){
+			
+		 List<MembreCommissionMarche> membreAffecteCommission=commissionService.getListeMembreAffecteCommissionMarche(id);
+			return new ResponseEntity<>(membreAffecteCommission,HttpStatus.CREATED);
+			
+		}
+	 
+	 @PostMapping(path = "desaffectationMembreCM/{membresCMId}/{commissionId}")
+		public void desaffectationMembreCommissionMarche(@PathVariable(name = "membresCMId") int membresCMId,@PathVariable(name = "commissionId") int commissionId) {
+		 System.out.println("membresCMId "+membresCMId);
+		commissionService.desaffectationMembreCommissionMarche(membresCMId,commissionId);
+			
+		}
+		
+	 @GetMapping(path = "desaffectationMembreCP/{membresCPId}/{commissionId}")
+		public void desaffectationMembreCellulePassation(@PathVariable(name = "membresCPId") int membresCPId ,
+				@PathVariable(name = "commissionId") int commissionId ) {
+				//if CP ==> Supp membreCellulePasation
+ 		 commissionService.desaffectationMembreCellulePassation(membresCPId,commissionId);
+		
+		
+		}
+	 
+	 
+}

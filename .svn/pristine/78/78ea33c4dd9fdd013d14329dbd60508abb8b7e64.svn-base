@@ -1,0 +1,8 @@
+package com.xtensus.passosyf.services;
+
+import com.xtensus.passosyf.entities.Mail;
+
+public interface MailService 
+{
+	public void sendEmail(Mail mail);
+}

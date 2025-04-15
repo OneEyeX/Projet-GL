@@ -1,0 +1,61 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "membretype")
+public class MembreType implements java.io.Serializable  {
+	
+	
+	private Integer membreTypeId;
+	private String  membreTypeLibelle;
+	private String  membreTypeLibelleAr;
+	private String  membreTypeDescription;
+	private String  membreTypeDescriptionAr;
+	
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "membreTypeId", unique = true, nullable = false)
+	public Integer getMembreTypeId() {
+		return membreTypeId;
+	}
+	public void setMembreTypeId(Integer membreTypeId) {
+		this.membreTypeId = membreTypeId;
+	}
+	public String getMembreTypeLibelle() {
+		return membreTypeLibelle;
+	}
+	public void setMembreTypeLibelle(String membreTypeLibelle) {
+		this.membreTypeLibelle = membreTypeLibelle;
+	}
+	public String getMembreTypeLibelleAr() {
+		return membreTypeLibelleAr;
+	}
+	public void setMembreTypeLibelleAr(String membreTypeLibelleAr) {
+		this.membreTypeLibelleAr = membreTypeLibelleAr;
+	}
+	public String getMembreTypeDescription() {
+		return membreTypeDescription;
+	}
+	public void setMembreTypeDescription(String membreTypeDescription) {
+		this.membreTypeDescription = membreTypeDescription;
+	}
+	public String getMembreTypeDescriptionAr() {
+		return membreTypeDescriptionAr;
+	}
+	public void setMembreTypeDescriptionAr(String membreTypeDescriptionAr) {
+		this.membreTypeDescriptionAr = membreTypeDescriptionAr;
+	}
+	
+	
+	
+	
+	
+	
+}

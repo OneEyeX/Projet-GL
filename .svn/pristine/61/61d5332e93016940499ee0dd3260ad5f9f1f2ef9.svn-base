@@ -1,0 +1,82 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "equipement")
+public class Equipement implements Serializable {
+
+	private static final long serialVersionUID = 478291466683301275L;
+
+	private int equipementId;
+	private String equipementLibelle;
+	private String equipementDescription;
+	private String equipementLibelleAR;
+	private String equipementDescriptionAR;
+
+	public Equipement(int equipementId, String equipementLibelle) {
+		super();
+		this.equipementId = equipementId;
+		this.equipementLibelle = equipementLibelle;
+	}
+
+	public Equipement() {
+
+	}
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "equipementId", unique = true, nullable = false)
+	public int getEquipementId() {
+		return equipementId;
+	}
+
+	public void setEquipementId(int equipementId) {
+		this.equipementId = equipementId;
+	}
+
+	@Column(name = "equipementLibelle")
+	public String getEquipementLibelle() {
+		return equipementLibelle;
+	}
+
+	public void setEquipementLibelle(String equipementLibelle) {
+		this.equipementLibelle = equipementLibelle;
+	}
+
+	@Column(name = "equipementDescription")
+	public String getEquipementDescription() {
+		return equipementDescription;
+	}
+
+	public void setEquipementDescription(String equipementDescription) {
+		this.equipementDescription = equipementDescription;
+	}
+
+	@Column(name = "equipementLibelleAR")
+	public String getEquipementLibelleAR() {
+		return equipementLibelleAR;
+	}
+
+	public void setEquipementLibelleAR(String equipementLibelleAR) {
+		this.equipementLibelleAR = equipementLibelleAR;
+	}
+
+	@Column(name = "equipementDescriptionAR")
+	public String getEquipementDescriptionAR() {
+		return equipementDescriptionAR;
+	}
+
+	public void setEquipementDescriptionAR(String equipementDescriptionAR) {
+		this.equipementDescriptionAR = equipementDescriptionAR;
+	}
+
+}

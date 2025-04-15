@@ -1,0 +1,11 @@
+package com.xtensus.passosyf.gnl.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.xtensus.passosyf.gnl.entity.VariablesLog;
+
+ 
+@Repository
+public interface VariablesLogRepository extends JpaRepository<VariablesLog, Integer >{
+}

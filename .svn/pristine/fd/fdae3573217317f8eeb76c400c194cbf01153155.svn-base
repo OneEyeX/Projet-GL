@@ -1,0 +1,63 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.MembreType;
+import com.xtensus.passosyf.repositories.MembreTypeRepository;
+import com.xtensus.passosyf.services.MembreTypeService;
+@Service
+@Transactional
+public class MembreTypeServiceImp implements MembreTypeService{
+	
+	private MembreTypeRepository  membreTypeRepository;
+	public MembreTypeServiceImp(MembreTypeRepository  membreTypeRepository) {
+		this.membreTypeRepository=membreTypeRepository;
+	}
+
+	@Override
+	public MembreType save(MembreType membreType) {
+		// TODO Auto-generated method stub
+		return membreTypeRepository.save(membreType);
+	}
+
+	@Override
+	public MembreType update(MembreType membreType,Integer id) {
+		// TODO Auto-generated method stub
+		membreType.setMembreTypeId(id);
+		return membreTypeRepository.save(membreType);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		membreTypeRepository.deleteById(id);
+	}
+
+	@Override
+	public List<MembreType> ListTypeMembres() {
+		// TODO Auto-generated method stub
+		return membreTypeRepository.findAll();
+	}
+
+	@Override
+	public MembreType getMembreTypeById(Integer id) {
+		// TODO Auto-generated method stub
+		return membreTypeRepository.findById(id).get();
+	}
+
+//	@Override
+//	public MembreType getMembreTypeById(Integer id) {
+//		// TODO Auto-generated method stub
+//		return membreTypeRepository.findById(id).orElseThrow(() -> 
+//		new MembreTypeExceptionNotFound("Type membre "+id +"n'existe pas"));
+//				
+//	}
+
+}

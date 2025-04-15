@@ -1,0 +1,19 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+
+import com.xtensus.passosyf.entities.TypeSalle;
+
+public interface TypeSalleService {
+
+	public List<TypeSalle> getListTypeSalle();
+
+	public TypeSalle save(TypeSalle typeSalle);
+
+	public TypeSalle update(TypeSalle typeSalle);
+
+	public void deleteById(Integer typeSalleId);
+
+	public TypeSalle findTypeSalleById(Integer typeSalleId);
+
+}

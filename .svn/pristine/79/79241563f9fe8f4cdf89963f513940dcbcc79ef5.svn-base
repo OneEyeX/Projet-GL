@@ -1,0 +1,50 @@
+package com.xtensus.passosyf.utils;
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class EquipementModel {
+	private int equipementId;
+	private String equipementLibelle;
+	private String equipementDescription;
+	private String equipementLibelleAR;
+	private String equipementDescriptionAR;
+	private Map<Integer, Boolean>  checked= new HashMap<Integer, Boolean>();
+	public int getEquipementId() {
+		return equipementId;
+	}
+	public void setEquipementId(int equipementId) {
+		this.equipementId = equipementId;
+	}
+	public String getEquipementLibelle() {
+		return equipementLibelle;
+	}
+	public void setEquipementLibelle(String equipementLibelle) {
+		this.equipementLibelle = equipementLibelle;
+	}
+	public String getEquipementDescription() {
+		return equipementDescription;
+	}
+	public void setEquipementDescription(String equipementDescription) {
+		this.equipementDescription = equipementDescription;
+	}
+	public String getEquipementLibelleAR() {
+		return equipementLibelleAR;
+	}
+	public void setEquipementLibelleAR(String equipementLibelleAR) {
+		this.equipementLibelleAR = equipementLibelleAR;
+	}
+	public String getEquipementDescriptionAR() {
+		return equipementDescriptionAR;
+	}
+	public void setEquipementDescriptionAR(String equipementDescriptionAR) {
+		this.equipementDescriptionAR = equipementDescriptionAR;
+	}
+	public Map<Integer, Boolean> getChecked() {
+		return checked;
+	}
+	public void setChecked(Map<Integer, Boolean> checked) {
+		this.checked = checked;
+	}
+}

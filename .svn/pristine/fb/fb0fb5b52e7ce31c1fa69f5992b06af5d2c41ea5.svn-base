@@ -1,0 +1,106 @@
+package com.xtensus.passosyf.entities;
+
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+
+@Entity
+@Table(name = "participantType")
+public class ParticipantType implements java.io.Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5196076758286887105L;
+	private Integer participantTypeId;
+	private String participantTypeLibelle;
+	private String participantTypeDescription;
+	
+	private String participantTypeLibellear;
+	private String participantTypeDescriptionar;
+	
+
+	public ParticipantType() {
+	}
+
+ 
+	public ParticipantType(String participantTypeLibelle, String participantTypeDescription,
+			String participantTypeLibellear, String participantTypeDescriptionar) {
+	 
+		this.participantTypeLibelle = participantTypeLibelle;
+		this.participantTypeDescription = participantTypeDescription;
+		this.participantTypeLibellear = participantTypeLibellear;
+		this.participantTypeDescriptionar = participantTypeDescriptionar;
+	}
+ 
+
+ 
+
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "participantTypeId", unique = true, nullable = false)
+	public Integer getParticipantTypeId() {
+		return this.participantTypeId;
+	}
+
+	public void setParticipantTypeId(Integer participantTypeId) {
+		this.participantTypeId = participantTypeId;
+	}
+
+	@Column(name = "participantTypeLibelle", length = 254)
+	public String getParticipantTypeLibelle() {
+		return this.participantTypeLibelle;
+	}
+
+	public void setParticipantTypeLibelle(String participantTypeLibelle) {
+		this.participantTypeLibelle = participantTypeLibelle;
+	}
+
+	@Column(name = "participantTypeDescription", precision = 12, scale = 0)
+	public String getParticipantTypeDescription() {
+		return this.participantTypeDescription;
+	}
+
+	public void setParticipantTypeDescription(String participantTypeDescription) {
+		this.participantTypeDescription = participantTypeDescription;
+	}
+
+
+	public String getParticipantTypeLibellear() {
+		return participantTypeLibellear;
+	}
+  
+	public void setParticipantTypeLibellear(String participantTypeLibellear) {
+		this.participantTypeLibellear = participantTypeLibellear;
+	}
+
+
+
+	public String getParticipantTypeDescriptionar() {
+		return participantTypeDescriptionar;
+	}
+
+
+	public void setParticipantTypeDescriptionar(String participantTypeDescriptionar) {
+		this.participantTypeDescriptionar = participantTypeDescriptionar;
+	}
+
+
+
+ 
+ 
+	
+	
+
+}
+

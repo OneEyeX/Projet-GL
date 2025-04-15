@@ -1,0 +1,72 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "autoritecontractantetype")
+public class AutoriteContractanteType  implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer autoriteContractanteTypeId;
+	private String autoriteContractanteTypeLibelle;
+	private String autoriteContractanteTypeDescription;
+	private boolean autoriteContractanteTypeAutorite;
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "autoriteContractanteTypeId", unique = true, nullable = false)
+	public Integer getAutoriteContractanteTypeId() {
+		return autoriteContractanteTypeId;
+	}
+
+	public void setAutoriteContractanteTypeId(Integer autoriteContractanteTypeId) {
+		this.autoriteContractanteTypeId = autoriteContractanteTypeId;
+	}
+
+	@Column(name = "autoriteContractanteTypeLibelle")
+	public String getAutoriteContractanteTypeLibelle() {
+		return autoriteContractanteTypeLibelle;
+	}
+
+	public void setAutoriteContractanteTypeLibelle(
+			String autoriteContractanteTypeLibelle) {
+		this.autoriteContractanteTypeLibelle = autoriteContractanteTypeLibelle;
+	}
+
+	@Column(name = "autoriteContractanteTypeDescription")
+	public String getAutoriteContractanteTypeDescription() {
+		return autoriteContractanteTypeDescription;
+	}
+
+	public void setAutoriteContractanteTypeDescription(
+			String autoriteContractanteTypeDescription) {
+		this.autoriteContractanteTypeDescription = autoriteContractanteTypeDescription;
+	}
+
+	
+	@Column(name = "autoriteContractanteTypeAutorite")
+	public boolean isAutoriteContractanteTypeAutorite() {
+		return autoriteContractanteTypeAutorite;
+	}
+
+	public void setAutoriteContractanteTypeAutorite(
+			boolean autoriteContractanteTypeAutorite) {
+		this.autoriteContractanteTypeAutorite = autoriteContractanteTypeAutorite;
+	}
+
+	
+	
+	
+	
+}

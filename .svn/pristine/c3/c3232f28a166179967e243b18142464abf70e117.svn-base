@@ -1,0 +1,21 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+
+import com.xtensus.passosyf.entities.SalleEquipement;
+
+public interface SalleEquipementService {
+	public List<SalleEquipement> getListSalleEquipement();
+
+	public SalleEquipement save(SalleEquipement salleEquipement);
+	public void saveListeEquipement(List<SalleEquipement> salleEquipement);
+
+	public SalleEquipement updateSalleEquipement(SalleEquipement salleEquipement);
+
+	public void deleteById(Integer salleEquipementId);
+
+	public SalleEquipement findSalleEquipementById(Integer salleEquipementId);
+
+	public void deleteBySalleId(Integer salleId);
+	public List<SalleEquipement> getSalleEquipementBySalleId(Integer salleId);
+}

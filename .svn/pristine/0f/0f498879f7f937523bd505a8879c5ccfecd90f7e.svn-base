@@ -1,0 +1,17 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.xtensus.passosyf.entities.CommissionType;
+
+public interface CommissionTypeService {
+	
+	public CommissionType save(CommissionType commissionType);
+	public CommissionType update(CommissionType commissionType);
+	public void delete(Integer id);
+	public List<CommissionType> listCommissionType();
+	public CommissionType getCommissionTypeById(Integer id);
+	
+
+}

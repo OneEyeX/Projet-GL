@@ -1,0 +1,42 @@
+package com.xtensus.passosyf.services;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
+
+import com.xtensus.passosyf.entities.Reunion;
+import com.xtensus.passosyf.utils.MembreModel;
+import com.xtensus.passosyf.utils.StatistiqueModel;
+
+public interface ReunionService {
+
+	public Iterable<Reunion> findAll();
+
+	public Reunion save(Reunion reunion);
+
+	public Optional<Reunion> findById(int id);
+
+	public Iterable<Reunion> findBySalleSalleId(int s);
+
+	public Iterable<Reunion> findByReunionObjet(String s);
+
+	public Iterable<Reunion> findByReunionResume(String s);
+
+	public Iterable<Reunion> listeReunionsBySalleIdAndDates(int id, Date dateSelected);
+
+	public void deleteById(Integer id);
+
+	void changeEtatReunion(int etatId, Reunion reunion);
+
+	void affecterMembreReunion(Reunion reunion, List<MembreModel> listeMembreModel);
+	
+	void affecterSalleReunion(int idSalle, Reunion reunion);
+
+	public List<StatistiqueModel> getStatistiqueReunion(Integer years); 
+	
+	public List<StatistiqueModel> getStatistiqueReunionEtat(Integer years,String lang);
+ 
+}

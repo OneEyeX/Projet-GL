@@ -1,0 +1,53 @@
+package com.xtensus.passosyf.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.MembreType;
+import com.xtensus.passosyf.entities.TypeMembreCommissionMarche;
+import com.xtensus.passosyf.services.TypeMembreCommissionMarcheService;
+
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping(path = "/api/v1")
+public class TypeMembreCommissionMarcheController {
+	
+	@Autowired
+	private TypeMembreCommissionMarcheService typeMembreCMService;
+	
+	
+	@GetMapping(path = "getAllTypeMembreCM")
+	public ResponseEntity<Iterable<TypeMembreCommissionMarche>> getAllTypeMembreCM(){	
+		System.out.println("dans alla type Ememebre CM");
+		Iterable<TypeMembreCommissionMarche> types=typeMembreCMService.ListTypeMembreCommissionMarche();
+		return new ResponseEntity<>(types,HttpStatus.OK);
+	}
+	
+	@PostMapping(path = "addTypeMembreCM")
+	public ResponseEntity<TypeMembreCommissionMarche> save(@RequestBody TypeMembreCommissionMarche typeMembreCM) {		
+		TypeMembreCommissionMarche typeMembresCM=typeMembreCMService.save(typeMembreCM);
+		return new ResponseEntity<>(typeMembresCM,HttpStatus.CREATED);
+	}
+	
+	
+	@DeleteMapping(path = "deleteTypeMembreCM/{id}")
+	public void delete(Integer ref) {
+		typeMembreCMService.delete(ref);
+	}
+
+	 @PutMapping("/updateTypeMembreCM")
+	    public ResponseEntity<TypeMembreCommissionMarche> updateEmployee(@PathVariable(name = "idTypeMembreCM") Integer idTypeMembreCM ,@RequestBody TypeMembreCommissionMarche typeMembreCM) {
+		 TypeMembreCommissionMarche updateTypeMembreCM = typeMembreCMService.update(idTypeMembreCM,typeMembreCM);
+	        return new ResponseEntity<>(updateTypeMembreCM, HttpStatus.OK);
+	    }
+}

@@ -1,0 +1,19 @@
+alfresco.repository.url=http://192.168.1.17:8082/alfresco/service/cmis
+alfresco.repository.user=admin
+alfresco.repository.pass=xte$$alfresco$$2022
+spring.servlet.multipart.enabled=false
+spring.servlet.multipart.file-size-threshold=2KB
+#Max File size 
+spring.servlet.multipart.max-file-size=200KB
+#Max Request size 
+spring.servlet.multipart.max-request-size=200MB
+spring.mail.host=mail.xtensus.com
+spring.mail.port=25
+spring.mail.username=kaouther.bensmida@xtensus.com
+spring.mail.password=alikla3I##
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=true
+spring.mail.properties.mail.smtp.connectiontimeout=5000
+spring.mail.properties.mail.smtp.timeout=5000
+spring.mail.properties.mail.smtp.writetimeout=5000

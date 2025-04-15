@@ -1,0 +1,22 @@
+package com.xtensus.passosyf.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.xtensus.passosyf.entities.MembreCellulePassation;
+
+public interface MembreCellulePassationRepository extends JpaRepository<MembreCellulePassation, Integer> {
+
+	@Query("SELECT cp "
+	+ "	FROM MembreCellulePassation cp"
+	+ "	where cp.commission.commissionReference=:id")
+	List<MembreCellulePassation> getListeMembreAffecteCellulePasassion(@Param("id") int id);
+	
+	 @Modifying
+	@Query("delete from MembreCellulePassation mbre  WHERE mbre.membreCellulePassationId= :id")
+	 void deleteMembreCellulePasation(@Param("id") int id);
+}

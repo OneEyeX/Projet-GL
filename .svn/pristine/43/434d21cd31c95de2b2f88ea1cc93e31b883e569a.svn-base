@@ -1,0 +1,24 @@
+package com.xtensus.passosyf.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.xtensus.passosyf.entities.Membre;
+
+public interface MembreRepository  extends JpaRepository<Membre, Integer> {
+
+	public Membre findByMembreMatricule(String matricule);
+
+	@Query("select membre from Membre  membre where membre.membreId not in (select mcm.membre.membreId from MembreCommissionMarche mcm)")
+	public List<Membre> listMembresDisponibleCAM();
+
+	@Query("SELECT membre FROM Membre membre WHERE membre.membreId not in (select mcp.membre.membreId from MembreCellulePassation mcp)")
+	public List<Membre> listMembresDisponibleCP();
+	
+	@Query("SELECT membre FROM Membre membre WHERE membre.membreId in (select mcp.membre.membreId from ParticipantReunion mcp where mcp.reunion.reunionId=:reunionId)")
+	public List<Membre> listMembresByReunion(@Param(value = "reunionId") int reunionId);
+	
+}

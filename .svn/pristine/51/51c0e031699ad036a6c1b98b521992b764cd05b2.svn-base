@@ -1,0 +1,82 @@
+package com.xtensus.passosyf.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.Civilite;
+import com.xtensus.passosyf.gnl.aop.LogClass;
+import com.xtensus.passosyf.gnl.entity.XteLog;
+import com.xtensus.passosyf.gnl.repositories.XteLogRepository;
+import com.xtensus.passosyf.services.CiviliteService;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(path = "Civilite")
+public class CiviliteControlleur {
+	
+	@Autowired
+	private CiviliteService civiliteService;
+	
+	@Autowired
+	private LogClass logClass;
+	@GetMapping(value="/civilites",  produces = "application/json")
+	public Iterable<Civilite> getAllCivilite(){
+		logClass.addTrack(
+				"consultation","Evénement de log consultation list civilité ",/*vb.getPerson(),*/ "INFO");
+		
+		return civiliteService.findAll();
+	}
+	
+	@PostMapping(value="/civilite")
+	public void saveCivilite(@RequestBody Civilite civilite){
+	
+		Civilite civiliteDB= civiliteService.save(civilite);
+		logClass.addTrack(
+				"ajout","Evénement de log ajout civilité "+civiliteDB.getCiviliteId() + "-"+civiliteDB.getCiviliteLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+		
+		
+	}
+	
+	@DeleteMapping(value="/delete/{id}")
+	public void deleteCivilite(@PathVariable int id) {
+		
+		Civilite civilite= civiliteService.findById(id);
+		logClass.addTrack(
+				"suppression","Evénement de log suppression civilité "+civilite.getCiviliteId() + "-"+civilite.getCiviliteLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+		civiliteService.deleteById(id);
+	}
+	
+	@PutMapping(value="/update")
+	public void updateCivilite(@RequestBody Civilite civilite) {
+		civiliteService.save(civilite);
+		logClass.addTrack(
+				"modification","Evénement de log modification civilité "+civilite.getCiviliteId() + "-"+civilite.getCiviliteLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+		
+	}
+	
+	@GetMapping(value="/civilite/{id}")
+	public Civilite getCiviliteById(@PathVariable int id) {
+		Civilite civilite= civiliteService.findById(id);
+
+		logClass.addTrack(
+				"consultation","Evénement de log consultation civilité "+civilite.getCiviliteId() + "-"+civilite.getCiviliteLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+		return civiliteService.findById(id);
+	}
+	
+
+}

@@ -1,0 +1,182 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
+
+import com.xtensus.passosyf.entities.Reunion;
+
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+//import net.sf.jasperreports.engine.export.JExcelApiExporterParameter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+
+
+
+
+@Service
+public class Export {
+	/**** actions ****/
+	// Generate EXCEL file
+//	public void exportToExcel(List<? extends Entite> entitysList,
+//			String jasperFile, String exportFileName) throws Exception {
+//		// get context path
+//		ExternalContext jsfContext = FacesContext.getCurrentInstance()
+//				.getExternalContext();
+//		ServletContext servletContext = (ServletContext) jsfContext
+//				.getContext();
+//		String webContentRoot = servletContext.getRealPath("/");
+//
+//
+//		// Specify compiled jasper file(.jasper)
+//		String compJasperFile = webContentRoot + "\\WEB-INF\\rapports\\"
+//				+ jasperFile + ".jasper";
+//		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(
+//				entitysList);
+//
+//		// jasper print to generate .jrprint
+//		JasperPrint jasperPrint = null;
+//		jasperPrint = JasperFillManager.fillReport(compJasperFile, null, ds);
+//
+//		// coding For Excel
+//		ByteArrayOutputStream output = new ByteArrayOutputStream();
+//		JRXlsExporter exporterXLS = new JRXlsExporter();
+//		exporterXLS.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+//		exporterXLS.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
+//				exportFileName + ".xls");
+//		exporterXLS.setParameter(JRExporterParameter.OUTPUT_STREAM, output);
+////		exporterXLS.setParameter(
+////				JExcelApiExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+////		exporterXLS.exportReport();
+//
+//		// send redirect to generated excel file
+////		HttpServletResponse response = (HttpServletResponse) FacesContext
+////				.getCurrentInstance().getExternalContext().getResponse();
+////		response.addHeader("Content-disposition", "attachment;filename="
+////				+ exportFileName + ".xls");
+////		response.setContentType("application/vnd.ms-excel");
+////		response.setContentLength(output.size());
+////		response.getOutputStream()
+////				.write(output.toByteArray(), 0, output.size());
+//		FacesContext.getCurrentInstance().responseComplete();
+//	}
+
+
+	// Generate PDF file
+//	public void exportToPDF(List<? extends Entite> entitysList, String jasperFile, String exportFileName)
+//			throws Exception {
+//		try {
+//			// Specify compiled jasper file(.jasper)
+//			// get context path
+//			ExternalContext jsfContext = FacesContext.getCurrentInstance().getExternalContext();
+//			ServletContext servletContext = (ServletContext) jsfContext.getContext();
+//			String webContentRoot = servletContext.getRealPath("/");
+//			// Specify compiled jasper file(.jasper)
+//			String compJasperFile = webContentRoot + File.separator + "WEB-INF" + File.separator + "rapports"
+//					+ File.separator + jasperFile + ".jasper";
+//			// Datasource=bean collection
+//			JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(entitysList);
+//			// jasper print to generate .jrprint
+//			// //////////////////////
+//			JasperDesign jasperDesign = JRXmlLoader.load(webContentRoot + File.separator + "WEB-INF" + File.separator
+//					+ "rapports" + File.separator + jasperFile + ".jrxml");// ici met le chemin
+//																			// de ton .jrxml que
+//																			// tu veux récupérer
+//
+//			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+//			JasperCompileManager.compileReportToFile(jasperDesign, compJasperFile);
+//			// ////////////////////////////////////////////////
+//			// JasperReport jasperReport =
+//			// JasperCompileManager.compileReport(jasperFile);
+//			JasperPrint jasperPrint = null;
+//			jasperPrint = JasperFillManager.fillReport(compJasperFile, null, ds);
+//
+//			// jasperPrint = JasperFillManager.fillReport(jasperReport, null, ds);
+//			// coding for Pdf
+//			byte[] bytes = JasperExportManager.exportReportToPdf(jasperPrint);
+//
+//			// send redirect to generated pdf file
+//			HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+//					.getResponse();
+//			response.setContentType("application/pdf");
+//			response.addHeader("Content-disposition", "attachement;filename=" + exportFileName + ".pdf");
+//
+//			response.setContentLength(bytes.length);
+//			response.getOutputStream().write(bytes);
+//			response.setCharacterEncoding("utf-8");
+//			FacesContext.getCurrentInstance().responseComplete();
+//
+//			// Visualisation du fichier PDF
+//			/* JasperViewer.viewReport(jasperPrint); */
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+	public ResponseEntity<byte[]> exportToPdf(HttpServletResponse response, List<?> ListEntite, String nomTemplate) {
+
+		System.out.println("##### dans exportReport ");
+		try {
+			// create employee data
+			JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(ListEntite);
+			JasperPrint report =	JasperFillManager.fillReport (	JasperCompileManager.compileReport(
+							ResourceUtils.getFile("src\\main\\resources\\templates-Jasper\\"+nomTemplate)
+									.getAbsolutePath()), null, ds	);
+
+			HttpHeaders headers = new HttpHeaders();
+			//set the PDF format
+			headers.setContentType(MediaType.APPLICATION_PDF);
+			headers.setContentDispositionFormData("filename", nomTemplate+".pdf");
+			//create the report in PDF format
+			return new ResponseEntity<byte[]>
+					(JasperExportManager.exportReportToPdf(report), headers, HttpStatus.OK);
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+
+
+
+}

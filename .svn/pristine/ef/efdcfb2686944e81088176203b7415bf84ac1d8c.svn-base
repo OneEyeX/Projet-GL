@@ -1,0 +1,50 @@
+package com.xtensus.passosyf.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.TypeMembreCellulePassation;
+import com.xtensus.passosyf.services.TypeMembreCellulePassationService;
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping(path = "/api/v1")
+public class TypeMembreCellulePassationController {
+	
+	@Autowired
+	private TypeMembreCellulePassationService   typeMembreCPService;
+	
+	
+	@GetMapping(path = "getAllTypeMembreCP")
+	public ResponseEntity<Iterable<TypeMembreCellulePassation>> getAllTypeMembreCP(){	
+		Iterable<TypeMembreCellulePassation> types=typeMembreCPService.ListTypeMembreCellulePassation();
+		return new ResponseEntity<>(types,HttpStatus.OK);
+	}
+	
+	@PostMapping(path = "addTypeMembreCP")
+	public ResponseEntity<TypeMembreCellulePassation> save(@RequestBody TypeMembreCellulePassation typeMembreCP) {		
+		TypeMembreCellulePassation typeMembresCP=typeMembreCPService.save(typeMembreCP);
+		return new ResponseEntity<>(typeMembresCP,HttpStatus.CREATED);
+	}
+	
+	
+	@DeleteMapping(path = "deleteTypeMembreCP/{id}")
+	public void delete(Integer ref) {
+		typeMembreCPService.delete(ref);
+	}
+
+	 @PutMapping("/updateTypeMembreCP")
+	    public ResponseEntity<TypeMembreCellulePassation> updateEmployee(@PathVariable(name = "idTypeMembreCP") Integer idTypeMembreCP ,@RequestBody TypeMembreCellulePassation typeMembreCP) {
+		 TypeMembreCellulePassation updateTypeMembreCP = typeMembreCPService.update(idTypeMembreCP,typeMembreCP);
+	        return new ResponseEntity<>(updateTypeMembreCP, HttpStatus.OK);
+	    }
+}

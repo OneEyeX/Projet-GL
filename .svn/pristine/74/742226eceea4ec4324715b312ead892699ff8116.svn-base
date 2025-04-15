@@ -1,0 +1,27 @@
+package com.xtensus.passosyf.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.xtensus.passosyf.entities.Mail;
+import com.xtensus.passosyf.services.MailService;
+
+
+
+@Component
+public class EnvoiMail {
+	
+	
+	@Autowired
+	private MailService mailService;
+	
+	public void EnvoiMail() {
+		Mail mail = new Mail();
+		mail.setMailFrom("kaouther.bensmida@xtensus.com");
+		mail.setMailTo("kaouther.bensmida@gmail.com");
+		mail.setMailSubject("Spring Boot - Email demo");
+		mail.setMailContent("Just testing");
+		mailService.sendEmail(mail);
+	}
+
+}

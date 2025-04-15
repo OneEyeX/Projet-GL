@@ -1,0 +1,40 @@
+package com.xtensus.passosyf.repositories;
+
+import java.util.List;
+import org.springframework.data.jpa.repository.Modifying;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.xtensus.passosyf.entities.Commission;
+import com.xtensus.passosyf.utils.MembreAffecteCommission;
+
+@Repository
+public interface CommissionRepository extends JpaRepository<Commission, Integer>{
+
+	
+	@Query(value = "select ccm.membreCommissionMarcheId as reference, ccm.membreCommissionMarcheDateAffectation as dateAffectation,"
+			+ " ccm.membreCommissionMarcheDateFinAffectation as datefinAffectation,"
+			+ " m.membreNom as nomMembre,m.membrePrenom as prenomMembre,"
+			+ "	typecm.typeMembreCommissionMarcheLibelle as poste ,p.personneRessourceDomaineDactiviteLibelle as domaineActivite"
+			+ "	from membrecommissionMarche ccm ,membre m,typemembrecommissionmarche typecm"
+			+ "	where ccm.membreId=m.membreId and ccm.typeMembreCommissionMarcheId=typecm.typeMembreCommissionMarcheId"
+			+ "	and ccm.personneRessourceDomaineDactiviteId=p.personneRessourceDomaineDactiviteId and ccm.commissionReference=:id",nativeQuery = true)
+	List<MembreAffecteCommission> getListeMembreAffecteCommissionMarche(@Param("id") int id);
+	
+	@Query(value="SELECT cp.membreCellulePassationId as reference ,"
+			+ " cp.membreCellulePassationDateAffectation as dateAffectation,"
+			+ "	cp.membreCellulePassationDateFinAffectation as datefinAffectation,"
+			+ " m.membreNom as nomMembre,m.membrePrenom as prenomMembre,"
+			+ "	typecp.typeMembreCellulePassationLibelle as poste"
+			+ "	FROM membrecellulepassation cp ,membre m,typemembrecellulepassation typecp"
+			+ "	where cp.membreId=m.membreId and cp.typeMembreCellulePassationId=typecp.typeMembreCellulePassationId"
+			+ "	and cp.commissionReference= id",nativeQuery = true)
+	public List<MembreAffecteCommission> getListeMembreAffecteCellulePasassion(int id);
+	@Modifying
+	@Query(value="UPDATE Commission set commissionNbrMembres=commissionNbrMembres-1 where commissionReference=:commissionId") 
+	void updatecommission(@Param("commissionId") int commissionId);
+
+}

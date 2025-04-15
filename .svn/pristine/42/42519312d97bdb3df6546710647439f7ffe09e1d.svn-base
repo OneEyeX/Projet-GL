@@ -1,0 +1,311 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.Date;
+import java.util.TimeZone;
+
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xtensus.passosyf.utils.StatistiqueModel;
+
+ 
+
+@Entity
+@NamedNativeQuery(
+		name = "getStatistiqueNbrReunionAnnee",
+		query = "SELECT month(reunionDateDebutPrevu) name, count(reunion.reunionDateDebutPrevu) y "
+				+ "from reunion where year(reunionDateDebutPrevu )=:years "
+				+ "group by month(reunion.reunionDateDebutPrevu)"
+				+ "order by reunionDateDebutPrevu ASC",
+		resultSetMapping = "statistique_Mdel"
+		)
+
+
+
+
+
+
+@NamedNativeQuery(
+		name = "getStatistiqueEtat",
+		query = " SELECT   e.etatLibelle name ,(SELECT count(r.reunionId) "
+				+ "from reunion r where r.etatId=e.etatId and year(reunionDateDebutPrevu )=:years  ) y "
+				+ "from etat e where e.etatCategorieId=104",
+		resultSetMapping = "statistique_Mdel"
+		)
+
+@NamedNativeQuery(
+		name = "getStatistiqueEtatAr",
+		query = " SELECT   e.etatLibelleAr name ,(SELECT count(r.reunionId) "
+				+ "from reunion r where r.etatId=e.etatId and year(reunionDateDebutPrevu )=:years  ) y "
+				+ "from etat e where e.etatCategorieId=104",
+		resultSetMapping = "statistique_Mdel"
+		)
+
+
+@SqlResultSetMapping(
+		name = "statistique_Mdel",
+		classes =@ConstructorResult(
+				targetClass = StatistiqueModel.class,
+				columns = {
+						@ColumnResult(name="name",type= String.class),
+						@ColumnResult(name="y",type= Integer.class)
+				}
+				)
+		)
+
+
+@Table(name = "reunion")
+public class Reunion  implements java.io.Serializable {
+
+	/**
+	 * 
+	 */
+	
+	private static final String  MY_TIME_ZONE= "GMT+01:00" ;
+	
+	private static final long serialVersionUID = -5196076758286887105L;
+	private Integer reunionId;
+	private String reunionObjet;
+	private String reunionDescription;
+	private String reunionResume;
+	private String reunionOrdreJour;
+	
+	@JsonFormat( timezone = MY_TIME_ZONE)
+	private Date reunionDate;
+	
+	@JsonFormat( timezone = MY_TIME_ZONE)
+	private Date reunionDateDebutPrevu;
+	
+	@JsonFormat( timezone = MY_TIME_ZONE)
+	private Date reunionDateFinPrevu;
+	
+	@JsonFormat( timezone = MY_TIME_ZONE)
+	private Date reunionDateDebutReelle;
+	
+	@JsonFormat( timezone = MY_TIME_ZONE)
+	private Date reunionDateFinReelle;
+	
+	private Etat etat;
+	private String reunionRaison;
+
+	private Salle salle;
+
+	//private Date reunionDateFinPrevue;
+	private Float reunionDureePrevue;
+	private Integer reunionDureeRelle;
+
+	private Integer reunionTypeId;
+	
+	private ReunionType reunionType;
+	
+	
+	
+	
+	public Reunion() {
+	}
+
+	public Reunion(String reunionObjet, String reunionResume,
+			String reunionOrdreJour, Date reunionDate,
+			Float reunionDureePrevue, Integer reunionTypeId,
+			ReunionType reunionType,Salle salle) {
+		super();
+		this.reunionObjet = reunionObjet;
+		this.reunionResume = reunionResume;
+		this.reunionOrdreJour = reunionOrdreJour;
+		this.reunionDate = reunionDate;
+		this.reunionDureePrevue = reunionDureePrevue;
+		this.reunionTypeId = reunionTypeId;
+		this.reunionType = reunionType;
+		this.salle=salle;
+	}
+
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "reunionId", unique = true, nullable = false)
+	public Integer getReunionId() {
+		return reunionId;
+	}
+
+	public void setReunionId(Integer reunionId) {
+		this.reunionId = reunionId;
+	}
+
+	@Column(name = "reunionObjet")
+	public String getReunionObjet() {
+		return reunionObjet;
+	}
+
+	public void setReunionObjet(String reunionObjet) {
+		this.reunionObjet = reunionObjet;
+	}
+
+	@Column(name = "reunionResume")
+	public String getReunionResume() {
+		return reunionResume;
+	}
+
+	public void setReunionResume(String reunionResume) {
+		this.reunionResume = reunionResume;
+	}
+
+	@Column(name = "reunionDate")
+	public Date getReunionDate() {
+		return reunionDate;
+	}
+
+	public void setReunionDate(Date reunionDate) {
+		this.reunionDate = reunionDate;
+	}
+
+/*	@Column(name = "reunionDateFinPrevue", length = 19)
+	public Date getReunionDateFinPrevue() {
+		return reunionDateFinPrevue;
+	}
+
+	public void setReunionDateFinPrevue(Date reunionDateFinPrevue) {
+		this.reunionDateFinPrevue = reunionDateFinPrevue;
+	}*/
+
+	@Column(name = "reunionDureePrevue")
+	public Float getReunionDureePrevue() {
+		return reunionDureePrevue;
+	}
+
+	public void setReunionDureePrevue(Float reunionDureePrevue) {
+		this.reunionDureePrevue = reunionDureePrevue;
+	}
+
+	public Integer getReunionTypeId() {
+		return reunionTypeId;
+	}
+
+	public String getReunionOrdreJour() {
+		return reunionOrdreJour;
+	}
+
+	public void setReunionOrdreJour(String reunionOrdreJour) {
+		this.reunionOrdreJour = reunionOrdreJour;
+	}
+
+	public void setReunionTypeId(Integer reunionTypeId) {
+		this.reunionTypeId = reunionTypeId;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="reunionTypeId",referencedColumnName = "reunionTypeId", insertable = false, updatable = false)
+	public ReunionType getReunionType() {
+		return reunionType;
+	}
+
+	public void setReunionType(ReunionType reunionType) {
+		this.reunionType = reunionType;
+	}
+
+	@Override
+	public String toString() {
+		return "Reunion [reunionId=" + reunionId + ", reunionDateDebutPrevu=" + reunionDateDebutPrevu
+				+ ", reunionDateFinPrevu=" + reunionDateFinPrevu + ", reunionDateDebutReelle=" + reunionDateDebutReelle
+				+ ", reunionDateFinReelle=" + reunionDateFinReelle + ", reunionDureePrevue=" + reunionDureePrevue
+				+ ", reunionDureeRelle=" + reunionDureeRelle + "]";
+	}
+
+	public Date getReunionDateDebutPrevu() {
+ 		return reunionDateDebutPrevu;
+	}
+
+	public void setReunionDateDebutPrevu(Date reunionDateDebutPrevu) {
+ 		this.reunionDateDebutPrevu = reunionDateDebutPrevu;
+	}
+
+	public Date getReunionDateFinPrevu() {
+		return reunionDateFinPrevu;
+	}
+
+	public void setReunionDateFinPrevu(Date reunionDateFinPrevu) {
+		this.reunionDateFinPrevu = reunionDateFinPrevu;
+	}
+
+	public Date getReunionDateDebutReelle() {
+		return reunionDateDebutReelle;
+	}
+
+	public void setReunionDateDebutReelle(Date reunionDateDebutReelle) {
+		this.reunionDateDebutReelle = reunionDateDebutReelle;
+	}
+
+	public Date getReunionDateFinReelle() {
+		return reunionDateFinReelle;
+	}
+
+	public void setReunionDateFinReelle(Date reunionDateFinReelle) {
+		this.reunionDateFinReelle = reunionDateFinReelle;
+	}
+
+	public Integer getReunionDureeRelle() {
+		return reunionDureeRelle;
+	}
+
+	public void setReunionDureeRelle(Integer reunionDureeRelle) {
+		this.reunionDureeRelle = reunionDureeRelle;
+	}
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "etatId", nullable = false)
+	public Etat getEtat() {
+		return etat;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
+
+	public String getReunionDescription() {
+		return reunionDescription;
+	}
+
+	public void setReunionDescription(String reunionDescription) {
+		this.reunionDescription = reunionDescription;
+	}
+
+
+	public String getReunionRaison() {
+		return reunionRaison;
+	}
+
+	public void setReunionRaison(String reunionRaison) {
+		this.reunionRaison = reunionRaison;
+	}
+	
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "reunionSalleId")
+	public Salle getSalle() {
+		return salle;
+	}
+
+	public void setSalle(Salle salle) {
+		this.salle = salle;
+	}
+	
+	
+	
+}

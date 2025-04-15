@@ -1,0 +1,13 @@
+package com.xtensus.passosyf.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.xtensus.passosyf.entities.TypeMembreCellulePassation;
+
+public interface TypeMembreCellulePassationRepository extends JpaRepository<TypeMembreCellulePassation, Integer>{
+
+	 TypeMembreCellulePassation findByTypeMembreCellulePassationLibelle(String  membreLibelle) ;
+	 List<TypeMembreCellulePassation> findByTypeMembreCellulePassationId(int membreId) ;
+}

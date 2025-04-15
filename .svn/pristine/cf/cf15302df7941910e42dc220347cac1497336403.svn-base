@@ -1,0 +1,197 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.chemistry.opencmis.client.api.Folder;
+import org.apache.chemistry.opencmis.commons.data.ContentStream;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.xtensus.passosyf.entities.Document;
+import com.xtensus.passosyf.entities.Etat;
+import com.xtensus.passosyf.entities.Membre;
+import com.xtensus.passosyf.entities.ParticipantReunion;
+import com.xtensus.passosyf.entities.ParticipantType;
+import com.xtensus.passosyf.entities.Reunion;
+import com.xtensus.passosyf.entities.Salle;
+import com.xtensus.passosyf.repositories.EtatRepository;
+import com.xtensus.passosyf.repositories.ParticipantReunionRepository;
+import com.xtensus.passosyf.repositories.ParticipantTypeRepository;
+import com.xtensus.passosyf.repositories.ReunionRepository;
+import com.xtensus.passosyf.repositories.SalleRepository;
+import com.xtensus.passosyf.services.DocumentService;
+import com.xtensus.passosyf.services.MembreService;
+import com.xtensus.passosyf.services.ReunionService;
+import com.xtensus.passosyf.utils.MembreModel;
+import com.xtensus.passosyf.utils.StatistiqueModel;
+
+@Service
+public class ReunionServiceImpl implements ReunionService {
+
+	@Autowired
+	ReunionRepository reunionRepository;
+
+	@Autowired
+	EtatRepository etatDao;
+	
+	@Autowired
+	ParticipantTypeRepository participantTypeDao;
+	
+	@Autowired
+	ParticipantReunionRepository participantReunionDao;
+	
+	@Autowired
+	SalleRepository salleDao;
+	
+	@Autowired
+	private MembreService membreService;
+	
+	@Autowired
+	DocumentService documentService ; 
+	
+
+
+	@Override
+	public List<Reunion> findAll() {
+		// TODO Auto-generated method stub
+		return reunionRepository.findAll();
+	}
+
+	@Override
+	public Reunion save(Reunion reunion) {
+		// TODO Auto-generated method stub
+		Optional<Etat> etat = Optional.of(etatDao.findByEtatLibelleAndEtatCategorieEtatCategorieId("Programmé",104));
+		reunion.setEtat(etat.get());
+
+		long milliseconds=reunion.getReunionDateFinPrevu().getTime()- reunion.getReunionDateDebutPrevu().getTime(); 
+		float hours = (milliseconds / 1000) / 60 / 60 % 24;
+		float minutes = (milliseconds / 1000) / 60 % 60;
+		reunion.setReunionDureePrevue(hours+minutes/100);
+		
+		
+		
+		return reunionRepository.save(reunion);
+	}
+
+	@Override
+	public Optional<Reunion> findById(int id) {
+		// TODO Auto-generated method stub
+		return reunionRepository.findById(id);
+	}
+
+	@Override
+	public Iterable<Reunion> findByReunionObjet(String s) {
+		// TODO Auto-generated method stub
+		return reunionRepository.findByReunionObjet(s);
+	}
+
+	@Override
+	public Iterable<Reunion> findByReunionResume(String s) {
+		// TODO Auto-generated method stub
+		return reunionRepository.findByReunionResume(s);
+	}
+
+	@Override
+	public Iterable<Reunion> findBySalleSalleId(int s) {
+		// TODO Auto-generated method stub
+		return reunionRepository.findBySalleSalleId(s);
+	}
+
+	@Override
+	public Iterable<Reunion> listeReunionsBySalleIdAndDates(int id, Date dateSelected) {
+		// TODO Auto-generated method stub
+		return reunionRepository.listeReunionsBySalleIdAndDates(id, dateSelected);
+	}
+
+	@Override
+	public void deleteById(Integer id) {
+		reunionRepository.deleteById(id);
+	}
+
+	@Override
+	public void changeEtatReunion(int etatId, Reunion reunion) {
+		try {
+			Optional<Etat> etat = etatDao.findById(etatId);
+			reunion.setEtat(etat.get());
+			reunionRepository.save(reunion);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void affecterMembreReunion(Reunion reunion, List<MembreModel> listeMembreModel) {
+
+		reunionRepository.deleteParticipantReunionByIDReunion(reunion.getReunionId());
+		System.out.println("#### reunion.getReunionId() " + reunion.getReunionId());
+		listeMembreModel.stream().forEach(membre -> {
+			ParticipantReunion participantReunion = new ParticipantReunion();
+			participantReunion.setReunion(reunion);
+			System.out.println("#### membre " + membre.getMembreId());
+			Membre memb= membreService.getMembreById(membre.getMembreId());
+			participantReunion.setMembre(memb);
+			System.out.println("#### membre.getTypeMembre() " + membre.getTypeMembre());
+			membre.setTypeMembre(1);
+			ParticipantType typeParticipant = participantTypeDao.findById(membre.getTypeMembre()).get();
+			participantReunion.setTypeParticipant(typeParticipant);
+			try {
+				participantReunionDao.save(participantReunion);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+		});
+
+	}
+
+	@Override
+	public void affecterSalleReunion(int idSalle, Reunion reunion) {
+		// TODO Auto-generated method stub
+		
+		try {
+			Optional<Etat> etat = Optional.of(etatDao.findByEtatLibelleAndEtatCategorieEtatCategorieId("Programmé",104));
+			reunion.setEtat(etat.get());
+			Salle salle= salleDao.findById(idSalle).get();
+			reunion.setSalle(salle);
+			reunionRepository.save(reunion);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Override
+	public List<StatistiqueModel> getStatistiqueReunion(Integer  years){
+		return reunionRepository.getStatistiqueReunion(years);
+	}
+	
+	
+	@Override
+	public List<StatistiqueModel> getStatistiqueReunionEtat(Integer  years, String lang){
+
+ 
+		 if(lang.equals("fr")) {
+			 return reunionRepository.getStatistiqueParEtat(years); //statistiqueModel;
+		 }else {
+			 return reunionRepository.getStatistiqueParEtatAr(years); //statistiqueModel;
+
+		 }
+		
+	}
+
+ 
+
+}

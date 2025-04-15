@@ -1,0 +1,12 @@
+package com.xtensus.passosyf.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.xtensus.passosyf.entities.TypeMembreCommissionMarche;
+
+public interface TypeMembreCommissionMarcheRepository extends JpaRepository<TypeMembreCommissionMarche, Integer> {
+
+	
+	TypeMembreCommissionMarche findByTypeMembreCommissionMarcheLibelle(String libelle);
+
+}

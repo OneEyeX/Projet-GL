@@ -1,0 +1,97 @@
+package com.xtensus.passosyf.gnl.entity;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "templatelog")
+public class Templatelog   implements java.io.Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8675894671437728306L;
+	
+	private Integer templateLogId;
+		private String templateLogLibelle;
+	private String templateLogDescription;
+private Boolean templateLogSuppression;
+	private String templateLogVariable;
+	
+	private XteLog xtelog;
+	
+	
+
+
+	public Templatelog() {
+	}
+
+	public Templatelog(XteLog xtelog, String templateLogLibelle,
+			String templateLogDescription, Boolean templateLogSuppression, String templateLogVariable) {
+		this.xtelog = xtelog;
+		this.templateLogLibelle = templateLogLibelle;
+		this.templateLogDescription = templateLogDescription;
+		this.templateLogSuppression = templateLogSuppression;
+		this.templateLogVariable = templateLogVariable;
+
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "templateLogId", unique = true, nullable = false)
+	public Integer getTemplateLogId() {
+		return this.templateLogId;
+	}
+
+	public void setTemplateLogId(Integer templateLogId) {
+		this.templateLogId = templateLogId;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "logId")
+	public XteLog getXtelog() {
+		return this.xtelog;
+	}
+
+	public void setXtelog(XteLog xtelog) {
+		this.xtelog = xtelog;
+	}
+
+	@Column(name = "templateLogLibelle")
+	public String getTemplateLogLibelle() {
+		return this.templateLogLibelle;
+	}
+
+	public void setTemplateLogLibelle(String templateLogLibelle) {
+		this.templateLogLibelle = templateLogLibelle;
+	}
+
+	@Column(name = "templateLogDescription")
+	public String gettemplateLogDescription() {
+		return this.templateLogDescription;
+	}
+
+	public void settemplateLogDescription(String templateLogDescription) {
+		this.templateLogDescription = templateLogDescription;
+	}
+
+	@Column(name = "templateLogSuppression")
+	public Boolean getTemplateLogSuppression() {
+		return this.templateLogSuppression;
+	}
+
+	public void setTemplateLogSuppression(Boolean templateLogSuppression) {
+		this.templateLogSuppression = templateLogSuppression;
+	}
+	
+	@Column(name = "templateLogVariable")
+	public String getTemplateLogVariable() {
+		return templateLogVariable;
+	}
+
+	public void setTemplateLogVariable(String templateLogVariable) {
+		this.templateLogVariable = templateLogVariable;
+	}
+
+
+
+}

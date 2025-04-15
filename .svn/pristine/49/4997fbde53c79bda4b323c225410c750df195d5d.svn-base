@@ -1,0 +1,12 @@
+package com.xtensus.passosyf.services;
+
+import java.util.Date;
+
+import com.xtensus.passosyf.entities.Reunion;
+
+public interface PlanningSalleService {
+
+	
+	public Iterable<Reunion> listeReunionsBySalleIdAndDates(int id, Date dateSelected);
+	public Iterable<Reunion> listereunionBySalleId(int salleId);
+}

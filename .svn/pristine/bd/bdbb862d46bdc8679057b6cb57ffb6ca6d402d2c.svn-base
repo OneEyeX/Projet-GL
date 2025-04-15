@@ -1,0 +1,172 @@
+package com.xtensus.passosyf.gnl.aop;
+
+
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.apache.log4j.xml.DOMConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.aop.TracingAfterReturningAdvice;
+import com.xtensus.passosyf.gnl.entity.Templatelog;
+import com.xtensus.passosyf.gnl.entity.Trace;
+import com.xtensus.passosyf.gnl.entity.VariablesLog;
+import com.xtensus.passosyf.gnl.entity.XteLog;
+import com.xtensus.passosyf.gnl.repositories.TemplatelogRepository;
+import com.xtensus.passosyf.gnl.repositories.TraceRepository;
+import com.xtensus.passosyf.gnl.repositories.VariablesLogRepository;
+import com.xtensus.passosyf.gnl.repositories.XteLogRepository;
+
+@Service
+public class LogClass {
+
+ 
+	
+    Logger logger = LoggerFactory.getLogger(LogClass.class);
+
+
+
+	@Autowired
+	private XteLogRepository xteLogRepository; 
+	
+
+	@Autowired
+	private TemplatelogRepository templatelogRepository ;
+	
+	@Autowired
+	private TraceRepository traceRepository ; 
+	
+	
+	@Autowired
+	private VariablesLogRepository variablesLogRepository ; 
+
+	
+	
+
+	public LogClass() {}
+
+
+
+
+
+
+
+	public void addTrack(String variableNameOfEventLog, String eventLog,
+			/*Person person,*/ String typeLog) {
+
+
+		 String templateLogTexte;
+				XteLog log = new XteLog();
+				Templatelog templateLog = new Templatelog();
+				
+				SimpleDateFormat formaterDateHeure = null;
+				formaterDateHeure = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				String dateLog = formaterDateHeure.format(new Date());
+			
+				/* URL u = getClass().getClassLoader().getResource("/passosyf/src/main/java/com/xtensus/passosyf/gnl/aop/log4j.xml");
+				DOMConfigurator.configure(u);  */
+	
+	 
+				
+
+				try {
+					
+					
+					//log = appMgr.listLogByLibelle(variableNameOfEventLog).get(0);
+					log=xteLogRepository.findByLogLibelle(variableNameOfEventLog);
+					
+					//templateLog = appMgr.listTemplateLogByLog(log.getLogId()).get(0);
+					
+					templateLog=templatelogRepository.findByXtelogLogId(log.getLogId()).get(0);
+					
+					templateLogTexte = changeVariableLog(
+							templateLog.getTemplateLogVariable(), dateLog, typeLog,
+							/*person.getCn(),*/ eventLog);
+					
+					System.out.println("#######################");
+					logger.info(templateLogTexte);
+					System.out.println("#######################");
+					Trace trace = new Trace();
+					trace.setXtelog(log);
+					trace.setTypelog(typeLog);
+		          //trace.setUserTexte(person.getCn());
+					trace.setUserTexte("person.getLogin()");
+					trace.setDateTexte(dateLog);
+					trace.setTraceTexte(templateLogTexte);
+					
+					//appMgr.insert(trace);
+					traceRepository.save(trace);
+					
+				} catch (Exception e) {
+					System.err.println("Erreur dans le Trace");
+					e.printStackTrace();
+				} 
+
+
+	}
+	
+	
+	
+	private String changeVariableLog(String templateLogVariable,
+					String dateLog, String typeLog,/* String cn,*/ String eventLog) {
+				List<VariablesLog> listVariablesLog = new ArrayList<VariablesLog>();
+				String cn="";
+				try {
+					// listVariablesLog = appMgr.getList(VariablesLog.class);
+					
+					listVariablesLog = variablesLogRepository.findAll();
+					
+					
+					
+					for (VariablesLog variablesLog : listVariablesLog) {
+						if (templateLogVariable.contains(variablesLog
+								.getVariableValeur())) {
+							
+							int firstIndex = templateLogVariable.indexOf(variablesLog
+									.getVariableValeur());
+							int lastIndex = firstIndex
+									+ variablesLog.getVariableValeur().length();
+							if (variablesLog.getVariableValeur().equals("#Date/Heure")) {
+								templateLogVariable = templateLogVariable.substring(0,
+										firstIndex)
+										+ dateLog
+										+ templateLogVariable.substring(lastIndex);
+							} else if (variablesLog.getVariableValeur().equals(
+									"#Type_Log")) {
+								templateLogVariable = templateLogVariable.substring(0,
+										firstIndex)
+										+ typeLog
+										+ templateLogVariable.substring(lastIndex);
+							} else if (variablesLog.getVariableValeur().equals("#Nom")) {
+								
+								templateLogVariable = templateLogVariable.substring(0,
+										firstIndex)
+										+ cn
+										+ templateLogVariable.substring(lastIndex);
+							} else if (variablesLog.getVariableValeur().equals(
+									"#Evenement")) {
+								templateLogVariable = templateLogVariable.substring(0,
+										firstIndex)
+										+ eventLog
+										+ templateLogVariable.substring(lastIndex);
+							}
+						}
+					}
+				} catch (Exception e1) {
+					System.err.println("Erreur chargement");
+					e1.printStackTrace();
+				}
+				return templateLogVariable;
+			}
+
+}

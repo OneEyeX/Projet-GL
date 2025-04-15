@@ -1,0 +1,55 @@
+package com.xtensus.passosyf.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.SalleEquipement;
+import com.xtensus.passosyf.services.SalleEquipementService;
+
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(path = "SalleEquipement")
+public class SalleEquipementControler {
+
+	@Autowired
+	private SalleEquipementService salleEquipementService;
+
+	@GetMapping(path = "/listesalleequipement")
+	public List<SalleEquipement> getListeSalleEquipement() {
+		List<SalleEquipement> listeSalleEquipement = salleEquipementService.getListSalleEquipement();
+		return listeSalleEquipement;
+	}
+
+	@GetMapping(path = "/salleequipement/{idS}")
+	public List<SalleEquipement> getSalleEquipementByIdSalle(@PathVariable(name = "idS") Integer SalleId) {
+		List<SalleEquipement> listeSalleEquipement = salleEquipementService.getSalleEquipementBySalleId(SalleId);
+		return listeSalleEquipement;
+	}
+
+	@PostMapping(path = "/savesalleequipement")
+	public ResponseEntity<SalleEquipement> save(@RequestBody SalleEquipement salleEquipement) {
+		SalleEquipement salleEquipementAjoute = salleEquipementService.save(salleEquipement);
+		return new ResponseEntity<>(salleEquipementAjoute, HttpStatus.CREATED);
+	}
+	
+	@PutMapping(path = "/savesalleequipements")
+	public void save(@RequestBody List<SalleEquipement> salleEquipement) {
+		 salleEquipementService.saveListeEquipement(salleEquipement);
+		 
+//		return new ResponseEntity<>(salleEquipementAjoute, HttpStatus.CREATED);
+//	}
+}
+	
+}

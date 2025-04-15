@@ -1,0 +1,18 @@
+package com.xtensus.passosyf.repositories;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.xtensus.passosyf.entities.Salle;
+
+public interface SalleRepository extends JpaRepository<Salle, Integer> {
+
+	
+	@Query(value = " SELECT distinct sal.salleId, sal.salleLibelle, sal.salleDescription , sal.salleNombrePlace , sal.salleResponsable , sal.salleEmailResponsable , sal.salleEmplacement , sal.salleType , sal.salleCapaciteAcceuil FROM  salle sal LEFT JOIN  reunion reun ON  reun.reunionSalleId = sal.salleId WHERE( reun.reunionSalleId IS NULL or (:dateDebut < reun.reunionDateDebutPrevu and  :datefin < reun.reunionDateDebutPrevu ) or (reun.reunionDateFinPrevu < :datefin and reun.reunionDateFinPrevu < :dateDebut)) group by sal.salleId "   
+	,nativeQuery = true)
+	public List<Salle> salleDisponible(@Param("dateDebut") Date dateDebut, @Param("datefin") Date datefin);  
+}

@@ -1,0 +1,67 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.SalleEquipement;
+import com.xtensus.passosyf.repositories.SalleEquipementRepository;
+import com.xtensus.passosyf.services.SalleEquipementService;
+
+@Service
+@Transactional
+public class SalleEquipementServiceImp implements SalleEquipementService {
+
+	@Autowired
+	private SalleEquipementRepository salleEquipementRepository;
+
+	@Override
+	public List<SalleEquipement> getListSalleEquipement() {
+		return salleEquipementRepository.findAll();
+	}
+
+	@Override
+	public SalleEquipement save(SalleEquipement salleEquipement) {
+		return salleEquipementRepository.save(salleEquipement);
+	}
+	
+	
+
+	@Override
+	public SalleEquipement updateSalleEquipement(SalleEquipement salleEquipement) {
+		return salleEquipementRepository.save(salleEquipement);
+	}
+
+	@Override
+	public void deleteById(Integer salleEquipementId) {
+		salleEquipementRepository.deleteById(salleEquipementId);
+	}
+
+	@Override
+	public SalleEquipement findSalleEquipementById(Integer salleEquipementId) {
+		return salleEquipementRepository.findById(salleEquipementId).get();
+	}
+	
+	@Override
+	public void deleteBySalleId(Integer salleId) {
+		salleEquipementRepository.deleteBySalleId(salleId);
+	}
+
+	
+	@Override
+	public List<SalleEquipement> getSalleEquipementBySalleId(Integer salleId) {
+		return salleEquipementRepository.findBySalleId(salleId);
+	}
+	
+	@Override
+	public void saveListeEquipement(List<SalleEquipement> salleEquipement){
+		
+		for(SalleEquipement s: salleEquipement) {
+			salleEquipementRepository.save(s);
+		}
+		
+	}
+}

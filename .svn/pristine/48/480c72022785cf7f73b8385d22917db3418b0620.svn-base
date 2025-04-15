@@ -1,0 +1,392 @@
+package com.xtensus.passosyf.controllers;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.chemistry.opencmis.client.api.Folder;
+import org.apache.chemistry.opencmis.commons.data.ContentStream;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.xtensus.passosyf.entities.Document;
+import com.xtensus.passosyf.entities.Etat;
+import com.xtensus.passosyf.entities.Membre;
+import com.xtensus.passosyf.entities.Reunion;
+import com.xtensus.passosyf.repositories.EtatRepository;
+import com.xtensus.passosyf.services.DocumentCategorieService;
+import com.xtensus.passosyf.services.DocumentService;
+import com.xtensus.passosyf.services.MembreService;
+import com.xtensus.passosyf.services.ReunionService;
+import com.xtensus.passosyf.servicesImp.CmisService;
+import com.xtensus.passosyf.servicesImp.Export;
+import com.xtensus.passosyf.utils.ArticleExcel;
+import com.xtensus.passosyf.utils.MembreModel;
+import com.xtensus.passosyf.utils.RapportModel;
+import com.xtensus.passosyf.utils.StatistiqueModel;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping(path = "Reunions")
+public class ReunionControlleur {
+
+	@Autowired
+	private ReunionService reunionService;
+	
+	@Autowired
+	private DocumentController documentController;
+	@Autowired
+	private DocumentCategorieService documentCategorieDao;
+	@Autowired
+	private MembreService membreService;
+	
+	@Autowired
+	private Export export;
+	
+	@Autowired
+	private DocumentService documentService;
+	
+	@Autowired
+	private CmisService cmisService;
+	
+	private boolean validation;
+	
+	
+	@Autowired
+	private EtatRepository etatRepository;
+	 
+	@GetMapping(value="/getEtatReunion",  produces = "application/json")
+	public List<Etat> getAllEquipements(){
+		return etatRepository.findByEtatCategorieEtatCategorieId(104);
+		
+	}
+	
+	@GetMapping(value = "/reunions", produces = "application/json")
+	public Iterable<Reunion> getAllReunions() {
+		return reunionService.findAll();
+	}
+	@PostMapping(value = "/reunion", produces = "application/json")
+	public void saveReunion( @RequestBody Reunion reunion) {
+		reunionService.save(reunion);
+	}
+	
+	@PutMapping(value = "/reunion", produces = "application/json")
+	public void updateReunion( @RequestBody Reunion reunion) {
+		reunionService.save(reunion);
+	}
+	
+	@GetMapping(value = "/reunion/{id}", produces = "application/json")
+	public Optional<Reunion> getReunionById(@PathVariable int id) {
+		return reunionService.findById(id);
+	}
+	
+	@GetMapping(value = "/reunions/objet/{s}", produces = "application/json")
+	public Iterable<Reunion> findByReunionObjet(@PathVariable String s) {
+		return reunionService.findByReunionObjet(s);
+	}
+	
+	@GetMapping(value = "/reunions/resume/{s}", produces = "application/json")
+	public Iterable<Reunion> findByReunionreunionResume(@PathVariable String s) {
+		return reunionService.findByReunionResume(s);
+	}
+	
+	@GetMapping(value = "/reunions/salle/{s}", produces = "application/json")
+	public Iterable<Reunion> findBySalleSalleId(@PathVariable int s) {
+		return reunionService.findBySalleSalleId(s);
+	}
+	
+	@DeleteMapping(value = "/deleteReunion/{s}", produces = "application/json")
+	public void deleteReunion(@PathVariable int s) {
+		reunionService.deleteById(s);
+	}
+	
+	@GetMapping(value = "/reunions/salleAndDate/{s}&{date}", produces = "application/json")
+	public Iterable<Reunion> listeReunionsBySalleIdAndDates(@PathVariable int s, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date) {
+		System.out.println("###### dans listeReunionsBySalleIdAndDates" + s + " " + date);
+		return reunionService.listeReunionsBySalleIdAndDates(s,date);
+	}
+	
+	@PutMapping(value = "/reunion/{idEtat}", produces = "application/json")
+	public void changeEtatReunion( @RequestBody Reunion reunion, @PathVariable int idEtat) {
+		reunionService.changeEtatReunion(idEtat,reunion);
+	}
+	
+//	@PutMapping(value = "/reunion/affecterMembre", produces = "application/json")
+//	public void affecterMembreReunion(@RequestBody Reunion reunion, @RequestBody List<MembreModel> listeMembreModel) {
+//		reunionService.affecterMembreReunion(reunion, listeMembreModel);
+//	}
+	@PostMapping(value="/reunion/affecterMembre/{idReunion}", produces = "application/json")
+	public void affecterMembre(@PathVariable int idReunion, @RequestBody List<MembreModel> listeMembreModel) {
+		System.out.println("#### idReunion = "+idReunion + " membres = "+listeMembreModel.size());
+		Optional<Reunion> reunion = this.reunionService.findById(idReunion);
+		System.out.println("reunion = "+reunion.get() + " membres = "+listeMembreModel.size());
+		this.reunionService.affecterMembreReunion(reunion.get(), listeMembreModel);
+	}
+	
+	@PutMapping(value = "/reunionAffestationSalle/{idSalle}")
+	public void affecterSalleReunion(@PathVariable int idSalle,  @RequestBody Reunion reunion) {
+		System.out.println("idSalle---> "+idSalle);
+		
+		System.out.println(reunion.toString());
+		reunionService.affecterSalleReunion(idSalle, reunion);
+	}
+	
+	@GetMapping(value = "/envoyerConvocation")
+	public void envoyerConvocation() {
+	}
+
+	@PostMapping(value = "/ordreDeJour/{idReunion}/{idCategorie}")
+	public void ordreDeJour( @RequestPart(name="file", required = false) MultipartFile files, @RequestPart("doc") Document document,
+							 @PathVariable ("idReunion") int idReunion, @PathVariable ("idCategorie") int idCategorie) throws IOException {
+		String typeUlpoad;
+		Document savedDocument; 
+		
+		System.out.println("##### dans /ordreDeJour");
+		System.out.println("##### document getDocumentCategorieLibelle == " + document.getDocumentCategorie().getDocumentCategorieId());
+		System.out.println("##### document Commentaire == " + document.getDocumentCommentaire());
+		System.out.println("##### idCategorie " + idCategorie);
+ 		System.out.println("##### documentCategorieDao.findByDocumentCategorieId(idCategorie) " + documentCategorieDao.findByDocumentCategorieId(idCategorie));
+ 		
+ 		if(files!=null) {
+		 typeUlpoad="non";
+		 document.setDocumentNom(files.getOriginalFilename());
+ 		}else {
+ 			typeUlpoad="nom";	
+ 		}
+//		Document document= new Document();
+		//document.setDocumentCategorie(documentCategorieDao.findByDocumentCategorieId(idCategorie));
+		document.setReunion(reunionService.findById(idReunion).get());
+		String folderName="OrdreDeJour_"+idReunion;
+	 
+		savedDocument = documentService.save(document, typeUlpoad);
+		if(files!=null) {
+		documentController.saveDocument(files, savedDocument,folderName);
+		}
+	}
+	
+	
+	@GetMapping(value = "/ordreDeJour/doc/{idReunion}/{fileId}")
+	 public ResponseEntity<Object> downloadFile(@PathVariable ("fileId") Integer fileId,@PathVariable ("idReunion") int idReunion ) throws IOException {
+
+		String folderName="OrdreDeJour_"+idReunion;
+		byte[] attachment=null;
+		
+		Document docu = documentService.getDocumentById(fileId);
+		
+		org.apache.chemistry.opencmis.client.api.Document document;		
+		Folder folder = cmisService.getRootFolder();
+		
+ 
+		document=cmisService.DownloadDocument(idReunion,fileId,"OrdreDeJour",docu.getDocumentType());	
+		
+		ContentStream content = document.getContentStream();
+		BufferedInputStream stream = new BufferedInputStream(content.getStream());
+		attachment = stream.readAllBytes();
+		stream.close();
+		ByteArrayResource resource = new ByteArrayResource(attachment);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		String name = document.getName();
+	
+		headers.add(HttpHeaders.CONTENT_DISPOSITION,"inline;filename=" + name +"."+docu.getDocumentType());
+		headers.add("Pragma", "no-cache");
+		headers.add("Expires", "0");
+		
+		return ResponseEntity.ok().headers(headers).contentLength(attachment.length)
+				.contentType(MediaType.APPLICATION_OCTET_STREAM).body(resource);
+		
+	}
+	
+	
+	
+	
+	
+	
+	@GetMapping(path = "allDocumentReunion/{idReunion}")
+	public ResponseEntity<List<Document>> getAllDocumentsReunion(@PathVariable("idReunion") Integer idReunion) {
+		System.out.println("##### dans /getAllDocumentsReunion == " + idReunion);
+		List<Document> documents= documentController.getAllDocumentsReunion(idReunion).getBody();
+		System.out.println("##### documents size == " + documents.size());
+		return new ResponseEntity<>(documents,HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/ordreDeJour")
+	public void upload( @RequestPart("file") MultipartFile files) throws IOException {
+		System.out.println("##### dans /ordreDeJour");
+		System.out.println("##### files == " + files.toString());
+		System.out.println("##### files == " + files.getOriginalFilename());
+	}
+	
+	@PutMapping(value = "/reunion/validation", produces = "application/json")
+	public boolean testerReunion( @RequestBody Reunion reunion) {
+		List<Membre> listeMembre=membreService.listMembresByReunion(reunion.getReunionId());
+		if(listeMembre.isEmpty() || reunion.getSalle()==null)
+			validation=false;
+		else
+			validation=true;
+		return validation;
+	}
+	
+	@GetMapping("/statistique/mois/{years}")
+	public List<StatistiqueModel> getStatistiqueNbrReunionAnnee(@PathVariable("years") Integer years){
+		return reunionService.getStatistiqueReunion(years);
+	}
+	
+	
+	@GetMapping("/statistique/etat/{years}/{lang}")
+	public List<StatistiqueModel> getStatistiqueReunionEtat(@PathVariable("years") Integer years,@PathVariable("lang") String lang){
+		return reunionService.getStatistiqueReunionEtat(years, lang);
+	}
+	
+	@GetMapping(value = "/exportReportExcel", produces = "application/json")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+    	System.out.println("##### dans exportReport ");
+    	System.out.println("Export to Excel ...");
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=articles_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        List<Reunion> listReunions =(List<Reunion>) reunionService.findAll();
+        ArticleExcel excel = new ArticleExcel(listReunions);
+        excel.export(response);    
+    } 
+    
+    
+    
+	@GetMapping(value = "/exportReportPdf", produces = "application/json")
+	public ResponseEntity<byte[]> exportToPdf(HttpServletResponse response) {
+
+		System.out.println("##### dans exportReport ");
+		try {
+			// create employee data
+			
+
+			List<Reunion> reunionLst = (List<Reunion>) getAllReunions();
+			RapportModel rapport= new RapportModel();
+			rapport.setListReunions(reunionLst);
+			
+			String nomTemplate="ListeReunionKarim.jrxml";
+			return 	export.exportToPdf(response, reunionLst,nomTemplate);
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
+	
+	@DeleteMapping("/deleteDocument/{docId}")
+	public ResponseEntity<?> deleteDocument(
+    		@PathVariable("docId") Integer docId) {
+		LinkedHashMap<String, String> msg = new LinkedHashMap<String, String>();
+
+		
+		Document docu = documentService.getDocumentById(docId);
+		
+		org.apache.chemistry.opencmis.client.api.Document document;	
+		try {
+			// delete document dans la table document by document id 
+			documentService.delete(docId); 
+			
+			// delete Folder from alfresco server 
+			if(docu.getDocumentTypeUpload().equals("Numérique")) {
+		cmisService.deleteFolder(docu.getReunion().getReunionId(),docId,"OrdreDeJour",docu.getDocumentType()); 
+			}
+		msg.put("message", "files Deleted succesfully");
+		return ResponseEntity.status(202).body(msg);
+		}catch (Exception e) {
+		 
+			msg.put("message", "Could not delete the file");
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(msg); 
+			
+		}
+	}
+	
+ 
+	
+	@PutMapping(value = "/updateDocumentReunion"  )
+	public ResponseEntity<Object> updateDocumentReunion(@RequestPart(name = "file", required = false) MultipartFile files,
+			@RequestPart(name = "doc") Document document) throws IOException{
+		String typeUpload; String folderName; String name ; String extension;
+
+            if(document.getDocumentTypeUpload().equals("Numérique")) {
+            if(files!=null) {
+   
+            typeUpload="non";
+            folderName="OrdreDeJour_"+document.getReunion().getReunionId();
+                name =  files.getOriginalFilename();
+            extension = name.substring(name.lastIndexOf(".") + 1);
+            document.setDocumentType(extension); 
+            		document.setDocumentType(extension); 
+		document.setDocumentNom(folderName+"_Doc"+document.getIdDocument()+"."+extension );
+ 
+            return documentController.updateDocument(document,files,folderName);
+            }else {
+          
+                typeUpload="non";
+                return ResponseEntity.ok(documentService.save(document, typeUpload));
+            }
+
+            }
+            else {
+
+             if (!document.getDocumentTypeUpload().equals("Numérique")) {
+           
+                typeUpload="nom";
+            }else {
+         
+                
+                name = files.getOriginalFilename();
+            extension = name.substring(name.lastIndexOf(".") + 1);
+            folderName="OrdreDeJour_"+document.getReunion().getReunionId();
+                document.setDocumentType(extension); 
+                typeUpload="non";
+                		document.setDocumentType(extension); 
+		document.setDocumentNom(folderName+"_Doc"+document.getIdDocument()+"."+extension );
+ 
+                documentController.updateDocument(document,files,folderName);
+            }
+            return ResponseEntity.ok(documentService.save(document, typeUpload));
+            }
+            }
+            
+
+}

@@ -1,0 +1,17 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+
+import com.xtensus.passosyf.entities.DomaineActivite;
+
+
+public interface DomaineActiviteService {
+	
+	public DomaineActivite save(DomaineActivite domaineActivite);
+	public DomaineActivite update(DomaineActivite domaineActivite, Integer id);
+	public void delete(Integer id);
+	public DomaineActivite findDomaineActiviteById(Integer id);
+	public List<DomaineActivite> getListDomaineActivite();
+
+
+}

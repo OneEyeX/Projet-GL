@@ -1,0 +1,11 @@
+package com.xtensus.passosyf.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.xtensus.passosyf.entities.DomaineActivite;
+
+
+public interface DomaineActiviteRepository extends JpaRepository<DomaineActivite, Integer> {
+	public DomaineActivite  findByDomaineActiviteLibelle(String idDomaineActitvite);
+
+}

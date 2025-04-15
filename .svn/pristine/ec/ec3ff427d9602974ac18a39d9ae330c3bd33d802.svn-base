@@ -1,0 +1,15 @@
+package com.xtensus.passosyf.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.xtensus.passosyf.entities.MembreType;
+import com.xtensus.passosyf.entities.TypeMembreCommissionMarche;
+
+public interface MembreTypeRepository extends JpaRepository<MembreType, Integer> {
+	
+	MembreType findByMembreTypeLibelle(String membreTypeLibelle);
+	@Query("SELECT tcm FROM TypeMembreCommissionMarche tcm WHERE tcm.typeMembreCommissionMarcheId=:id")
+	TypeMembreCommissionMarche getListeTypeMembreCommissionMarcheById(Integer id);
+}

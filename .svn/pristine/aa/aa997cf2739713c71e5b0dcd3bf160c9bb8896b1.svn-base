@@ -1,0 +1,52 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.DomaineActivite;
+import com.xtensus.passosyf.repositories.DomaineActiviteRepository;
+import com.xtensus.passosyf.services.DomaineActiviteService;
+
+
+@Service
+@Transactional
+public class DomaineActiviteServiceImp implements DomaineActiviteService {
+	
+	@Autowired
+	private DomaineActiviteRepository domaineActiviteRepository;
+
+	@Override
+	public DomaineActivite save(DomaineActivite domaineActivite) {
+		return domaineActiviteRepository.save(domaineActivite);
+	}
+
+
+	@Override
+	public DomaineActivite update(DomaineActivite domaineActivite, Integer id) {
+		domaineActivite.setDomaineActiviteId(id);
+		return domaineActiviteRepository.save(domaineActivite);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		domaineActiviteRepository.deleteById(id);
+		
+	}
+
+	@Override
+	public DomaineActivite findDomaineActiviteById(Integer id) {
+		
+		return domaineActiviteRepository.findById(id).get();
+	}
+
+	@Override
+	public List<DomaineActivite> getListDomaineActivite() {
+		return domaineActiviteRepository.findAll();
+	}
+	
+
+}

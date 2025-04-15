@@ -1,0 +1,20 @@
+server:
+  port: 8583
+spring:
+  application:
+    name: customer-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: root
+    url: jdbc:mysql://localhost:3307/wwwpassosyf2022?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+

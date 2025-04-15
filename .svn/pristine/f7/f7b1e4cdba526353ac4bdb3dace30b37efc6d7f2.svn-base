@@ -1,0 +1,55 @@
+package com.xtensus.passosyf.controllers;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+import com.xtensus.passosyf.entities.Reunion;
+import com.xtensus.passosyf.entities.Salle;
+import com.xtensus.passosyf.gnl.aop.LogClass;
+import com.xtensus.passosyf.services.PlanningSalleService;
+import com.xtensus.passosyf.services.SalleService;
+
+@CrossOrigin("*")
+@RestController
+@RequestMapping(path = "PlanningSalle")
+public class PlanningSalleController {
+	
+	@Autowired
+	PlanningSalleService planningSalleService;
+	
+	@Autowired
+	private SalleService salleService; 
+	
+	@Autowired
+	private LogClass logClass;
+	
+	@GetMapping(path = "/planningsalle/{idS}")
+	public  Iterable<Reunion> getListeReunionBySalle(@PathVariable(name = "idS") Integer salleId) {
+		 Iterable<Reunion> listeReunion = planningSalleService.listereunionBySalleId(salleId);
+		 Salle  salleById = salleService.findSalleById(salleId);
+		 logClass.addTrack(
+					"consultation","Evénement de log consultation list reunion by salle "+salleById.getSalleId()+"-"+salleById.getSalleLibelle(),/*vb.getPerson(),*/ "INFO");
+		return listeReunion;
+	}
+	
+	@GetMapping(path = "/planningsalledate/{idS}&{date}")
+	public  Iterable<Reunion> getListeReunionBySalleAndDate(@PathVariable int idS, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date) {
+		 Iterable<Reunion> listeReunion = planningSalleService.listereunionBySalleId(idS);
+		 Salle  salleById = salleService.findSalleById(idS);
+
+		 logClass.addTrack(
+					"consultation","Evénement de log consultation list reunion by salle et date  "+salleById.getSalleId()+"-"+salleById.getSalleLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+		return listeReunion;
+	}
+
+}

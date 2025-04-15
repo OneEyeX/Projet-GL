@@ -1,0 +1,19 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+
+import com.xtensus.passosyf.entities.ParticipantType;
+
+public interface ParticipantTypeService {
+
+	public List<ParticipantType> getListParticipantType();
+
+	public ParticipantType save(ParticipantType participantType);
+
+	public ParticipantType updateParticipantType(ParticipantType participantType);
+
+	public void deleteById(Integer participantTypeId);
+
+	public ParticipantType findParticipantTypeById(Integer participantTypeId);
+
+}

@@ -1,0 +1,16 @@
+package com.xtensus.passosyf.repositories;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.xtensus.passosyf.entities.CommissionType;
+
+public interface CommissionTypeRepository extends JpaRepository<CommissionType, Integer>{
+	
+	CommissionType findByCommissionTypeReference(Integer commissionTypeReference);
+	Optional<CommissionType>  findCommissionTypeByCommissionTypeReference(Integer commissionTypeReference);
+	CommissionType findByCommissionTypeLibelle(String commissionTypeLibelle);	
+	
+	
+}

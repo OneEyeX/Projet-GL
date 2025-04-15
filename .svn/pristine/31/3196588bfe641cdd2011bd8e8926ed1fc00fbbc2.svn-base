@@ -1,0 +1,82 @@
+package com.xtensus.passosyf.gnl.entity;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "typeevenement")
+public class TypeEvenement implements java.io.Serializable {
+
+	
+ 
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7846736377378807415L;
+	private Integer typeEvenementId;
+	private String typeEvenementLibelle;
+	private String evenementTypeDescription;
+	
+	
+
+	public TypeEvenement() {}
+
+
+	
+
+	public TypeEvenement(Integer typeEvenementId, String typeEvenementLibelle, String evenementTypeDescription) {
+		super();
+		this.typeEvenementId = typeEvenementId;
+		this.typeEvenementLibelle = typeEvenementLibelle;
+		this.evenementTypeDescription = evenementTypeDescription;
+	}
+
+
+
+
+	@Id
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
+	@Column(name = "typeEvenementId", unique = true, nullable = false)
+	public Integer getTypeEvenementId() {
+		return typeEvenementId;
+	}
+
+	public void setTypeEvenementId(Integer typeEvenementId) {
+		this.typeEvenementId = typeEvenementId;
+	}
+	
+	
+	
+	
+	@Column(name = "typeEvenementLibelle" )
+	public String getTypeEvenementLibelle() {
+		return typeEvenementLibelle;
+	}
+
+	public void setTypeEvenementLibelle(String typeEvenementLibelle) {
+		this.typeEvenementLibelle = typeEvenementLibelle;
+	}
+
+
+
+
+	@Column(name = "evenementTypeDescription" )
+	public String getEvenementTypeDescription() {
+		return evenementTypeDescription;
+	}
+
+
+
+
+	public void setEvenementTypeDescription(String evenementTypeDescription) {
+		this.evenementTypeDescription = evenementTypeDescription;
+	}
+
+	
+ 
+
+ 
+	
+
+}

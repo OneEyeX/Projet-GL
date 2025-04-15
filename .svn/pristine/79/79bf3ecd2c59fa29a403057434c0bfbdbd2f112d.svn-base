@@ -1,0 +1,30 @@
+package com.xtensus.passosyf.repositories;
+
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.xtensus.passosyf.entities.Document;
+
+public interface DocumentRepository extends JpaRepository<Document, Integer>{
+
+	
+	List<Document> findByIdDocument(Integer idDocument);
+	
+	 List<Document>  findByIdDocumentAndDocumentType(Integer idDocument,String type);
+	 
+
+	 @Query("SELECT d FROM Document as d WHERE d.reunion.reunionId =:reunionId and d.documentDateInsertion"
+	 		+ "	IN (SELECT MAX(doc.documentDateInsertion)"
+	 		+ "	FROM Document doc WHERE"
+	 		+ "	doc.reunion.reunionId=:reunionId and doc.documentSupprime =:deleteFlag"
+	 		+ "	and doc.documentCategorie.documentTypeCategorie.documentTypeCategorieId =:catgDoc"
+	 		+ "	GROUP BY doc.documentParent.idDocument)")
+	 public List<Document> listDocumentByIdDocumentAndDeleteFlagAndCatgDoc(@Param("reunionId") Integer reunionId,@Param("deleteFlag") boolean deleteFlag,
+			 @Param("catgDoc") int catgDoc);
+	 
+	 Set<Document> findByDocumentSalleIdSalleId(Integer salleId); 
+}
