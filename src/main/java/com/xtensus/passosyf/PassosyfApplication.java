@@ -15,7 +15,7 @@ public class PassosyfApplication implements CommandLineRunner {
 	// APRÈS : Respect du principe SRP (Single Responsibility Principle) et cohérence → Logger associé à la classe actuelle
 	private static final Logger log = LoggerFactory.getLogger(PassosyfApplication.class);
 
-	// AJOUTÉ : Respect du principe de GRASP → Delegation
+	// AJOUTÉ : Respect du principe de GRASP → Controleur
 	// La logique de démarrage est déléguée à un service spécialisé : StartupService
 	@Autowired
 	private StartupService startupService;
