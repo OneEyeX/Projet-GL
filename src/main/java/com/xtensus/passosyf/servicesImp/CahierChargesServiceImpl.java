@@ -62,4 +62,12 @@ public class CahierChargesServiceImpl implements CahierChargesService {
 
 		return cahierChargesDao.findByAppelOffre_AppelOffreId(aoId);
 	}
+
+	@Override
+    public void assignAppelOffreToCahierCharges(int aoId, int ccId) {
+        AppelOffres appelOffre = appelOffresService.getAppelOffresById(aoId);
+        CahierCharges cahierCharges = cahierChargesRepository.findById(ccId).orElseThrow(() -> new RuntimeException("CahierCharges not found"));
+        cahierCharges.setAppelOffre(appelOffre);
+        cahierChargesRepository.save(cahierCharges);
+    }
 }

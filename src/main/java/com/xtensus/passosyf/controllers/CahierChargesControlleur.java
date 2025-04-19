@@ -70,26 +70,14 @@ public class CahierChargesControlleur {
 		return cahierChargesService.getCahierChargesByAppelOffre(null);
 	}
 	
-	@PutMapping(value="/setAppelOffresToCahierCharges/{aoId}/{ccId}")
-	public void setAppelOffresToCahierCharges(@PathVariable int aoId,@PathVariable int ccId) {
-		
-		
-		AppelOffres appelOffre=appelOffresService.getAppelOffresById(aoId);
-		CahierCharges cahierCharges=cahierChargesService.getCahierChargesById(ccId);
-		cahierCharges.setAppelOffre(appelOffre);
-		cahierChargesService.saveCahierCharges(cahierCharges);
+	@PutMapping(value = "/setAppelOffresToCahierCharges/{aoId}/{ccId}")
+    public void setAppelOffresToCahierCharges(@PathVariable int aoId, @PathVariable int ccId) {
+        cahierChargesService.assignAppelOffreToCahierCharges(aoId, ccId);
+    }
 
-	}
-	
-	@GetMapping(value="/isAppelOffreAffected/{aoId}")
-	public boolean isAppelOffreAffected(@PathVariable int aoId) {
-
-		CahierCharges cahierCharges = cahierChargesService.getCahierChargesByAppelOffreId(aoId);
-		if (cahierCharges==null) 
-		{
-			return false;
-		}
-		return true;
-	}
+    @GetMapping(value = "/isAppelOffreAffected/{aoId}")
+    public boolean isAppelOffreAffected(@PathVariable int aoId) {
+        return cahierChargesService.getCahierChargesByAppelOffreId(aoId) != null;
+    }
 	
 }
