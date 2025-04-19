@@ -4,15 +4,33 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.xtensus.passosyf.entities.AppelOffres;
 import com.xtensus.passosyf.entities.CahierCharges;
 import com.xtensus.passosyf.repositories.CahierChargesRepository;
 import com.xtensus.passosyf.services.CahierChargesService;
+import com.xtensus.passosyf.strategy.PricingStrategy;
 
 @Service
 public class CahierChargesServiceImpl implements CahierChargesService {
-	
+
+	private final PricingStrategy pricingStrategy;
+
+    public CahierChargesServiceImpl(
+        CahierChargesRepository cahierChargesRepository,
+        @Qualifier("fixedPricingStrategy") PricingStrategy pricingStrategy
+    ) {
+        this.cahierChargesRepository = cahierChargesRepository;
+        this.pricingStrategy = pricingStrategy;
+    }
+
+    @Override
+    public float getCalculatedPrice(CahierCharges cahierCharges) {
+        return pricingStrategy.calculatePrice(cahierCharges);
+    }
+
+
 	@Autowired
 	CahierChargesRepository cahierChargesDao;
 

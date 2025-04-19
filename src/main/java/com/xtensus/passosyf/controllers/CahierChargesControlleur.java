@@ -91,5 +91,11 @@ public class CahierChargesControlleur {
 		}
 		return true;
 	}
+
+	@GetMapping("/calculated-price/{id}")
+	public float getCalculatedPrice(@PathVariable int id) {
+   		 CahierCharges cc = cahierChargesService.getCahierChargesById(id);
+   		 return cahierChargesService.getCalculatedPrice(cc);
+}
 	
 }

@@ -20,4 +20,7 @@ public interface CahierChargesService {
 	public List<CahierCharges> getCahierChargesByAppelOffre(AppelOffres appelOffre);
 
 	public CahierCharges getCahierChargesByAppelOffreId(int aoId);
+
+	float getCalculatedPrice(CahierCharges cahierCharges);
+
 }
