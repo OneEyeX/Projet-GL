@@ -86,9 +86,6 @@ public class CahierCharges implements Serializable{
 		this.cahierChargesDescription = cahierChargesDescription;
 	}
 
-	public float getCahierChargesPrix() {
-		return cahierChargesPrix;
-	}
 
 	public void setCahierChargesPrix(float cahierChargesPrix) {
 		this.cahierChargesPrix = cahierChargesPrix;
@@ -119,5 +116,8 @@ public class CahierCharges implements Serializable{
 		this.appelOffre = appelOffre;
 	}
 	
+	public float calculatePrice() {
+    return cahierChargesPrix; 
+	}
 	
 }

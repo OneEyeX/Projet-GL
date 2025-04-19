@@ -62,4 +62,8 @@ public class CahierChargesServiceImpl implements CahierChargesService {
 
 		return cahierChargesDao.findByAppelOffre_AppelOffreId(aoId);
 	}
+
+	public float getCalculatedPrice(CahierCharges cahierCharges) {
+    return cahierCharges.calculatePrice(); 
+}
 }
