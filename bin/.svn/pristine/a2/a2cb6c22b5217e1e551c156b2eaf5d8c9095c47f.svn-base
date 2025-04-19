@@ -1,0 +1,102 @@
+package com.xtensus.passosyf.aop;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.mail.MessagingException;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.apache.log4j.Logger;
+import com.xtensus.passosyf.gnl.entity.Evenement;
+import com.xtensus.passosyf.gnl.entity.Templatelog;
+import com.xtensus.passosyf.gnl.entity.XteLog;
+import com.xtensus.passosyf.gnl.repositories.EvenementRepository;
+import com.xtensus.passosyf.gnl.repositories.TemplatelogRepository;
+import com.xtensus.passosyf.gnl.repositories.XteLogRepository;
+import com.xtensus.passosyf.controllers.EnvoiMail;
+
+@Aspect
+@Component
+public class TracingAfterReturningAdvice {
+	
+	@Autowired
+	private EnvoiMail envoiMail;
+	
+	@Autowired
+	private EvenementRepository evenementRepository; 
+	
+	@Autowired
+	private XteLogRepository xteLogRepository; 
+
+	
+	@Autowired
+	private TemplatelogRepository templatelogRepository ;
+	
+	private static Logger logger;
+	
+	private List<Evenement> listEvenementLog;
+	private String evenementNomVariableLog;
+	private List<XteLog> listLogs;
+	private XteLog log;
+	private Evenement  evenementLog;
+	private Templatelog templateLog;
+
+	private List<Templatelog> listTemplateLog;
+
+//	public TracingAfterReturningAdvice(EnvoiMail envoiMail) {
+//		super();
+//		this.envoiMail = envoiMail;
+//	}
+
+
+	@PostConstruct
+	public void Initialize() {
+
+		System.out.println("****Lancement Aspect avec succes****");
+	}
+	
+	
+	@Before(value = "execution(* com.xtensus.passosyf.controllers.ReunionControlleur.envoyerConvocation(..)) and args()")
+	public void beforeAdviceAfficherCivilite(JoinPoint joinPoint) throws IOException, MessagingException {
+		System.out.println("Before method:" + joinPoint.getSignature());
+
+//		System.out.println("Creating Employee with name - " + civilite.getCiviliteLibelle() + " and id - " + civilite.getCiviliteId());
+		
+		envoiMail.EnvoiMail();
+	}
+ 
+	public void InitialzeLog() {
+		try {
+			logger = Logger.getLogger(TracingAfterReturningAdvice.class);
+
+			//listEvenementLog = appMgr.listEvenementBylibelle(evenementNomVariableLog);
+			
+			listEvenementLog =evenementRepository.findByEvenementLibelle(evenementNomVariableLog);
+			
+			
+			evenementLog = listEvenementLog.get(0);
+
+			listLogs = xteLogRepository.findByEvenement(evenementLog);
+			
+			
+			
+			log = listLogs.get(0);
+
+			listTemplateLog = templatelogRepository.findByXtelogLogId(log.getLogId());
+			
+			
+			templateLog = listTemplateLog.get(0);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+ 
+}

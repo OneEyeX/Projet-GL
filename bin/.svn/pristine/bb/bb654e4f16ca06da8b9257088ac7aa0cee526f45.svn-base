@@ -1,0 +1,108 @@
+package com.xtensus.passosyf.gnl.entity;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+@Entity
+@Table(name = "trace")
+public class Trace implements java.io.Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3167253652647290800L;
+	
+	private Integer traceId;
+		private String userTexte;
+		private String dateTexte;
+		private String traceTexte;
+			private String typelog;
+			private Boolean traceSuppression;
+			
+		
+	private XteLog xtelog;
+
+	
+
+
+	
+
+	public Trace() {
+	}
+
+	public Trace(XteLog xtelog, String traceTexte, Boolean traceSuppression) {
+		this.xtelog = xtelog;
+		this.traceTexte = traceTexte;
+		this.traceSuppression = traceSuppression;
+	}
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "traceId", unique = true, nullable = false)
+	public Integer getTraceId() {
+		return this.traceId;
+	}
+
+	public void setTraceId(Integer traceId) {
+		this.traceId = traceId;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "logId")
+	@JsonIgnore
+	public XteLog getXtelog() {
+		return this.xtelog;
+	}
+
+	public void setXtelog(XteLog xtelog) {
+		this.xtelog = xtelog;
+	}
+
+	@Column(name = "traceTexte" )
+	public String getTraceTexte() {
+		return this.traceTexte;
+	}
+
+	public void setTraceTexte(String traceTexte) {
+		this.traceTexte = traceTexte;
+	}
+
+	@Column(name = "traceSuppression")
+	public Boolean getTraceSuppression() {
+		return this.traceSuppression;
+	}
+
+	public void setTraceSuppression(Boolean traceSuppression) {
+		this.traceSuppression = traceSuppression;
+	}
+
+	public void setUserTexte(String userTexte) {
+		this.userTexte = userTexte;
+	}
+
+	@Column(name = "userTexte", length = 256)
+	public String getUserTexte() {
+		return userTexte;
+	}
+
+	public void setDateTexte(String dateTexte) {
+		this.dateTexte = dateTexte;
+	}
+
+	@Column(name = "dateTexte" )
+	public String getDateTexte() {
+		return dateTexte;
+	}
+
+	public void setTypelog(String typelog) {
+		this.typelog = typelog;
+	}
+	
+	@Column(name = "typelog" )
+	public String getTypelog() {
+		return typelog;
+	}
+
+}

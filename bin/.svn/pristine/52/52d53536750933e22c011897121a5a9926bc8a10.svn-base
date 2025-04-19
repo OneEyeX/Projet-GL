@@ -1,0 +1,46 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.TypeSalle;
+import com.xtensus.passosyf.repositories.TypeSalleRepository;
+import com.xtensus.passosyf.services.TypeSalleService;
+
+@Service
+@Transactional
+public class TypeSalleServiceImp implements TypeSalleService {
+
+	@Autowired
+	private TypeSalleRepository typeSalleRepository;
+
+	@Override
+	public List<TypeSalle> getListTypeSalle() {
+		return typeSalleRepository.findAll();
+	}
+
+	@Override
+	public TypeSalle save(TypeSalle typeSalle) {
+		return typeSalleRepository.save(typeSalle);
+	}
+
+	@Override
+	public TypeSalle update(TypeSalle typeSalle) {
+		return typeSalleRepository.save(typeSalle);
+	}
+
+	@Override
+	public void deleteById(Integer typeSalleId) {
+		typeSalleRepository.deleteById(typeSalleId);
+	}
+
+	@Override
+	public TypeSalle findTypeSalleById(Integer typeSalleId) {
+		return typeSalleRepository.findById(typeSalleId).get();
+	}
+
+}

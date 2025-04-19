@@ -1,0 +1,44 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.TypeMembreCommissionMarche;
+import com.xtensus.passosyf.repositories.TypeMembreCommissionMarcheRepository;
+import com.xtensus.passosyf.services.TypeMembreCommissionMarcheService;
+
+@Service
+public class TypeMembreCommissionMarcheServiceImpl implements TypeMembreCommissionMarcheService{
+	
+	@Autowired
+	private  TypeMembreCommissionMarcheRepository  typeMembreCMRepository;
+
+	@Override
+	public TypeMembreCommissionMarche save(TypeMembreCommissionMarche typeMembreCM) {
+		// TODO Auto-generated method stub
+		return typeMembreCMRepository.save(typeMembreCM);
+	}
+
+	@Override
+	public TypeMembreCommissionMarche update(Integer idTypeMembreCM,TypeMembreCommissionMarche typeMembreCM) {
+		// TODO Auto-generated method stub
+		 typeMembreCM.setTypeMembreCommissionMarcheId(idTypeMembreCM);
+		return typeMembreCMRepository.save(typeMembreCM); 
+	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		typeMembreCMRepository.deleteById(id);
+	}
+
+
+	@Override
+	public List<TypeMembreCommissionMarche> ListTypeMembreCommissionMarche() {
+		// TODO Auto-generated method stub
+		return typeMembreCMRepository.findAll();
+	}
+
+}

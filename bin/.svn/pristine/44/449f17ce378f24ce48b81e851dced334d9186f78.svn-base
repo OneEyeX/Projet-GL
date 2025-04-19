@@ -1,0 +1,56 @@
+package com.xtensus.passosyf.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.Equipement;
+import com.xtensus.passosyf.services.EquipementService;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(path = "Equipement")
+public class EquipementControlleur {
+	@Autowired
+	private EquipementService equipementService;
+	
+	@GetMapping(value="/equipements",  produces = "application/json")
+	public Iterable<Equipement> getAllEquipements(){
+		return equipementService.findAll();
+		
+	}
+	
+	@PostMapping(value="/equipement")
+	public void saveEquipement(@RequestBody Equipement Equipement){
+		equipementService.save(Equipement);
+	}
+	
+	@GetMapping(value="/equipement/{id}",  produces = "application/json")
+	public Equipement getEquipementById(@PathVariable int id) {
+		return equipementService.findById(id).get();
+	}
+	
+	@PutMapping(value="/updateequipement/{id}",  produces = "application/json")
+	public Equipement updateEquipement(@PathVariable int id, @RequestBody Equipement Equipement) {
+		System.out.println("Dans update");
+		Equipement eq = getEquipementById(id);
+		eq.setEquipementDescription(Equipement.getEquipementDescription());
+		eq.setEquipementDescriptionAR(Equipement.getEquipementDescriptionAR());
+		eq.setEquipementLibelle(Equipement.getEquipementLibelle());
+		eq.setEquipementLibelleAR(Equipement.getEquipementLibelleAR());
+		equipementService.save(eq);
+		return eq;
+	}
+	
+	@DeleteMapping(value="/deleteequipement/{id}")
+	public void deleteEquipement(@PathVariable int id) {
+		equipementService.deleteById(id);
+	}
+}

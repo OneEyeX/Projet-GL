@@ -1,0 +1,72 @@
+package com.xtensus.passosyf.gnl.entity;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "variableslog")
+public class VariablesLog {
+	
+	
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "variableId", unique = true, nullable = false)
+	private Integer variableId;
+	
+	
+	
+	private String variableLibelle;
+	private String variableDescription;
+	private Boolean variableSuppression;
+	private String variableValeur;
+	public VariablesLog() {}
+	public VariablesLog(Integer variableId, String variableLibelle, String variableDescription,
+			Boolean variableSuppression, String variableValeur) {
+		super();
+		this.variableId = variableId;
+		this.variableLibelle = variableLibelle;
+		this.variableDescription = variableDescription;
+		this.variableSuppression = variableSuppression;
+		this.variableValeur = variableValeur;
+	}
+	public Integer getVariableId() {
+		return variableId;
+	}
+	public void setVariableId(Integer variableId) {
+		this.variableId = variableId;
+	}
+	public String getVariableLibelle() {
+		return variableLibelle;
+	}
+	public void setVariableLibelle(String variableLibelle) {
+		this.variableLibelle = variableLibelle;
+	}
+	public String getVariableDescription() {
+		return variableDescription;
+	}
+	public void setVariableDescription(String variableDescription) {
+		this.variableDescription = variableDescription;
+	}
+	public Boolean getVariableSuppression() {
+		return variableSuppression;
+	}
+	public void setVariableSuppression(Boolean variableSuppression) {
+		this.variableSuppression = variableSuppression;
+	}
+	public String getVariableValeur() {
+		return variableValeur;
+	}
+	public void setVariableValeur(String variableValeur) {
+		this.variableValeur = variableValeur;
+	}
+	
+	
+	
+	
+	
+}

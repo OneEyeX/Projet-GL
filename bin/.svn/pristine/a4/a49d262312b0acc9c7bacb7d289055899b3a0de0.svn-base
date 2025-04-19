@@ -1,0 +1,22 @@
+package com.xtensus.passosyf.services;
+
+import java.util.Optional;
+
+import com.xtensus.passosyf.entities.Equipement;
+
+
+public interface EquipementService {
+
+	public Iterable<Equipement> findAll();
+
+	public Iterable<Equipement> findAllById(Iterable<Integer> ids);
+
+	public Equipement save(Equipement equipement);
+
+	public void delete(Equipement equipement);
+
+	public void deleteById(int id);
+
+	public Optional<Equipement> findById(int id);
+
+}

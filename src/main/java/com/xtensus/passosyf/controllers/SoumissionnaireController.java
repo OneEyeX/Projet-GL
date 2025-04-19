@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -66,20 +67,20 @@ public class SoumissionnaireController {
 		return soumissionnaireService.findAll(pageNum, pageSize, sortDir, sortField,search);
 	}
 	
-	@GetMapping("/getPdfList")
-	public ResponseEntity<byte[]> exportListeSoumissionnaires() throws FileNotFoundException, JRException {
-		
-		byte[] pdfBytes = soumissionnaireService.exportListeSoumissionnaires();
-		
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("attachment", "list.pdf");
-
-        // Return the response entity with the PDF bytes and headers
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(pdfBytes);
-	}
+	@GetMapping("/export")
+    public ResponseEntity<byte[]> exportSoumissionnaires(@RequestParam String format) {
+        try {
+            byte[] fileContent = soumissionnaireService.exportListeSoumissionnaires(format);
+            String contentType = format.equalsIgnoreCase("pdf") ? "application/pdf" : "text/csv";
+            
+            return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header("Content-Disposition", "attachment; filename=soumissionnaires." + format)
+                .body(fileContent);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 	@DeleteMapping(value = "/supp/{id}")
 	public List<Soumissionnaire> supp(@PathVariable int id) {

@@ -1,0 +1,47 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.ParticipantType;
+import com.xtensus.passosyf.repositories.ParticipantTypeRepository;
+import com.xtensus.passosyf.services.ParticipantTypeService;
+
+
+@Service
+@Transactional
+public class ParticipantTypeServiceImp implements ParticipantTypeService {
+
+	@Autowired
+	private ParticipantTypeRepository participantTypeRepository;
+
+	@Override
+	public List<ParticipantType> getListParticipantType() {
+		return participantTypeRepository.findAll();
+	}
+
+	@Override
+	public ParticipantType save(ParticipantType participantType) {
+		return participantTypeRepository.save(participantType);
+	}
+
+	@Override
+	public ParticipantType updateParticipantType(ParticipantType participantType) {
+		return participantTypeRepository.save(participantType);
+	}
+
+	@Override
+	public void deleteById(Integer participantTypeId) {
+		participantTypeRepository.deleteById(participantTypeId);
+	}
+
+	@Override
+	public ParticipantType findParticipantTypeById(Integer participantTypeId) {
+		return participantTypeRepository.findById(participantTypeId).get();
+	}
+
+}

@@ -1,0 +1,96 @@
+package com.xtensus.passosyf.controllers;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.DomaineActivite;
+import com.xtensus.passosyf.entities.Etat;
+import com.xtensus.passosyf.gnl.aop.LogClass;
+import com.xtensus.passosyf.repositories.EtatRepository;
+import com.xtensus.passosyf.services.DomaineActiviteService;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(path = "api")
+public class DomaineActiviteController {
+
+	@Autowired
+	private DomaineActiviteService domaineActiviteService;
+	@Autowired
+	private EtatRepository etatRepository;
+	
+	
+	@Autowired
+	private LogClass logClass;
+
+
+	public DomaineActiviteController(DomaineActiviteService domaineActiviteService) {
+		this.domaineActiviteService = domaineActiviteService;
+	}
+	
+	@GetMapping(value = "/domaineActivites", produces = "application/json")
+	public List<DomaineActivite> getAllDomaineActivite() {
+		
+		logClass.addTrack(
+				"consultation","Evénement de log consultation list domaine activite ",/*vb.getPerson(),*/ "INFO");
+		
+		return domaineActiviteService.getListDomaineActivite();
+	}
+
+	@GetMapping(value = "/domaineActivite/{id}", produces = "application/json")
+	public DomaineActivite getDomaineActiviteById(@PathVariable int id) {
+		
+		DomaineActivite domaineActivite=domaineActiviteService.findDomaineActiviteById(id);
+		
+		logClass.addTrack(
+				"consultation","Evénement de log consultation domaine activite "+id+"-"+domaineActivite.getDomaineActiviteLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+		return domaineActivite; 
+	} 
+	
+	@PostMapping(value = "/domaineActivite", produces = "application/json")
+	public void saveDomaineActivite( @RequestBody DomaineActivite domaineActivite) {
+		//get Etat by id
+		Optional<Etat> etat=etatRepository.findById(67);
+		domaineActivite.setEtat(etat.get());
+		
+	DomaineActivite doAct=domaineActiviteService.save(domaineActivite);
+		
+		logClass.addTrack(
+				"ajout","Evénement de log ajout domaine activite "+doAct.getDomaineActiviteId()+"-"+doAct.getDomaineActiviteLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+		
+	}
+	
+	@PutMapping(value = "/domaineActivite/{id}", produces = "application/json")
+	public void updateDomaineActivite( @RequestBody DomaineActivite domaineActivite, @PathVariable int id) {
+	DomaineActivite doAct=	domaineActiviteService.update(domaineActivite, id);
+		
+		logClass.addTrack(
+				"modification","Evénement de log modification domaine activite "+doAct.getDomaineActiviteId()+"-"+doAct.getDomaineActiviteLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+	}
+	
+	@DeleteMapping(value = "/domaineActivite/{id}", produces = "application/json")
+	public void deleteDomaineActivite(@PathVariable int id) {
+		
+		DomaineActivite doAct= domaineActiviteService.findDomaineActiviteById(id);
+		domaineActiviteService.delete(id);
+		
+		logClass.addTrack(
+				"suppression","Evénement de log suppression domaine activite "+doAct.getDomaineActiviteId()+"-"+doAct.getDomaineActiviteLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+	}
+
+}

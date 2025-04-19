@@ -1,0 +1,19 @@
+package com.xtensus.passosyf.services;
+
+import com.xtensus.passosyf.entities.Civilite;
+
+public interface CiviliteService {
+
+	public Iterable<Civilite> findAll();
+
+	public Iterable<Civilite> findAllById(Iterable<Integer> ids);
+	
+	public Civilite findById(Integer ids);
+
+	public Civilite save(Civilite civilite);
+
+	public void delete(Civilite civilite);
+
+	public void deleteById(int id);
+
+}

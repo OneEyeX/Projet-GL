@@ -1,0 +1,18 @@
+package com.xtensus.passosyf.services;
+
+import com.xtensus.passosyf.entities.DocumentCategorie;
+import com.xtensus.passosyf.entities.DocumentTypeCategorie;
+
+public interface DocumentCategorieService {
+
+	public Iterable<DocumentCategorie> findAll();
+
+	public Iterable<DocumentCategorie> findAllById(Iterable<Integer> ids);
+
+	public DocumentCategorie save(DocumentCategorie documentCategorie);
+
+	public void delete(Integer documentCategorie);
+	
+	public Iterable<DocumentCategorie> findDocumentCategorieByType(DocumentTypeCategorie documentTypeCategorie);
+	public DocumentCategorie findByDocumentCategorieId(int i);
+}

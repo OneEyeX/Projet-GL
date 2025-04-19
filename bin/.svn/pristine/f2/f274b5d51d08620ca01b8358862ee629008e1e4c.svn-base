@@ -1,0 +1,90 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+//@Data
+//@AllArgsConstructor
+//@NoArgsConstructor
+@Entity
+@Table(name = "civilite")
+public class Civilite  {
+
+	/**
+		 * 
+		 */
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "civiliteId", unique = true, nullable = false)
+	private int civiliteId;
+	private String civiliteLibelle;
+	private String civiliteAcronyme;
+	
+	private String civiliteLibellear;
+	private String civiliteAcronymear;
+	
+	public Civilite() {
+	
+	}
+  
+	
+	
+	
+	public Civilite(String civiliteLibelle, String civiliteAcronyme, String civiliteLibellear,
+			String civiliteAcronymear) {
+		super();
+		this.civiliteLibelle = civiliteLibelle;
+		this.civiliteAcronyme = civiliteAcronyme;
+		this.civiliteLibellear = civiliteLibellear;
+		this.civiliteAcronymear = civiliteAcronymear;
+	}
+
+
+
+
+	public int getCiviliteId() {
+		return civiliteId;
+	}
+	public void setCiviliteId(int civiliteId) {
+		this.civiliteId = civiliteId;
+	}
+	public String getCiviliteLibelle() {
+		return civiliteLibelle;
+	}
+	public void setCiviliteLibelle(String civiliteLibelle) {
+		this.civiliteLibelle = civiliteLibelle;
+	}
+	public String getCiviliteAcronyme() {
+		return civiliteAcronyme;
+	}
+	public void setCiviliteAcronyme(String civiliteAcronyme) {
+		this.civiliteAcronyme = civiliteAcronyme;
+	}
+	public String getCiviliteLibellear() {
+		return civiliteLibellear;
+	}
+	public void setCiviliteLibellear(String civiliteLibellear) {
+		this.civiliteLibellear = civiliteLibellear;
+	}
+	public String getCiviliteAcronymear() {
+		return civiliteAcronymear;
+	}
+	public void setCiviliteAcronymear(String civiliteAcronymear) {
+		this.civiliteAcronymear = civiliteAcronymear;
+	}
+	
+	
+	
+
+}

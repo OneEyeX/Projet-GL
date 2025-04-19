@@ -1,0 +1,152 @@
+package com.xtensus.passosyf.gnl.entity;
+
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+ 
+
+
+@Entity
+@Table(name = "evenement")
+public class Evenement implements java.io.Serializable {
+
+ 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8169354749580590897L;
+	
+	
+	private Integer evenementId;
+		private String evenementLibelle;
+	private String evenementDescription;
+	private Boolean evenementSuppression;
+	private String evenementNomVariable;
+	private TypeEvenement typeEvenement;
+	/*private Admin admin; */
+
+private String evenementType;
+
+	public Evenement() {
+	}
+
+
+
+	
+
+	public Evenement(String evenementLibelle, String evenementDescription, Boolean evenementSuppression,
+			String evenementNomVariable, TypeEvenement typeEvenement, String evenementType) {
+		super();
+		this.evenementLibelle = evenementLibelle;
+		this.evenementDescription = evenementDescription;
+		this.evenementSuppression = evenementSuppression;
+		this.evenementNomVariable = evenementNomVariable;
+		this.typeEvenement = typeEvenement;
+		this.evenementType = evenementType;
+	}
+
+
+
+
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "evenementId", unique = true, nullable = false)
+	public Integer getEvenementId() {
+		return this.evenementId;
+	}
+
+	public void setEvenementId(Integer evenementId) {
+		this.evenementId = evenementId;
+	}
+
+/*	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "adminId")
+	public Admin getAdmin() {
+		return this.admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}*/
+
+	@Column(name = "evenementLibelle" )
+	public String getEvenementLibelle() {
+		return this.evenementLibelle;
+	}
+
+	public void setEvenementLibelle(String evenementLibelle) {
+		this.evenementLibelle = evenementLibelle;
+	}
+
+	@Column(name = "evenementDescription" )
+	public String getEvenementDescription() {
+		return this.evenementDescription;
+	}
+
+	public void setEvenementDescription(String evenementDescription) {
+		this.evenementDescription = evenementDescription;
+	}
+
+	@Column(name = "evenementSuppression")
+	public Boolean getEvenementSuppression() {
+		return this.evenementSuppression;
+	}
+
+	public void setEvenementSuppression(Boolean evenementSuppression) {
+		this.evenementSuppression = evenementSuppression;
+	}
+
+ 
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "typeEvenementId", nullable = false)
+	public TypeEvenement getTypeEvenement() {
+		return typeEvenement;
+	}
+
+	public void setTypeEvenement(TypeEvenement typeEvenement) {
+		this.typeEvenement = typeEvenement;
+	}
+
+	@Column(name = "evenementNomVariable" )
+	public String getEvenementNomVariable() {
+		return evenementNomVariable;
+	}
+	
+	public void setEvenementNomVariable(String evenementNomVariable) {
+		this.evenementNomVariable = evenementNomVariable;
+	}
+
+
+
+
+	@Column(name = "evenementType" )
+	public String getEvenementType() {
+		return evenementType;
+	}
+
+
+
+
+
+	public void setEvenementType(String evenementType) {
+		this.evenementType = evenementType;
+	}
+	
+	
+	
+	
+}

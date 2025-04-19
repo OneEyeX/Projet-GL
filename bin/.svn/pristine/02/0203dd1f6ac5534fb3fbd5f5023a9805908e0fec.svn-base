@@ -1,0 +1,100 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "typemembrecellulepassation")
+public class TypeMembreCellulePassation implements Serializable{
+
+	private static final long serialVersionUID = -675291663733886636L;
+	
+	private int typeMembreCellulePassationId;
+	private String typeMembreCellulePassationLibelle;
+	private String typeMembreCellulePassationDescription;
+	private int  typeMembreCellulePassationUnique;
+	private Etat etat;
+
+	
+	public TypeMembreCellulePassation(int typeMembreCellulePassationId,
+			String typeMembreCellulePassationLibelle,
+			String typeMembreCellulePassationDescription, Etat etat) {
+		super();
+		this.typeMembreCellulePassationId = typeMembreCellulePassationId;
+		this.typeMembreCellulePassationLibelle = typeMembreCellulePassationLibelle;
+		this.typeMembreCellulePassationDescription = typeMembreCellulePassationDescription;
+		this.etat = etat;
+	}
+
+	public TypeMembreCellulePassation() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "typeMembreCellulePassationId", unique = true, nullable = false)
+	public int getTypeMembreCellulePassationId() {
+		return typeMembreCellulePassationId;
+	}
+
+	public void setTypeMembreCellulePassationId(int typeMembreCellulePassationId) {
+		this.typeMembreCellulePassationId = typeMembreCellulePassationId;
+	}
+
+	
+	
+	
+	
+	
+
+	@Column(name = "typeMembreCellulePassationLibelle")
+	public String getTypeMembreCellulePassationLibelle() {
+		return typeMembreCellulePassationLibelle;
+	}
+
+	public void setTypeMembreCellulePassationLibelle(
+			String typeMembreCellulePassationLibelle) {
+		this.typeMembreCellulePassationLibelle = typeMembreCellulePassationLibelle;
+	}
+
+	@Column(name = "typeMembreCellulePassationDescription")
+	public String getTypeMembreCellulePassationDescription() {
+		return typeMembreCellulePassationDescription;
+	}
+
+	public void setTypeMembreCellulePassationDescription(
+			String typeMembreCellulePassationDescription) {
+		this.typeMembreCellulePassationDescription = typeMembreCellulePassationDescription;
+	}
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="etatId",insertable=true,updatable=true)
+	public Etat getEtat() {
+		return etat;
+	}
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
+	
+	
+	@Column(name = "typeMembreCellulePassationUnique")
+	public void setTypeMembreCellulePassationUnique(
+			int typeMembreCellulePassationUnique) {
+		this.typeMembreCellulePassationUnique = typeMembreCellulePassationUnique;
+	}
+
+	public int getTypeMembreCellulePassationUnique() {
+		return typeMembreCellulePassationUnique;
+	}
+
+}

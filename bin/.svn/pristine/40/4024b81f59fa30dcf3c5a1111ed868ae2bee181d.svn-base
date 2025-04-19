@@ -1,0 +1,20 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+import java.util.Set;
+
+import com.xtensus.passosyf.entities.Document;
+
+public interface DocumentService {
+	
+	public Document save(Document document,String typeUlpoad);
+	public Document update(Document document,Integer idDocu);
+	public void delete(Integer id);
+	public List<Document> listDocumentsByReunion(Integer reunionId, boolean deleteFlag,
+			int catgDoc);
+	public Set<Document> listDocumentsBySalle(Integer salleId);
+	public Document getDocumentById(Integer id);
+
+	
+
+}

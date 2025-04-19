@@ -1,0 +1,55 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.Equipement;
+import com.xtensus.passosyf.repositories.EquipementRepository;
+import com.xtensus.passosyf.services.EquipementService;
+
+@Service
+public class EquipementServiceImpl implements EquipementService{
+
+	@Autowired
+	private EquipementRepository equipementDao;
+	
+	@Override
+	public Iterable<Equipement> findAll() {
+		
+		return equipementDao.findAll();
+	}
+
+	@Override
+	public Iterable<Equipement> findAllById(Iterable<Integer> ids) {
+		
+		return equipementDao.findAllById(ids);
+	}
+
+	@Override
+	public Equipement save(Equipement equipement) {
+		// TODO Auto-generated method stub
+		return equipementDao.save(equipement);
+		
+	}
+
+	@Override
+	public void delete(Equipement equipement) {
+		// TODO Auto-generated method stub
+		equipementDao.delete(equipement);
+	}
+
+	@Override
+	public void deleteById(int id) {
+		// TODO Auto-generated method stub
+		equipementDao.deleteById(id);
+	}
+
+	@Override
+	public Optional<Equipement> findById(int id) {
+		// TODO Auto-generated method stub
+		return equipementDao.findById(id);
+	}
+
+}

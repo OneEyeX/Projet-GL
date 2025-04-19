@@ -1,0 +1,56 @@
+package com.xtensus.passosyf.repositories;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.xtensus.passosyf.entities.Reunion;
+import com.xtensus.passosyf.utils.StatistiqueModel;
+
+
+public interface ReunionRepository extends JpaRepository<Reunion, Integer> {
+
+	Iterable<Reunion> findByReunionObjet(String s);
+
+	Iterable<Reunion> findByReunionResume(String s);
+
+	Iterable<Reunion> findBySalleSalleId(int s);
+
+	@Query(value = "Select r From Reunion r where r.salle.salleId=:id and"
+			+ "	((Year((:dateSelected))=Year(r.reunionDateDebutPrevu) or"
+			+ "	Year((:dateSelected))=Year(r.reunionDateFinPrevu)) and"
+			+ "	(Month((:dateSelected)) = Month(r.reunionDateDebutPrevu) or"
+			+ "	Month((:dateSelected))=Year(r.reunionDateFinPrevu))"
+			+ "	and ((Day((:dateSelected)) = Day(r.reunionDateDebutPrevu) or"
+			+ "	Day((:dateSelected)) > Day(r.reunionDateDebutPrevu)) and"
+			+ "	(Day((:dateSelected)) = Day(r.reunionDateFinPrevu)"
+			+ "	or Day((:dateSelected)) < Day(r.reunionDateFinPrevu))))")
+	Iterable<Reunion> listeReunionsBySalleIdAndDates(@Param(value = "id") int id, @Param(value = "dateSelected") Date dateSelected);
+	
+	
+	@Modifying
+	@Transactional
+	@Query(value = "Delete FROM ParticipantReunion p where p.reunion.reunionId=:reunionId")
+	void deleteParticipantReunionByIDReunion(@Param(value = "reunionId") int id);
+	
+	
+	
+	@Query(name = "getStatistiqueNbrReunionAnnee", nativeQuery = true)
+	List<StatistiqueModel> getStatistiqueReunion( @Param(value = "years") Integer years );
+
+	 
+	@Query(name = "getStatistiqueEtat", nativeQuery = true)
+	List<StatistiqueModel> getStatistiqueParEtat( @Param(value = "years") Integer years );
+	
+	
+	@Query(name = "getStatistiqueEtatAr", nativeQuery = true)
+	List<StatistiqueModel> getStatistiqueParEtatAr( @Param(value = "years") Integer years );
+
+	 
+}

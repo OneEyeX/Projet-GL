@@ -1,0 +1,268 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.Commission;
+import com.xtensus.passosyf.entities.DomaineActivite;
+import com.xtensus.passosyf.entities.Etat;
+import com.xtensus.passosyf.entities.Membre;
+import com.xtensus.passosyf.entities.MembreCellulePassation;
+import com.xtensus.passosyf.entities.MembreCommissionMarche;
+import com.xtensus.passosyf.entities.TypeMembreCellulePassation;
+import com.xtensus.passosyf.entities.TypeMembreCommissionMarche;
+import com.xtensus.passosyf.repositories.CommissionRepository;
+import com.xtensus.passosyf.repositories.CommissionTypeRepository;
+import com.xtensus.passosyf.repositories.DomaineActiviteRepository;
+import com.xtensus.passosyf.repositories.EtatRepository;
+import com.xtensus.passosyf.repositories.MembreCellulePassationRepository;
+import com.xtensus.passosyf.repositories.MembreCommissionMarcheRepository;
+import com.xtensus.passosyf.repositories.MembreTypeRepository;
+import com.xtensus.passosyf.repositories.TypeMembreCellulePassationRepository;
+import com.xtensus.passosyf.repositories.TypeMembreCommissionMarcheRepository;
+import com.xtensus.passosyf.services.CommissionService;
+import com.xtensus.passosyf.utils.CommissionAffectationMembreModel;
+import com.xtensus.passosyf.utils.MembreAffecteCommission;
+import com.xtensus.passosyf.repositories.CommissionMarcheRepository;
+import com.xtensus.passosyf.repositories.CellulePassationRepository;
+
+@Service
+@Transactional
+public  class CommissionServiceImpl implements CommissionService {
+	
+	//Repository
+	private CommissionRepository CommissionRepository;
+	private EtatRepository etatRepository;
+	private DomaineActiviteRepository domaineActiviteRepository;
+	private MembreTypeRepository membreTypeRepository;
+	private MembreCommissionMarcheRepository membrecommissionMarcheRepository;
+	private  MembreCellulePassationRepository membreCellulePassationRepository;
+	private TypeMembreCellulePassationRepository typeMembreCellulePassationRepository;
+	private TypeMembreCommissionMarcheRepository typeMembreCommissionMarcheRepository;
+	private CommissionMarcheRepository CommissionMarcheRepository;
+	private MembreCommissionMarche membreCommissionMarche=new MembreCommissionMarche();
+	private Date dateFinAffectation;
+	private Date dateAffectationDate ;
+	private Date dateAffectation;
+	private Membre membre=new Membre();
+	private CellulePassationRepository cellulePassationRepository;
+	 private MembreCellulePassation membreCellulePassation=new MembreCellulePassation();
+	
+	 List<MembreCommissionMarche> listMembresAffectesCam=new ArrayList<MembreCommissionMarche>();
+	private List<MembreCellulePassation> listMembresAffectesCp=new ArrayList<MembreCellulePassation>();
+
+	
+	public CommissionServiceImpl(CommissionRepository CommissionRepository,
+			DomaineActiviteRepository domaineActiviteRepository,
+			EtatRepository etatRepository,MembreTypeRepository membreTypeRepository,
+			MembreCommissionMarcheRepository membrecommissionMarcheRepository,
+			MembreCellulePassationRepository membreCellulePassationRepository,
+			TypeMembreCellulePassationRepository typeMembreCellulePassationRepository,
+			TypeMembreCommissionMarcheRepository typeMembreCommissionMarcheRepository,
+			CommissionMarcheRepository CommissionMarcheRepository,CellulePassationRepository cellulePassationRepository) {
+		this.CommissionRepository=CommissionRepository;
+		this.etatRepository=etatRepository;
+		this.domaineActiviteRepository=domaineActiviteRepository;
+		this.membreTypeRepository=membreTypeRepository;
+		this.membrecommissionMarcheRepository=membrecommissionMarcheRepository;
+		this.membreCellulePassationRepository=membreCellulePassationRepository;
+		this.typeMembreCellulePassationRepository=typeMembreCellulePassationRepository;
+		this.typeMembreCommissionMarcheRepository=typeMembreCommissionMarcheRepository;
+		this.CommissionMarcheRepository=CommissionMarcheRepository;
+		this.cellulePassationRepository=cellulePassationRepository;
+	}
+
+	@Override
+	public Commission save(Commission commission) {
+		//Etat
+		Optional<Etat> etat=etatRepository.findById(51);
+		System.out.println("affiche etat =================> "+etat);
+		commission.setEtatId(etat.get());
+		return CommissionRepository.save(commission);
+	}
+
+	@Override
+	public Commission update(Commission commission,int id) {
+		// TODO Auto-generated method stub
+		System.out.println("commission "+commission);
+		System.out.println("commission type "+commission.getCommissionType());
+		Optional<Etat> etat=etatRepository.findById(51);
+								   
+		commission.setCommissionReference(id);
+		commission.setEtatId(etat.get());
+		return CommissionRepository.save(commission);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		CommissionRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Commission> listCommission() {
+		// TODO Auto-generated method stub
+		return CommissionRepository.findAll();
+	}
+
+	@Override
+	public Commission getCommissionById(Integer id) {
+		// TODO Auto-generated method stub
+		System.out.println("valeur ID "+id);
+		System.out.println("############# "+CommissionRepository.findById(id).get());
+		return CommissionRepository.findById(id).get();
+	}
+	public Date calculDateFin(Date dateDebut) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateDebut);
+		cal.add(Calendar.YEAR, 1); // to get previous year add -1
+		Date dateAffecttation = cal.getTime();
+		
+		return dateAffecttation; 
+		
+		
+		}
+	@Override
+	public void affectationMembreCommission(CommissionAffectationMembreModel commissionAffectationMembreModel) {
+		// TODO Auto-generated method stub
+		boolean statusSucces=false;
+		int nbreMembreCAM=0;
+		int nbreMembreCP=0;
+		String selectedPosteCP="";
+		String selectedPosteCM="";
+		String selectedDomaineActivite="";
+
+		//si CAM
+		Commission commission=commissionAffectationMembreModel.getCommission();
+		if(commissionAffectationMembreModel.getSelectedDomaineActivite()!=null) {
+		 selectedDomaineActivite=commissionAffectationMembreModel.getSelectedDomaineActivite().getDomaineActiviteLibelle();
+		}
+		membre=commissionAffectationMembreModel.getMembre();
+		dateAffectation=commissionAffectationMembreModel.getDateAffectation();
+		if(commissionAffectationMembreModel.getSelectedPosteCP()!=null) {
+		 selectedPosteCP=commissionAffectationMembreModel.getSelectedPosteCP().getTypeMembreCellulePassationLibelle();
+		}
+		if(commissionAffectationMembreModel.getSelectedPosteCM()!=null) {
+			 selectedPosteCM=commissionAffectationMembreModel.getSelectedPosteCM().getTypeMembreCommissionMarcheLibelle();
+
+		}
+		System.out.println("type Commission  "+commission.getCommissionType().getCommissionTypeLibelle());
+		if(commission.getCommissionType().getCommissionTypeReference()==1) {
+			try {
+				System.out.println("selectedDomaineActivite ###"+selectedDomaineActivite);
+				membreCommissionMarche=new MembreCommissionMarche();
+			DomaineActivite domaine = domaineActiviteRepository.findByDomaineActiviteLibelle(selectedDomaineActivite);
+			membreCommissionMarche.setDomaineActivite(domaine);
+			membreCommissionMarche.setMembreCommissionMarcheDateAffectation(dateAffectation);
+			dateFinAffectation=calculDateFin(dateAffectation);
+			membreCommissionMarche.setMembreCommissionMarcheDateFinAffectation(dateFinAffectation);
+			membreCommissionMarche.setCommission(commission);
+			
+			membreCommissionMarche.setCommissionMarche(CommissionMarcheRepository.findById(3).get());
+			
+			//poste : table typemembrecommissionmarche
+			TypeMembreCommissionMarche camp = typeMembreCommissionMarcheRepository.findByTypeMembreCommissionMarcheLibelle(selectedPosteCM);
+			membreCommissionMarche.setTypeMembreMarche(camp);
+			membreCommissionMarche.setMembre(membre);	
+			nbreMembreCAM=nbreMembreCAM+1;
+			
+			listMembresAffectesCam=membrecommissionMarcheRepository.getListeMembreAffecteCommissionMarche(commission.getCommissionReference());
+			if(listMembresAffectesCam!=null && listMembresAffectesCam.size()>0) {
+				commission.setCommissionNbrMembres(listMembresAffectesCam.size()+nbreMembreCAM);
+			}else {
+				commission.setCommissionNbrMembres(nbreMembreCAM);
+
+			}
+			//save Commission Marche
+			membrecommissionMarcheRepository.save(membreCommissionMarche);
+			
+			//update commission
+			commission.setEtatId(commission.getEtatId());
+			CommissionRepository.save(commission);
+			
+					 
+			}catch (Exception e) {
+				e.printStackTrace();
+				
+			}
+		//si CP
+			
+		}else {
+			try{
+		membreCellulePassation.setCommission(commission);
+		membreCellulePassation.setMembreCellulePassationDateAffectation(dateAffectation);
+		dateAffectation=calculDateFin(dateAffectation);
+		membreCellulePassation.setMembreCellulePassationDateFinAffectation(dateAffectation);
+		
+		
+		//poste : table typemembrecellulepassation
+		System.out.println("##############  ############## "+selectedPosteCP);
+		TypeMembreCellulePassation camp = typeMembreCellulePassationRepository.findByTypeMembreCellulePassationLibelle(selectedPosteCP);
+		membreCellulePassation.setTypeMembrePassation(camp);
+		membreCellulePassation.setCellulePassation(cellulePassationRepository.findById(1).get());
+		membreCellulePassation.setMembre(membre);
+		nbreMembreCP=nbreMembreCP+1;
+		listMembresAffectesCp=membreCellulePassationRepository.getListeMembreAffecteCellulePasassion(commission.getCommissionReference());
+		if(listMembresAffectesCp!=null && listMembresAffectesCp.size()>0) {
+			commission.setCommissionNbrMembres(listMembresAffectesCp.size()+nbreMembreCP);
+		}else {
+			commission.setCommissionNbrMembres(nbreMembreCP);
+
+		}
+		membreCellulePassationRepository.save(membreCellulePassation);
+		commission.setEtatId(commission.getEtatId());
+
+		CommissionRepository.save(commission);
+
+			}catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		
+		
+	}
+
+	public TypeMembreCommissionMarcheRepository getTypeMembreCommissionMarcheRepository() {
+		return typeMembreCommissionMarcheRepository;
+	}
+
+	public void setTypeMembreCommissionMarcheRepository(TypeMembreCommissionMarcheRepository typeMembreCommissionMarcheRepository) {
+		this.typeMembreCommissionMarcheRepository = typeMembreCommissionMarcheRepository;
+	}
+
+	@Override
+	public List<MembreCommissionMarche> getListeMembreAffecteCommissionMarche(int id) {
+		// TODO Auto-generated method stub
+		return membrecommissionMarcheRepository.getListeMembreAffecteCommissionMarche(id);
+	}
+
+	@Override
+	public List<MembreCellulePassation> getListeMembreAffecteCellulePasassion(int id) {
+		// TODO Auto-MembreCommissionMarche method stub
+		return membreCellulePassationRepository.getListeMembreAffecteCellulePasassion(id);
+	}
+
+	@Override
+	public void desaffectationMembreCommissionMarche(int membresCMId , int commissionId) {
+		
+		membrecommissionMarcheRepository.deleteMembreCommissionMarche(membresCMId);
+		//update dans la table commisssion 
+		CommissionRepository.updatecommission(commissionId);
+		
+	}
+	
+	public void desaffectationMembreCellulePassation(int membresCPId ) {
+			//if CP ==> Supp membreCellulePasation
+		membreCellulePassationRepository.deleteMembreCellulePasation(membresCPId);
+	
+	
+	}
+
+}

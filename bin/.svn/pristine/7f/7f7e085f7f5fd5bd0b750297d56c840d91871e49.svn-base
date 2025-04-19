@@ -1,0 +1,54 @@
+package com.xtensus.passosyf.servicesImp;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.Civilite;
+import com.xtensus.passosyf.repositories.CivilityRepository;
+import com.xtensus.passosyf.services.CiviliteService;
+
+
+@Service
+public class CiviliteServiceImpl implements CiviliteService{
+	
+	@Autowired
+	CivilityRepository civiliteDao;
+
+	@Override
+	public Iterable<Civilite> findAll() {
+		// TODO Auto-generated method stub
+		return civiliteDao.findAll();
+	}
+
+	@Override
+	public Iterable<Civilite> findAllById(Iterable<Integer> ids) {
+		// TODO Auto-generated method stub
+		return civiliteDao.findAllById(ids);
+	}
+
+	@Override
+	public Civilite save(Civilite civilite) {
+		// TODO Auto-generated method stub
+		return civiliteDao.save(civilite);
+		
+	}
+
+	@Override
+	public void delete(Civilite civilite) {
+		// TODO Auto-generated method stub
+		civiliteDao.delete(civilite);
+	}
+
+	@Override
+	public void deleteById(int id) {
+		// TODO Auto-generated method stub
+		civiliteDao.deleteById(id);
+	}
+	
+	@Override
+	public Civilite findById(Integer id) {
+		// TODO Auto-generated method stub
+		return civiliteDao.findById(id).get();
+	}
+
+}

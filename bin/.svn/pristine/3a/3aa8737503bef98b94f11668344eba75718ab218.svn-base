@@ -1,0 +1,62 @@
+package com.xtensus.passosyf.controllers;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.MembreType;
+import com.xtensus.passosyf.services.MembreTypeService;
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping(path = "/api/v1")
+
+public class MembreTypeController {
+	
+	private MembreTypeService membreTypeService;
+	public MembreTypeController(MembreTypeService membreTypeService) {
+		this.membreTypeService=membreTypeService;
+	}
+	
+	
+	@GetMapping(path = "getAllMembreType")
+	public ResponseEntity<Iterable<MembreType>> getAllMembreType(){	
+		Iterable<MembreType> types=membreTypeService.ListTypeMembres();
+		return new ResponseEntity<>(types,HttpStatus.OK);
+	}
+	
+	@PostMapping(path = "addMembreType")
+	public ResponseEntity<MembreType> save(@RequestBody MembreType membreType) {		
+		MembreType typeMembres=membreTypeService.save(membreType);
+		return new ResponseEntity<>(typeMembres,HttpStatus.CREATED);
+	}
+	
+	@GetMapping(path = "findMembreType/{ref}")
+	public MembreType getMembreTypeByRef(@PathVariable(name = "ref") Integer ref){
+		System.out.println("ref" +ref);
+		return membreTypeService.getMembreTypeById(ref);
+	}
+	
+	@DeleteMapping(path = "deleteMembreType/{id}")
+	public void delete(@PathVariable(name = "id") Integer id) {		
+		membreTypeService.delete(id);
+	}
+
+	 @PutMapping("/updateMembreType/{id}")
+	    public ResponseEntity<MembreType> updateEmployee(@RequestBody MembreType membreType,@PathVariable(name = "id") Integer id) {
+		 MembreType updateTypeMembre = membreTypeService.update(membreType,id);
+	        return new ResponseEntity<>(updateTypeMembre, HttpStatus.OK);
+	    }
+	
+	
+	
+}

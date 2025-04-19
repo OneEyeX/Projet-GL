@@ -1,0 +1,123 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "membrecellulepassation")
+public class MembreCellulePassation  implements Serializable {
+
+	private static final long serialVersionUID = -3661554288848296630L;
+
+	private int membreCellulePassationId;
+	private Membre membre;
+	private CellulePassation cellulePassation;
+	private Date membreCellulePassationDateAffectation;
+	private Date membreCellulePassationDateFinAffectation;
+	private TypeMembreCellulePassation typeMembrePassation;
+	private Commission commission;
+	
+	
+	
+	
+	
+	
+	public MembreCellulePassation() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public MembreCellulePassation(int membreCellulePassationId, Membre membre,Commission commission,
+//			CellulePassation cellulePassation,
+			Date membreCellulePassationDateAffectation,
+			Date membreCellulePassationDateFinAffectation,
+			TypeMembreCellulePassation typeMembreCellulePassation) {
+		super();
+		this.membreCellulePassationId = membreCellulePassationId;
+		this.membre = membre;
+		this.cellulePassation = cellulePassation;
+		this.membreCellulePassationDateAffectation = membreCellulePassationDateAffectation;
+		this.membreCellulePassationDateFinAffectation = membreCellulePassationDateFinAffectation;
+		this.commission=commission;
+		//this.typeMembreCellulePassation = typeMembreCellulePassation;
+	}
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "membreCellulePassationId", unique = true, nullable = false)
+	public int getMembreCellulePassationId() {
+		return membreCellulePassationId;
+	}
+	public void setMembreCellulePassationId(int membreCellulePassationId) {
+		this.membreCellulePassationId = membreCellulePassationId;
+	}
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="typeMembreCellulePassationId",insertable=true,updatable=true)
+	public TypeMembreCellulePassation getTypeMembrePassation() {
+		return typeMembrePassation;
+	}
+
+	public void setTypeMembrePassation(
+			TypeMembreCellulePassation typeMembrePassation) {
+		this.typeMembrePassation = typeMembrePassation;
+	}
+
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="membreId",insertable=true,updatable=true)
+	public Membre getMembre() {
+		return membre;
+	}
+	public void setMembre(Membre membre) {
+		this.membre = membre;
+	}
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="cellulePassationId",insertable=true,updatable=true)
+	public CellulePassation getCellulePassation() {
+		return cellulePassation;
+	}
+	public void setCellulePassation(CellulePassation cellulePassation) {
+		this.cellulePassation = cellulePassation;
+	}
+	
+	@Column(name = "membreCellulePassationDateAffectation")
+	public Date getMembreCellulePassationDateAffectation() {
+		return membreCellulePassationDateAffectation;
+	}
+	public void setMembreCellulePassationDateAffectation(
+			Date membreCellulePassationDateAffectation) {
+		this.membreCellulePassationDateAffectation = membreCellulePassationDateAffectation;
+	}
+	@Column(name = "membreCellulePassationDateFinAffectation")
+	public Date getMembreCellulePassationDateFinAffectation() {
+		return membreCellulePassationDateFinAffectation;
+	}
+	public void setMembreCellulePassationDateFinAffectation(
+			Date membreCellulePassationDateFinAffectation) {
+		this.membreCellulePassationDateFinAffectation = membreCellulePassationDateFinAffectation;
+	}
+
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "commissionReference", insertable = true, updatable = true)
+	public Commission getCommission() {
+		return commission;
+	}
+
+	public void setCommission(Commission commission) {
+		this.commission = commission;
+	}
+	
+}

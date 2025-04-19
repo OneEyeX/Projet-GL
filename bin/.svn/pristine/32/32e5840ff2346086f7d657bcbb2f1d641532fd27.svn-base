@@ -1,0 +1,43 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.TypeMembreCellulePassation;
+import com.xtensus.passosyf.repositories.TypeMembreCellulePassationRepository;
+import com.xtensus.passosyf.services.TypeMembreCellulePassationService;
+
+@Service
+public class TypeMembreCellulePassationServiceImpl implements TypeMembreCellulePassationService {
+	
+	@Autowired
+	private TypeMembreCellulePassationRepository typeMembreCPRepository;
+
+	@Override
+	public TypeMembreCellulePassation save(TypeMembreCellulePassation typeMembreCP) {
+		// TODO Auto-generated method stub
+		return typeMembreCPRepository.save(typeMembreCP);
+	}
+
+	@Override
+	public TypeMembreCellulePassation update(Integer idTypeMembreCP,TypeMembreCellulePassation typeMembreCP) {
+		// TODO Auto-generated method stub
+		typeMembreCP.setTypeMembreCellulePassationId(idTypeMembreCP);
+		return typeMembreCPRepository.save(typeMembreCP);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		 typeMembreCPRepository.deleteById(id);
+	}
+
+	@Override
+	public List<TypeMembreCellulePassation> ListTypeMembreCellulePassation() {
+		// TODO Auto-generated method stub
+		return typeMembreCPRepository.findAll();
+	}
+
+}

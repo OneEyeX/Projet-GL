@@ -1,0 +1,29 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.Reunion;
+import com.xtensus.passosyf.repositories.ReunionRepository;
+import com.xtensus.passosyf.services.PlanningSalleService;
+
+@Service
+public class PlanningSalleServiceImpl implements PlanningSalleService{
+
+	
+	@Autowired
+	ReunionRepository reunionRepository;
+	
+	@Override
+	public Iterable<Reunion> listeReunionsBySalleIdAndDates(int id, Date dateSelected) {
+		return reunionRepository.listeReunionsBySalleIdAndDates(id, dateSelected);
+	}
+	
+	@Override
+	public Iterable<Reunion> listereunionBySalleId(int salleId) {
+		return reunionRepository.findBySalleSalleId(salleId);
+	}
+
+}

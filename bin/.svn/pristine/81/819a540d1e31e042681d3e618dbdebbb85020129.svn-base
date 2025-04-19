@@ -1,0 +1,54 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.ReunionType;
+import com.xtensus.passosyf.repositories.ReunionTypeRepository;
+import com.xtensus.passosyf.services.ReunionTypeService;
+
+@Service
+public class ReunionTypeServiceImpl implements ReunionTypeService{
+
+	@Autowired
+	ReunionTypeRepository reunionTypeDao;
+	
+	
+//	@Autowired
+//	private ReunionTypeDao reunionTypeDao;
+
+	public List<ReunionType> findAllReunionTypes() {
+		// TODO Auto-generated method stub
+		return reunionTypeDao.findAll();
+	}
+
+	public void saveReunionTypes(ReunionType reunionType) {
+		// TODO Auto-generated method stub
+		reunionTypeDao.save(reunionType);
+	}
+
+	public void editReunionTypes(ReunionType reunionType) {
+		// TODO Auto-generated method stub
+		reunionTypeDao.save(reunionType);
+	}
+
+	public void deleteReunionTypes(ReunionType reunionType) {
+		// TODO Auto-generated method stub
+		reunionTypeDao.delete(reunionType);
+	}
+
+	public ReunionType findById(int id){
+	return 	reunionTypeDao.findById(id).get();
+	}
+
+	@Override
+	public void deleteReunionTypes(int id) {
+		reunionTypeDao.deleteById(id);
+		
+	}
+	
+	
+	
+}

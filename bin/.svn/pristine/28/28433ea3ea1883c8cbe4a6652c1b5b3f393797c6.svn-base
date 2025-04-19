@@ -1,0 +1,78 @@
+package com.xtensus.passosyf.utils;
+
+import java.util.Date;
+
+public class MembreAffecteCommission {
+
+	private int reference;
+	private String nomMembre;
+	private String prenomMembre;
+	private String domaineActivite;
+	private String poste;
+	private Date dateAffectation;
+	private Date datefinAffectation;
+
+	public MembreAffecteCommission(){
+		
+	}
+
+	public int getReference() {
+		return reference;
+	}
+
+	public void setReference(int reference) {
+		this.reference = reference;
+	}
+
+	public String getNomMembre() {
+		return nomMembre;
+	}
+
+	public void setNomMembre(String nomMembre) {
+		this.nomMembre = nomMembre;
+	}
+
+	public String getPrenomMembre() {
+		return prenomMembre;
+	}
+
+	public void setPrenomMembre(String prenomMembre) {
+		this.prenomMembre = prenomMembre;
+	}
+
+	public String getDomaineActivite() {
+		return domaineActivite;
+	}
+
+	public void setDomaineActivite(String domaineActivite) {
+		this.domaineActivite = domaineActivite;
+	}
+
+	public String getPoste() {
+		return poste;
+	}
+
+	public void setPoste(String poste) {
+		this.poste = poste;
+	}
+
+	public Date getDateAffectation() {
+		return dateAffectation;
+	}
+
+	public void setDateAffectation(Date dateAffectation) {
+		this.dateAffectation = dateAffectation;
+	}
+
+	public Date getDatefinAffectation() {
+		return datefinAffectation;
+	}
+
+	public void setDatefinAffectation(Date datefinAffectation) {
+		this.datefinAffectation = datefinAffectation;
+	}
+	
+	
+	
+	
+}

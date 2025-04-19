@@ -1,0 +1,17 @@
+package com.xtensus.passosyf.utils;
+
+import com.xtensus.passosyf.entities.Document;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class DocumentModel {
+	
+	private  Document document;
+	public String idAlfresco;
+
+}

@@ -1,0 +1,57 @@
+package com.xtensus.passosyf.servicesImp;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.DocumentCategorie;
+import com.xtensus.passosyf.entities.DocumentTypeCategorie;
+import com.xtensus.passosyf.repositories.DocumentCategorieRepository;
+import com.xtensus.passosyf.services.DocumentCategorieService;
+
+
+@Service
+public class DocumentCategorieServiceImpl implements DocumentCategorieService {
+
+	
+	
+	@Autowired
+	private DocumentCategorieRepository documentCategorieDao;
+
+	@Override
+	public Iterable<DocumentCategorie> findAll() {
+		// TODO Auto-generated method stub
+		return documentCategorieDao.findAll();
+	}
+
+	@Override
+	public Iterable<DocumentCategorie> findAllById(Iterable<Integer> ids) {
+		// TODO Auto-generated method stub
+		return documentCategorieDao.findAllById(ids);
+	}
+
+	@Override
+	public void save(DocumentCategorie documentCategorie) {
+		// TODO Auto-generated method stub
+		documentCategorieDao.save(documentCategorie);
+	}
+
+	@Override
+	public void delete(Integer documentCategorie) {
+		// TODO Auto-generated method stub
+		documentCategorieDao.deleteById(documentCategorie);
+	}
+
+	@Override
+	public Iterable<DocumentCategorie> findDocumentCategorieByType( DocumentTypeCategorie documentTypeCategorie ) {
+		return documentCategorieDao.findDocumentCategorieByType(documentTypeCategorie);
+	}
+	
+	@Override
+	public DocumentCategorie findByDocumentCategorieId(int i) {
+		// TODO Auto-generated method stub
+		return documentCategorieDao.findById(i).get();
+	}
+
+}

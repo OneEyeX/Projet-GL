@@ -1,0 +1,68 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "participantreunion")
+public class ParticipantReunion  implements java.io.Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer participantReunionId;
+	private Membre membre;
+	private Reunion reunion;
+	private boolean membrePresence;
+	
+	private ParticipantType typeParticipant;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "participantReunionId", unique = true, nullable = false)
+	public Integer getParticipantReunionId() {
+		return participantReunionId;
+	}
+	public void setParticipantReunionId(Integer participantReunionId) {
+		this.participantReunionId = participantReunionId;
+	}
+	@ManyToOne
+	@JoinColumn(name="membreId",referencedColumnName = "membreId")
+	public Membre getMembre() {
+		return membre;
+	}
+	public void setMembre(Membre membre) {
+		this.membre = membre;
+	}
+	@ManyToOne
+	@JoinColumn(name="reunionId",referencedColumnName = "reunionId")
+	public Reunion getReunion() {
+		return reunion;
+	}
+	public void setReunion(Reunion reunion) {
+		this.reunion = reunion;
+	}
+	
+	@Column(name = "membrePresence")
+	public boolean isMembrePresence() {
+		return membrePresence;
+	}
+	public void setMembrePresence(boolean membrePresence) {
+		this.membrePresence = membrePresence;
+	}
+	@ManyToOne
+	@JoinColumn(name="participantTypeId",referencedColumnName = "participantTypeId")
+	public ParticipantType getTypeParticipant() {
+		return typeParticipant;
+	}
+	public void setTypeParticipant(ParticipantType typeParticipant) {
+		this.typeParticipant = typeParticipant;
+	}
+
+}

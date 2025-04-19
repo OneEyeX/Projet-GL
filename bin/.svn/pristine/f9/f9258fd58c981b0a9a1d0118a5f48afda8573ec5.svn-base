@@ -1,0 +1,13 @@
+package com.xtensus.passosyf.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.xtensus.passosyf.entities.Equipement;
+
+
+
+@Repository
+public interface EquipementRepository  extends JpaRepository<Equipement, Integer>{
+
+}

@@ -1,0 +1,17 @@
+package com.xtensus.passosyf.gnl.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.xtensus.passosyf.gnl.entity.Templatelog;
+ 
+
+@Repository
+public interface TemplatelogRepository extends JpaRepository<Templatelog, Integer > {
+	//listTemplateLogByLog    xtelog
+	
+	public List<Templatelog> findByXtelogLogId(Integer xteLog) ; 
+
+}

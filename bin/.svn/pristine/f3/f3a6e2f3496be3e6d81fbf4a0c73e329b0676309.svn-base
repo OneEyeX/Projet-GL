@@ -1,0 +1,280 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "autoritecontractante")
+public class AutoriteContractante  implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1435532088761267302L;
+	private int autoriteContractanteId;
+	private String autoriteContractanteLibelle;
+	private String autoriteContractanteInitiale;
+	private String autoriteContractanteResponsable;
+	private String autoriteContractanteAdresse;
+	private String autoriteContractanteTelephone;
+	private String autoriteContractanteFax;
+	private String autoriteContractanteAdresseMail;
+	private String autoriteContractanteSiteWeb;
+
+	//c'est l'autorité parente
+	private AutoriteContractante autoriteContractanteParent;
+	
+	//c'est l'Autorité Racine du premier niveau
+	private AutoriteContractante autoriteContractanteRacine;
+	
+	// le premier noeud de type Autorité
+	private AutoriteContractante autoriteContractanteAutoriteMere;
+	
+	// private List<PlanPassationMarche> listPlanPassationMarche;
+	private AutoriteContractanteType autoriteContractanteType;
+	// private int autoriteContractanteTypeId;
+	private String autoriteContractanteDescription;
+	private boolean supprime;
+	private Date dateSupprime;
+	public AutoriteContractante() {
+		super();
+	}
+
+	public AutoriteContractante(int autoriteContractanteId,
+			String autoriteContractanteLibelle,
+			String autoriteContractanteInitiale,
+			String autoriteContractanteResponsable,
+			String autoriteContractanteAdresse,
+			String autoriteContractanteTelephone,
+			String autoriteContractanteFax,
+			String autoriteContractanteAdresseMail,
+			String autoriteContractanteSiteWeb,
+			String autoriteContractanteDescription) {
+		super();
+		this.autoriteContractanteId = autoriteContractanteId;
+		this.autoriteContractanteLibelle = autoriteContractanteLibelle;
+		this.autoriteContractanteInitiale = autoriteContractanteInitiale;
+		this.autoriteContractanteResponsable = autoriteContractanteResponsable;
+		this.autoriteContractanteAdresse = autoriteContractanteAdresse;
+		this.autoriteContractanteTelephone = autoriteContractanteTelephone;
+		this.autoriteContractanteFax = autoriteContractanteFax;
+		this.autoriteContractanteAdresseMail = autoriteContractanteAdresseMail;
+		this.autoriteContractanteSiteWeb = autoriteContractanteSiteWeb;
+		this.autoriteContractanteDescription = autoriteContractanteDescription;
+	}
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "autoriteContractanteId", unique = true, nullable = false)
+	public int getAutoriteContractanteId() {
+		return autoriteContractanteId;
+	}
+
+	public void setAutoriteContractanteId(int autoriteContractanteId) {
+		this.autoriteContractanteId = autoriteContractanteId;
+	}
+
+	@Column(name = "autoriteContractanteLibelle")
+	public String getAutoriteContractanteLibelle() {
+		return autoriteContractanteLibelle;
+	}
+
+	public void setAutoriteContractanteLibelle(
+			String autoriteContractanteLibelle) {
+		this.autoriteContractanteLibelle = autoriteContractanteLibelle;
+	}
+
+	@Column(name = "autoriteContractanteInitiale")
+	public String getAutoriteContractanteInitiale() {
+		return autoriteContractanteInitiale;
+	}
+
+	public void setAutoriteContractanteInitiale(
+			String autoriteContractanteInitiale) {
+		this.autoriteContractanteInitiale = autoriteContractanteInitiale;
+	}
+
+	@Column(name = "autoriteContractanteResponsable")
+	public String getAutoriteContractanteResponsable() {
+		return autoriteContractanteResponsable;
+	}
+
+	public void setAutoriteContractanteResponsable(
+			String autoriteContractanteResponsable) {
+		this.autoriteContractanteResponsable = autoriteContractanteResponsable;
+	}
+
+	@Column(name = "autoriteContractanteAdresse")
+	public String getAutoriteContractanteAdresse() {
+		return autoriteContractanteAdresse;
+	}
+
+	public void setAutoriteContractanteAdresse(
+			String autoriteContractanteAdresse) {
+		this.autoriteContractanteAdresse = autoriteContractanteAdresse;
+	}
+
+	@Column(name = "autoriteContractanteTelephone")
+	public String getAutoriteContractanteTelephone() {
+		return autoriteContractanteTelephone;
+	}
+
+	public void setAutoriteContractanteTelephone(
+			String autoriteContractanteTelephone) {
+		this.autoriteContractanteTelephone = autoriteContractanteTelephone;
+	}
+
+	@Column(name = "autoriteContractanteFax")
+	public String getAutoriteContractanteFax() {
+		return autoriteContractanteFax;
+	}
+
+	public void setAutoriteContractanteFax(String autoriteContractanteFax) {
+		this.autoriteContractanteFax = autoriteContractanteFax;
+	}
+
+	@Column(name = "autoriteContractanteAdresseMail")
+	public String getAutoriteContractanteAdresseMail() {
+		return autoriteContractanteAdresseMail;
+	}
+
+	public void setAutoriteContractanteAdresseMail(
+			String autoriteContractanteAdresseMail) {
+		this.autoriteContractanteAdresseMail = autoriteContractanteAdresseMail;
+	}
+
+	@Column(name = "autoriteContractanteSiteWeb")
+	public String getAutoriteContractanteSiteWeb() {
+		return autoriteContractanteSiteWeb;
+	}
+
+	public void setAutoriteContractanteSiteWeb(
+			String autoriteContractanteSiteWeb) {
+		this.autoriteContractanteSiteWeb = autoriteContractanteSiteWeb;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "autoriteContractanteParentId", insertable = true, updatable = true)
+	public AutoriteContractante getAutoriteContractanteParent() {
+		return autoriteContractanteParent;
+	}
+
+	public void setAutoriteContractanteParent(
+			AutoriteContractante autoriteContractanteParent) {
+		this.autoriteContractanteParent = autoriteContractanteParent;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "autoriteContractanteRacineId")
+	public AutoriteContractante getAutoriteContractanteRacine() {
+		return autoriteContractanteRacine;
+	}
+
+	public void setAutoriteContractanteRacine(
+			AutoriteContractante autoriteContractanteRacine) {
+		this.autoriteContractanteRacine = autoriteContractanteRacine;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "autoriteContractanteTypeId", insertable = true, updatable = true)
+	public AutoriteContractanteType getAutoriteContractanteType() {
+		return autoriteContractanteType;
+	}
+
+	public void setAutoriteContractanteType(
+			AutoriteContractanteType autoriteContractanteType) {
+		this.autoriteContractanteType = autoriteContractanteType;
+	}
+
+	@Column(name = "autoriteContractanteDescription")
+	public String getAutoriteContractanteDescription() {
+		return autoriteContractanteDescription;
+	}
+
+	public void setAutoriteContractanteDescription(
+			String autoriteContractanteDescription) {
+		this.autoriteContractanteDescription = autoriteContractanteDescription;
+	}
+	
+	@Column(name = "supprime")
+	public boolean isSupprime() {
+		return supprime;
+	}
+
+	public void setSupprime(boolean supprime) {
+		this.supprime = supprime;
+	}
+
+	@Column(name = "dateSuppression")
+	public Date getDateSupprime() {
+		return dateSupprime;
+	}
+
+	public void setDateSupprime(Date dateSupprime) {
+		this.dateSupprime = dateSupprime;
+	}
+
+	
+	
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "autoriteContractanteAutoriteMere", insertable = true, updatable = true)
+	public AutoriteContractante getAutoriteContractanteAutoriteMere() {
+		return autoriteContractanteAutoriteMere;
+	}
+
+	public void setAutoriteContractanteAutoriteMere(
+			AutoriteContractante autoriteContractanteAutoriteMere) {
+		this.autoriteContractanteAutoriteMere = autoriteContractanteAutoriteMere;
+	}
+
+	@Override
+	public String toString() {
+		return "AutoriteContractante [autoriteContractanteId="
+				+ autoriteContractanteId + ", autoriteContractanteLibelle="
+				+ autoriteContractanteLibelle
+				+ ", autoriteContractanteInitiale="
+				+ autoriteContractanteInitiale
+				+ ", autoriteContractanteResponsable="
+				+ autoriteContractanteResponsable
+				+ ", autoriteContractanteAdresse="
+				+ autoriteContractanteAdresse
+				+ ", autoriteContractanteTelephone="
+				+ autoriteContractanteTelephone + ", autoriteContractanteFax="
+				+ autoriteContractanteFax
+				+ ", autoriteContractanteAdresseMail="
+				+ autoriteContractanteAdresseMail
+				+ ", autoriteContractanteSiteWeb="
+				+ autoriteContractanteSiteWeb + ", autoriteContractanteParent="
+				+ autoriteContractanteParent + ", autoriteContractanteRacine="
+				+ autoriteContractanteRacine + ", autoriteContractanteType="
+				+ autoriteContractanteType + "]";
+	}
+
+	/*
+	 * @ManyToMany
+	 * 
+	 * @JoinTable(name = "avisgeneral", joinColumns =
+	 * @JoinColumn(name="autoriteContractanteId"), inverseJoinColumns =
+	 * @JoinColumn(name = "planPassationMarcheId")) public
+	 * List<PlanPassationMarche> getListPlanPassationMarche() { return
+	 * listPlanPassationMarche; }
+	 * 
+	 * 
+	 * public void setListPlanPassationMarche( List<PlanPassationMarche>
+	 * listPlanPassationMarche) { this.listPlanPassationMarche =
+	 * listPlanPassationMarche; }
+	 */
+
+}

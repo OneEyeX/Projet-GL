@@ -1,0 +1,109 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="commissionmarche")
+public class CommissionMarche  implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6988713082966124441L;
+	
+	private int commissionMarcheId;
+	private AutoriteContractante autoriteContractante;
+	private String commissionMarcheLibelle;
+	private String commissionMarcheDescription;
+	
+	
+	
+	public CommissionMarche(int commissionMarcheId,
+			AutoriteContractante autoriteContractante,
+			String commissionMarcheLibelle, String commissionMarcheDescription) {
+		super();
+		this.commissionMarcheId = commissionMarcheId;
+		this.autoriteContractante = autoriteContractante;
+		this.commissionMarcheLibelle = commissionMarcheLibelle;
+		this.commissionMarcheDescription = commissionMarcheDescription;
+	}
+
+
+	public CommissionMarche() {
+		super();
+	}
+
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "commissionMarcheId", unique = true, nullable = false)
+	public int getCommissionMarcheId() {
+		return commissionMarcheId;
+	}
+
+
+	public void setCommissionMarcheId(int commissionMarcheId) {
+		this.commissionMarcheId = commissionMarcheId;
+	}
+
+
+	@ManyToOne
+	@JoinColumn(name="autoriteContractanteId" , nullable = true)
+	public AutoriteContractante getAutoriteContractante() {
+		return autoriteContractante;
+	}
+
+
+	public void setAutoriteContractante(AutoriteContractante autoriteContractante) {
+		this.autoriteContractante = autoriteContractante;
+	}
+
+
+	@Column(name="commissionMarcheLibelle")
+	public String getCommissionMarcheLibelle() {
+		return commissionMarcheLibelle;
+	}
+
+
+	public void setCommissionMarcheLibelle(String commissionMarcheLibelle) {
+		this.commissionMarcheLibelle = commissionMarcheLibelle;
+	}
+
+
+	@Column(name="commissionMarcheDescription")
+	public String getCommissionMarcheDescription() {
+		return commissionMarcheDescription;
+	}
+
+
+	public void setCommissionMarcheDescription(String commissionMarcheDescription) {
+		this.commissionMarcheDescription = commissionMarcheDescription;
+	}
+
+
+	@Override
+	public String toString() {
+		return "CommissionMarche [commissionMarcheId=" + commissionMarcheId
+				+ ", autoriteContractante=" + autoriteContractante
+				+ ", commissionMarcheLibelle=" + commissionMarcheLibelle
+				+ ", commissionMarcheDescription="
+				+ commissionMarcheDescription + "]";
+	}
+
+
+	
+
+	
+	
+
+}

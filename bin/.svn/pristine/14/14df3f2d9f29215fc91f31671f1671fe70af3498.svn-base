@@ -1,0 +1,25 @@
+package com.xtensus.passosyf.gnl.repositories;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.xtensus.passosyf.gnl.entity.Evenement;
+import com.xtensus.passosyf.gnl.entity.XteLog;
+
+ 
+@Repository
+public interface XteLogRepository extends JpaRepository<XteLog, Integer >{
+	
+ 
+	public XteLog findByLogLibelle(String LogLibelle );
+	
+	public List<XteLog> findByEvenement(Evenement evenement) ;
+	
+ 
+	
+
+}

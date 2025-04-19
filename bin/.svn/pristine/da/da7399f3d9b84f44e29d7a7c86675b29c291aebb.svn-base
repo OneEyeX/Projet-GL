@@ -1,0 +1,100 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+import javax.transaction.Transactional;
+
+import org.apache.chemistry.opencmis.client.api.Folder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.Document;
+import com.xtensus.passosyf.entities.DocumentCategorie;
+import com.xtensus.passosyf.repositories.DocumentCategorieRepository;
+import com.xtensus.passosyf.repositories.DocumentRepository;
+import com.xtensus.passosyf.services.DocumentService;
+@Service
+@Transactional
+public class DocumentServiceImpl implements DocumentService{
+	
+	private DocumentRepository documentRepository;
+	private DocumentCategorieRepository documentCategorieRepository;
+	@Autowired
+	private CmisService  cmisService;
+	
+	public DocumentServiceImpl(DocumentRepository documentRepository,DocumentCategorieRepository documentCategorieRepository) {
+		this.documentRepository=documentRepository;
+		this.documentCategorieRepository=documentCategorieRepository;
+	}
+
+	@Override
+	public Document save(Document document,String typeUpload) {
+		String typeDocument="";
+		if(typeUpload.equals("nom")) {
+			typeDocument="Physique";
+		}else {
+			typeDocument = "Numérique";
+
+		}
+		document.setDocumentTypeUpload(typeDocument);
+		//inserton nbre de pages
+		
+		//Catégorie document
+		//DocumentCategorie docCategorie = documentCategorieRepository.findByDocumentCategorieId(1);
+		//System.out.println("docCategorie "+docCategorie);
+		if (typeUpload.equals("scanner")) {
+			document.setDocumentType(".pdf");
+		}else {
+		//	document.setDocumentType(typeDocument);
+		}
+		//document.setDocumentCategorie(docCategorie);
+		document.setDocumentDateInsertion(new Date());
+		System.out.println(document.getDocumentDateInsertion());
+		document.setDocumentSupprime(true);
+		document.setDocumentParent(document);
+		//document.setOrdre(documentRepository.ge)
+		Document doc=documentRepository.save(document);
+		return doc;
+	}
+
+	@Override
+	public Document update(Document document, Integer idDocu) {
+		// TODO Auto-generated method stub
+		document.setIdDocument(idDocu);
+		return documentRepository.save(document);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		documentRepository.deleteById(id);
+		
+	}
+
+
+	@Override
+	public Document getDocumentById(Integer id) {
+		// TODO Auto-generated method stub
+		return documentRepository.findById(id).get();
+	}
+
+	@Override
+	public List<Document> listDocumentsByReunion(Integer reunionId, boolean deleteFlag,
+			int catgDoc) {
+		// TODO Auto-generated method stub
+		System.out.println("reunionId "+reunionId);
+		System.out.println("deleteFlag "+deleteFlag);
+		System.out.println("catgDoc "+catgDoc);
+
+		return documentRepository.listDocumentByIdDocumentAndDeleteFlagAndCatgDoc(reunionId, deleteFlag, catgDoc);
+	}
+
+	@Override
+	public Set<Document> listDocumentsBySalle(Integer salleId) {
+		// TODO Auto-generated method stub
+		return documentRepository.findByDocumentSalleIdSalleId(salleId); 
+	}
+
+}

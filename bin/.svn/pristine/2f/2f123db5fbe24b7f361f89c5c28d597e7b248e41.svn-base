@@ -1,0 +1,56 @@
+package com.xtensus.passosyf.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.DocumentCategorie;
+import com.xtensus.passosyf.entities.DocumentTypeCategorie;
+import com.xtensus.passosyf.services.DocumentCategorieService;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(path = "DocumentCategorie")
+public class DocumentCategorieControlleur {
+	
+	@Autowired
+	private DocumentCategorieService documentCategorieDao;
+
+	@GetMapping(value="/documentCategories",  produces = "application/json")
+	public Iterable<DocumentCategorie> getAllDocumentCategories(){
+		return documentCategorieDao.findAll();
+	}
+	
+	@PostMapping(value="/documentCategorie")
+	public void saveDocumentCategorie(@RequestBody DocumentCategorie documentCategorie){
+		documentCategorieDao.save(documentCategorie);
+	}
+	
+	@PutMapping(value="/updatedocumentCategorie/{id}")
+	public void updateDocumentCategorie(@PathVariable(name = "id") Integer documentCategorieId, @RequestBody DocumentCategorie documentCategorie){
+		System.out.println("#### documentCategorie == " + documentCategorie.toString());
+		documentCategorieDao.save(documentCategorie);
+	}
+	
+	@DeleteMapping(value="/deletedocumentCategorie/{id}")
+	public void deleteDocumentCategorie(@PathVariable(name = "id") Integer documentCategorie){
+		
+		documentCategorieDao.delete(documentCategorie);
+	}
+	
+	@GetMapping(value="/finddocumentCategorie",  produces = "application/json")
+	public Iterable<DocumentCategorie> findDocumentCategorieByType(@RequestBody DocumentTypeCategorie documentTypeCategorie){
+		return documentCategorieDao.findDocumentCategorieByType(documentTypeCategorie);
+	}
+	@GetMapping(value="/finddocumentCategorie/{id}",  produces = "application/json")
+	public DocumentCategorie findDocumentCategorieByType(@PathVariable(name = "id") Integer id){
+		return documentCategorieDao.findByDocumentCategorieId(id);
+	}
+}

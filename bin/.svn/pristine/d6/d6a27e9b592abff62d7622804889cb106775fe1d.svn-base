@@ -1,0 +1,125 @@
+package com.xtensus.passosyf.utils;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.activation.MimeType;
+
+import org.apache.chemistry.opencmis.client.api.CmisObject;
+import org.apache.chemistry.opencmis.client.api.Document;
+import org.apache.chemistry.opencmis.client.api.Folder;
+import org.apache.chemistry.opencmis.client.api.ItemIterable;
+import org.apache.chemistry.opencmis.client.api.Session;
+import org.apache.chemistry.opencmis.client.api.SessionFactory;
+import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
+import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.apache.chemistry.opencmis.commons.SessionParameter;
+import org.apache.chemistry.opencmis.commons.data.ContentStream;
+import org.apache.chemistry.opencmis.commons.enums.BindingType;
+import org.apache.chemistry.opencmis.commons.enums.VersioningState;
+import org.apache.chemistry.opencmis.commons.impl.MimeTypes;
+import org.apache.chemistry.opencmis.commons.impl.dataobjects.ContentStreamImpl;
+import org.springframework.http.MediaType;
+
+public class AlfrescoUtils {
+	private static Properties properties = new Properties();
+	
+	public static Session AlfrescoSession() {
+		try {
+			InputStream in = AlfrescoUtils.class.getClassLoader()
+			.getResourceAsStream("application.properties");
+			properties.load(in);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		SessionFactory factory = SessionFactoryImpl.newInstance();
+		Map<String, String> parameter = new HashMap<String, String>();
+		parameter.put(SessionParameter.USER, properties.getProperty("alfresco.repository.user"));
+		parameter.put(SessionParameter.PASSWORD, properties.getProperty("alfresco.repository.pass"));
+		parameter.put(SessionParameter.ATOMPUB_URL, properties.getProperty("alfresco.repository.url"));
+		parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
+
+		
+		Session session = factory.getRepositories(parameter).get(0).createSession();
+		
+		return session;
+	}
+	
+	public static Folder RootFolder() {
+		return AlfrescoSession().getRootFolder();
+	}
+	
+	public static byte[] DownloadDocument(String path) {
+		Session session = AlfrescoUtils.AlfrescoSession();
+		Document document = (Document) session.getObjectByPath(path);
+		
+		try {
+			ContentStream content = document.getContentStream();
+			BufferedInputStream stream = new BufferedInputStream(content.getStream());
+			byte[] bytes = stream.readAllBytes();
+			stream.close();
+			return bytes;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static String WebserviceFolderName() {
+		return properties.getProperty("WEBSERVICE_FOLDER_NAME");
+	}
+	
+	public static Folder CreateFolder(Folder baseFolder, String folderName) {
+		Folder folder = null;
+		ItemIterable<CmisObject> children = baseFolder.getChildren();
+		for (CmisObject child : children) {
+			if (child.getName().equals(folderName)) {
+				folder = (Folder) child;
+				break;
+			}
+		}
+
+		if (folder == null) {
+			Map<String, Object> properties = new HashMap<String, Object>();
+			properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:folder");
+			properties.put(PropertyIds.NAME, folderName);
+			folder = baseFolder.createFolder(properties);
+		}
+		
+		return folder;
+	}
+	
+	public static Document CreateDocument(Folder folder, String fileName, String contentType, byte[] content) {
+		Document document = null;
+		ItemIterable<CmisObject> children = folder.getChildren();
+		for (CmisObject child : children) {
+			if (child.getName().equals(fileName)) {
+				document = (Document) child;
+				document.delete();
+				document = null;
+				break;
+			}
+		}
+		
+		if (document == null) {
+			Map<String, Object> documentProperties = new HashMap<String, Object>();
+			documentProperties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");
+			documentProperties.put(PropertyIds.NAME, fileName);
+
+			InputStream stream = new ByteArrayInputStream(content);
+			//String contentType = URLConnection.guessContentTypeFromName(fileName);
+			ContentStream _content = new ContentStreamImpl(fileName, 
+					BigInteger.valueOf(content.length), 
+					contentType,
+					stream);
+			document = folder.createDocument(documentProperties, _content, VersioningState.MAJOR);
+		}
+		
+		return document;
+	}
+}

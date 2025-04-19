@@ -1,0 +1,175 @@
+package com.xtensus.passosyf.entities;
+
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.jar.Attributes.Name;
+
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.NamedNativeQueries;
+
+import com.xtensus.passosyf.utils.MembreAffecteCommission;
+
+//	@NamedNativeQuery(
+//		name = "getAllMembresAffectes",
+//		query = " select ccm"
+//				+ "	from membrecommissionMarche ccm"
+//				+ "	and ccm.commission.commissionReference=:id")
+//	@SqlResultSetMapping(name = "Mapping.MembreAffecteCommission",classes = @ConstructorResult(targetClass = MembreAffecteCommission.class,
+//	columns = { @ColumnResult(name="reference"),
+//				@ColumnResult(name="dateAffectation"),@ColumnResult(name="datefinAffectation"),@ColumnResult(name="prenomMembre"),
+//				@ColumnResult(name="poste"),@ColumnResult(name="domaineActivite")
+//			
+//			
+//	}))
+
+@Entity
+@Table(name = "membrecommissionmarche")
+public class MembreCommissionMarche  implements Serializable {
+
+
+	private int membreCommissionMarcheId;
+	private Membre membre;
+	private CommissionMarche commissionMarche;
+	private Date membreCommissionMarcheDateAffectation;
+	private Date membreCommissionMarcheDateFinAffectation;
+	private TypeMembreCommissionMarche typeMembreMarche;
+	private DomaineActivite domaineActivite;
+	private Commission commission;
+	
+	
+	public MembreCommissionMarche() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public MembreCommissionMarche(int membreCommissionMarcheId, Membre membre,Commission commission,
+//			CommissionMarche commissionMarche,
+			Date membreCommissionMarcheDateAffectation,
+			Date membreCommissionMarcheDateFinAffectation,
+			TypeMembreCommissionMarche typeMembreMarche,
+			DomaineActivite domaineActivite) {
+		super();
+		this.membreCommissionMarcheId = membreCommissionMarcheId;
+		this.membre = membre;
+//		this.commissionMarche = commissionMarche;
+		this.membreCommissionMarcheDateAffectation = membreCommissionMarcheDateAffectation;
+		this.membreCommissionMarcheDateFinAffectation = membreCommissionMarcheDateFinAffectation;
+		this.typeMembreMarche = typeMembreMarche;
+		this.domaineActivite = domaineActivite;
+		this.commission=commission;
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "membreCommissionMarcheId", unique = true, nullable = false)
+	public int getMembreCommissionMarcheId() {
+		return membreCommissionMarcheId;
+	}
+
+	public void setMembreCommissionMarcheId(int membreCommissionMarcheId) {
+		this.membreCommissionMarcheId = membreCommissionMarcheId;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "commissionMarcheId", insertable = true, updatable = true)
+	public CommissionMarche getCommissionMarche() {
+		return commissionMarche;
+	}
+  
+																	   
+											 
+	
+
+	public void setCommissionMarche(CommissionMarche commissionMarche) {
+		this.commissionMarche = commissionMarche;
+	}
+
+	@Column(name = "membreCommissionMarcheDateAffectation")
+	public Date getMembreCommissionMarcheDateAffectation() {
+		return membreCommissionMarcheDateAffectation;
+	}
+
+	public void setMembreCommissionMarcheDateAffectation(
+			Date membreCommissionMarcheDateAffectation) {
+		this.membreCommissionMarcheDateAffectation = membreCommissionMarcheDateAffectation;
+	}
+
+	@Column(name = "membreCommissionMarcheDateFinAffectation")
+	public Date getMembreCommissionMarcheDateFinAffectation() {
+		return membreCommissionMarcheDateFinAffectation;
+	}
+
+	public void setMembreCommissionMarcheDateFinAffectation(
+			Date membreCommissionMarcheDateFinAffectation) {
+		this.membreCommissionMarcheDateFinAffectation = membreCommissionMarcheDateFinAffectation;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "typeMembreCommissionMarcheId", insertable = true, updatable = true)
+	public TypeMembreCommissionMarche getTypeMembreMarche() {
+		return typeMembreMarche;
+	}
+
+	public void setTypeMembreMarche(TypeMembreCommissionMarche typeMembreMarche) {
+		this.typeMembreMarche = typeMembreMarche;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "personneRessourceDomaineDactiviteId", insertable = true, updatable = true ,nullable = true)
+	public DomaineActivite getDomaineActivite() {
+		return domaineActivite;
+	}
+
+	public void setDomaineActivite(DomaineActivite domaineActivite) {
+		this.domaineActivite = domaineActivite;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "membreId", insertable = true, updatable = true)
+	public Membre getMembre() {
+		return membre;
+	}
+
+	public void setMembre(Membre membre) {
+		this.membre = membre;
+	}
+	
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "commissionReference", insertable = true, updatable = true)
+	public Commission getCommission() {
+		return commission;
+	}
+
+	public void setCommission(Commission commission) {
+		this.commission = commission;
+	}
+
+	@Override
+	public String toString() {
+		return "MembreCommissionMarche [membreCommissionMarcheId="
+				+ membreCommissionMarcheId + ", membre=" + membre
+//				+ ", commissionMarche=" + commissionMarche
+				+ ", membreCommissionMarcheDateAffectation="
+				+ membreCommissionMarcheDateAffectation
+				+ ", membreCommissionMarcheDateFinAffectation="
+				+ membreCommissionMarcheDateFinAffectation
+				+ ", typeMembreMarche=" + typeMembreMarche
+				+ ", domaineActivite=" + domaineActivite + "]";
+	}
+
+}

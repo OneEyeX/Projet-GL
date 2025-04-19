@@ -1,0 +1,79 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.Membre;
+import com.xtensus.passosyf.repositories.MembreRepository;
+import com.xtensus.passosyf.services.MembreService;
+
+@Service
+@Transactional
+public class MembreServiceImpl implements MembreService {
+	
+	private MembreRepository  membreRepository;
+ 
+	@Autowired
+	public MembreServiceImpl(MembreRepository  membreRepository) {
+		this.membreRepository=membreRepository;
+	}
+	
+	@Override
+	public Membre save(Membre membre) {		
+		return membreRepository.save(membre);
+	}
+
+	@Override
+	public Membre update(Membre membre,Integer id) {
+		// TODO Auto-generated method stub
+		membre.setMembreId(id);
+		return membreRepository.save(membre);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		membreRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Membre> ListMembres() {
+		// TODO Auto-generated method stub
+		return membreRepository.findAll();
+	}
+
+	@Override
+	public Membre getMembreById(Integer id) {
+		return membreRepository.findById(id).get();
+		// TODO Auto-generated method stub
+		
+				
+	}
+
+	@Override
+	public List<Membre> listMembresDisponibleCAM() {
+		// TODO Auto-generated method stub
+		return membreRepository.listMembresDisponibleCAM();
+	}
+
+	@Override
+	public List<Membre> listMembresDisponibleCP() {
+		// TODO Auto-generated method stub
+		return membreRepository.listMembresDisponibleCP();
+	}
+	@Override
+	public Membre getMembreByMatricule(String matricule) {
+		// TODO Auto-generated method stub
+		return membreRepository.findByMembreMatricule(matricule);
+	}
+	@Override
+	public List<Membre> listMembresByReunion(int reunionId) {
+		// TODO Auto-generated method stub
+		return membreRepository.listMembresByReunion(reunionId);
+	}
+}

@@ -1,0 +1,31 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.Fonction;
+import com.xtensus.passosyf.repositories.FonctionRepository;
+import com.xtensus.passosyf.services.FonctionService;
+
+@Service
+public class FonctionServiceImpl implements FonctionService {
+
+	
+	@Autowired
+	private FonctionRepository fonctionRepo; 
+	
+	
+	
+	
+	@Override
+	public List<Fonction> findAll() {
+		// TODO Auto-generated method stub
+		return fonctionRepo.findAll();
+		}
+
+	
+	
+	
+}

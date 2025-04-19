@@ -1,0 +1,26 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+
+import com.xtensus.passosyf.entities.Salle;
+import com.xtensus.passosyf.entities.SalleModel;
+import com.xtensus.passosyf.utils.EquipementModel;
+
+public interface SalleService {
+
+	public List<Salle> getListSalle();
+
+	public Salle save(Salle salle);
+
+//	public Salle saveSalle(Salle salle, List<EquipementModel> listeSalleEquipement);
+	public Salle saveSalle(SalleModel nouvelleSalle) ;
+	public Salle update(Salle salle);
+
+	public Salle updateSalle(SalleModel salle);
+
+	public void deleteById(Integer salleId);
+
+	public Salle findSalleById(Integer salleId);
+	public List<Salle> getSalleDisponible(Integer reunionId);
+
+}

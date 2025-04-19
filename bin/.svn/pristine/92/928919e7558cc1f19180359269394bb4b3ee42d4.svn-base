@@ -1,0 +1,23 @@
+package com.xtensus.passosyf.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.xtensus.passosyf.entities.Membre;
+import com.xtensus.passosyf.entities.MembreCommissionMarche;
+import com.xtensus.passosyf.utils.MembreAffecteCommission;
+
+public interface MembreCommissionMarcheRepository extends JpaRepository<MembreCommissionMarche, Integer>{
+
+	@Query(" select ccm from MembreCommissionMarche ccm"
+			+ "	where ccm.commission.commissionReference=:id")
+	List<MembreCommissionMarche> getListeMembreAffecteCommissionMarche(@Param("id") int id);
+	
+	@Modifying
+	@Query(" delete from MembreCommissionMarche me WHERE me.membreCommissionMarcheId=:id")
+	 void deleteMembreCommissionMarche(@Param("id") int id);
+}

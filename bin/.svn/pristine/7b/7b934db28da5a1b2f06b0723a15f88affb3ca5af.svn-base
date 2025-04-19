@@ -1,0 +1,18 @@
+package com.xtensus.passosyf.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.xtensus.passosyf.entities.Etat;
+
+public interface EtatRepository extends JpaRepository<Etat, Integer>{
+	
+	public Etat findByEtatLibelle(String libelle);
+	
+	public Etat findByEtatLibelleAndEtatCategorieEtatCategorieId(String libelle, int catEtat);
+
+	public List<Etat> findByEtatCategorieEtatCategorieId(int  etatCatId); 
+
+}

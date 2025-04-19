@@ -1,0 +1,86 @@
+package com.xtensus.passosyf.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.ReunionType;
+import com.xtensus.passosyf.gnl.aop.LogClass;
+import com.xtensus.passosyf.services.ReunionTypeService;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(path = "ReunionType")
+public class ReunionTypeControlleur {
+	
+	@Autowired
+	private ReunionTypeService reunionTypeService;
+	
+	
+	@Autowired
+	private LogClass logClass;
+ 
+//	public ReunionTypeControlleur() {
+//		
+//	}
+	
+	
+//public ReunionTypeControlleur(ReunionTypeService reunionTypeService) {
+//		this.reunionTypeService=reunionTypeService;
+//	}
+	@GetMapping(value = "/reunionTypes", produces = "application/json")
+	public List<ReunionType> getAllReunionTypes() {
+		logClass.addTrack(
+				"consultation","Evénement de log consultation list type reunion ",/*vb.getPerson(),*/ "INFO");
+		return reunionTypeService.findAllReunionTypes();
+	}
+	
+	@GetMapping(value = "/findreunionType/{id}", produces = "application/json")
+	public ReunionType getReunionTypeByID(@PathVariable int id) {
+		ReunionType typeReunion = reunionTypeService.findById(id);
+		logClass.addTrack(
+				"consultation","Evénement de log consultation type reunion "+typeReunion.getReunionTypeId()+"-"+typeReunion.getReunionTypeLibelle(),/*vb.getPerson(),*/ "INFO");
+		return typeReunion; 
+	}
+	
+	@PostMapping(value = "/saveReunionType", produces = "application/json")
+	public void saveReunionTypes(@RequestBody ReunionType reunionType) {
+		ReunionType savedReunionTypes = reunionTypeService.saveReunionTypes(reunionType);
+		
+		logClass.addTrack(
+				"ajout","Evénement de log ajout type reunion "+savedReunionTypes.getReunionTypeId()+"-"+savedReunionTypes.getReunionTypeLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+	}
+	
+	@PutMapping(value = "/editReunionType", produces = "application/json")
+	public void editReunionType(@RequestBody ReunionType reunionType) {
+		ReunionType savedReunionTypes =reunionTypeService.saveReunionTypes(reunionType);
+		
+		logClass.addTrack(
+				"modification","Evénement de log modification type reunion "+savedReunionTypes.getReunionTypeId()+"-"+savedReunionTypes.getReunionTypeLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+	}
+	
+	@DeleteMapping(value = "/deleteReunionType/{reunionTypeId}", produces = "application/json")
+	public void deleteReunionType(@PathVariable int reunionTypeId) {
+		ReunionType reunionTypes =reunionTypeService.findById(reunionTypeId);
+		
+		logClass.addTrack(
+				"suppression","Evénement de log suppression type reunion "+reunionTypes.getReunionTypeId()+"-"+reunionTypes.getReunionTypeLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+		
+		reunionTypeService.deleteReunionTypes(reunionTypeId);
+	}
+	
+	
+
+}

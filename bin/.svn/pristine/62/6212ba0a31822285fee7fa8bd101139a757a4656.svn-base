@@ -1,0 +1,106 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.Equipement;
+import com.xtensus.passosyf.entities.Reunion;
+import com.xtensus.passosyf.entities.Salle;
+import com.xtensus.passosyf.entities.SalleEquipement;
+import com.xtensus.passosyf.entities.SalleModel;
+import com.xtensus.passosyf.repositories.EquipementRepository;
+import com.xtensus.passosyf.repositories.ReunionRepository;
+import com.xtensus.passosyf.repositories.SalleEquipementRepository;
+import com.xtensus.passosyf.repositories.SalleRepository;
+import com.xtensus.passosyf.services.SalleService;
+import com.xtensus.passosyf.utils.EquipementModel;
+
+@Service
+@Transactional
+public class SalleServiceImp implements SalleService {
+
+
+	@Autowired
+	private SalleRepository salleRepository;
+
+	@Autowired
+	private SalleEquipementRepository salleEquipementRepository;
+
+	@Autowired
+	private EquipementRepository equipementRepository;
+
+	@Autowired
+	private ReunionRepository reunionRepository ;
+	
+	@Override
+	public List<Salle> getListSalle() {
+		return salleRepository.findAll();
+	}
+
+	@Override
+	public Salle save(Salle salle) {
+		Salle salleajoute = salleRepository.save(salle);
+
+		return salleajoute;
+	}
+
+	@Override
+	public Salle saveSalle(SalleModel nouvelleSalle) {
+		Salle salleajoute = salleRepository.save(nouvelleSalle.getSalle());
+
+		for (EquipementModel equipe : nouvelleSalle.getSalleEquipement()) {
+			Equipement equipement = equipementRepository.findById(equipe.getEquipementId()).get();
+			SalleEquipement salleEquipement = new SalleEquipement();
+			salleEquipement.setEquipementId(equipement);
+			salleEquipement.setSalleId(salleajoute);
+			salleEquipementRepository.save(salleEquipement);
+
+		}
+
+		return salleajoute;
+	}
+
+	@Override
+	public Salle update(Salle salle) {
+
+		return salleRepository.save(salle);
+	}
+
+	@Override
+	public Salle updateSalle(SalleModel salle) {
+		salleEquipementRepository.deleteBySalleId(salle.getSalle().getSalleId());
+		for (EquipementModel equipe : salle.getSalleEquipement()) {
+			Equipement equipement = equipementRepository.findById(equipe.getEquipementId()).get();
+			SalleEquipement salleEquipement = new SalleEquipement();
+			salleEquipement.setEquipementId(equipement);
+			salleEquipement.setSalleId(salle.getSalle());
+			salleEquipementRepository.save(salleEquipement);
+
+		}
+
+		return salleRepository.save(salle.getSalle());
+	}
+
+	@Override
+	public void deleteById(Integer salleId) {
+		salleRepository.deleteById(salleId);
+	}
+
+	@Override
+	public Salle findSalleById(Integer salleId) {
+		return salleRepository.findById(salleId).get();
+	}
+	
+	@Override
+	public List<Salle> getSalleDisponible(Integer reunionId){
+		Reunion reunion = reunionRepository.findById(reunionId).get();
+		List<Salle> salleDispo= salleRepository.salleDisponible(reunion.getReunionDateDebutPrevu(), reunion.getReunionDateFinPrevu());
+		
+		return salleDispo; 
+	}
+
+}

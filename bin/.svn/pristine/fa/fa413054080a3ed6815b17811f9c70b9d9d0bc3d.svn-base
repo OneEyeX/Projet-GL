@@ -1,0 +1,99 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="cellulepassation")
+public class CellulePassation  implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6978201435241288159L;
+	
+	private int cellulePassationId;
+	private String cellulePassationLibelle;
+	private String cellulePassationDescription;
+	private AutoriteContractante autoriteContractante;
+	
+	
+	
+	public CellulePassation(int cellulePassationId,
+			String cellulePassationLibelle, String cellulePassationDescription,
+			AutoriteContractante autoriteContractante) {
+		super();
+		this.cellulePassationId = cellulePassationId;
+		this.cellulePassationLibelle = cellulePassationLibelle;
+		this.cellulePassationDescription = cellulePassationDescription;
+		this.autoriteContractante = autoriteContractante;
+	}
+
+
+	public CellulePassation() {
+		super();
+	}
+
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "cellulePassationId", unique = true, nullable = false)
+	public int getCellulePassationId() {
+		return cellulePassationId;
+	}
+
+
+	public void setCellulePassationId(int cellulePassationId) {
+		this.cellulePassationId = cellulePassationId;
+	}
+
+
+	@Column(name="cellulePassationLibelle")
+	public String getCellulePassationLibelle() {
+		return cellulePassationLibelle;
+	}
+
+
+	public void setCellulePassationLibelle(String cellulePassationLibelle) {
+		this.cellulePassationLibelle = cellulePassationLibelle;
+	}
+
+
+	@Column(name="cellulePassationDescription")
+	public String getCellulePassationDescription() {
+		return cellulePassationDescription;
+	}
+
+
+	public void setCellulePassationDescription(String cellulePassationDescription) {
+		this.cellulePassationDescription = cellulePassationDescription;
+	}
+
+
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="autoriteContractanteId",insertable=true,updatable=true, nullable = true)
+	public AutoriteContractante getAutoriteContractante() {
+		return autoriteContractante;
+	}
+
+
+	public void setAutoriteContractante(AutoriteContractante autoriteContractante) {
+		this.autoriteContractante = autoriteContractante;
+	}
+
+	
+	
+	
+	
+
+}

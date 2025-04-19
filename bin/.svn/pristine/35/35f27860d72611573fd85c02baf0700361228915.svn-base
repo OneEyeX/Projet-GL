@@ -1,0 +1,61 @@
+package com.xtensus.passosyf.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.TypeSalle;
+import com.xtensus.passosyf.services.TypeSalleService;
+
+
+@CrossOrigin
+@RestController
+@RequestMapping(path = "SalleType")
+public class TypeSalleControler {
+
+	@Autowired
+	private TypeSalleService typeSalleService;
+	
+	@GetMapping(path = "/listetypesalle") 
+	public List<TypeSalle> getListeTypeSalle() {
+		 List<TypeSalle> listeTypeSalle=typeSalleService.getListTypeSalle();
+		 return listeTypeSalle;
+	}
+	
+	
+	@PostMapping(path = "ajoutsalletype")
+	public ResponseEntity<TypeSalle> save(@RequestBody TypeSalle typeSalle) {		
+		TypeSalle typeParticipant=typeSalleService.save(typeSalle);
+		return new ResponseEntity<>(typeParticipant,HttpStatus.CREATED);
+	}
+	
+	
+	@PutMapping(path = "modifsalletype")
+	public ResponseEntity<TypeSalle> updateTypeSalle(@RequestBody TypeSalle typeSalle) {		
+		TypeSalle salleType=typeSalleService.update(typeSalle);
+		return new ResponseEntity<>(salleType,HttpStatus.OK);
+	}
+	
+	@DeleteMapping(path = "deletetypesalle/{idT}")
+	public void deleteTypeSalle(@PathVariable(name = "idT") Integer TypeSalleId) {
+		typeSalleService.deleteById(TypeSalleId);
+	}
+	
+	@GetMapping(path = "findtypesalle/{idT}")
+	public ResponseEntity<TypeSalle> findTypeSalleByID(@PathVariable(name = "idT") Integer TypeSalleId) {
+		TypeSalle salleType=typeSalleService.findTypeSalleById(TypeSalleId);
+		return  new ResponseEntity<>(salleType,HttpStatus.OK);
+	}
+	
+}

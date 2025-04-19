@@ -1,0 +1,113 @@
+package com.xtensus.passosyf.entities;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "personneressourcedomainedactivite")
+public class DomaineActivite implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	
+
+	private int domaineActiviteId;
+	private String domaineActiviteLibelle;
+	private String domaineActiviteDescription;
+	
+	
+	private String domaineActiviteLibellear;
+	private String domaineActiviteDescriptionar;
+	
+	
+	private Etat etat;
+
+ 
+
+	public DomaineActivite(String domaineActiviteLibelle, String domaineActiviteDescription,
+			String domaineActiviteLibellear, String domaineActiviteDescriptionar) {
+		super();
+		this.domaineActiviteLibelle = domaineActiviteLibelle;
+		this.domaineActiviteDescription = domaineActiviteDescription;
+		this.domaineActiviteLibellear = domaineActiviteLibellear;
+		this.domaineActiviteDescriptionar = domaineActiviteDescriptionar;
+	}
+
+	public DomaineActivite() {
+
+	}
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "personneRessourceDomaineDactiviteId", unique = true, nullable = false)
+	public int getDomaineActiviteId() {
+		return domaineActiviteId;
+	}
+
+	public void setDomaineActiviteId(int domaineActiviteId) {
+		this.domaineActiviteId = domaineActiviteId;
+	}
+
+	@Column(name = "personneRessourceDomaineDactiviteLibelle")
+	public String getDomaineActiviteLibelle() {
+		return domaineActiviteLibelle;
+	}
+
+	public void setDomaineActiviteLibelle(String domaineActiviteLibelle) {
+		this.domaineActiviteLibelle = domaineActiviteLibelle;
+	}
+
+	@Column(name = "personneRessourceDomaineDactiviteDescription")
+	public String getDomaineActiviteDescription() {
+		return domaineActiviteDescription;
+	}
+
+	public void setDomaineActiviteDescription(String domaineActiviteDescription) {
+		this.domaineActiviteDescription = domaineActiviteDescription;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "etatId", insertable = true, updatable = true)
+	public Etat getEtat() {
+		return etat;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
+
+	public String getDomaineActiviteLibellear() {
+		return domaineActiviteLibellear;
+	}
+
+	public void setDomaineActiviteLibellear(String domaineActiviteLibellear) {
+		this.domaineActiviteLibellear = domaineActiviteLibellear;
+	}
+
+	public String getDomaineActiviteDescriptionar() {
+		return domaineActiviteDescriptionar;
+	}
+
+	public void setDomaineActiviteDescriptionar(String domaineActiviteDescriptionar) {
+		this.domaineActiviteDescriptionar = domaineActiviteDescriptionar;
+	}
+	
+	
+	
+
+}

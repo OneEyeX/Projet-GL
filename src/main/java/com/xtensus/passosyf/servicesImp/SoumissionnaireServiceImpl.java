@@ -52,6 +52,9 @@ public class SoumissionnaireServiceImpl implements SoumissionnaireService {
 	PaysRepository repoPays;
 	@Autowired
 	EtatRepository repoEtat;
+	
+	@Autowired
+    private Map<String, ExportStrategy> exportStrategies; 
 
 	
 	
@@ -146,18 +149,15 @@ public class SoumissionnaireServiceImpl implements SoumissionnaireService {
 	}
 
 	@Override
-	public byte[] exportListeSoumissionnaires () throws FileNotFoundException, JRException {
-		
-		List<Soumissionnaire> soum= repo.findAll();
-		File file= ResourceUtils.getFile("classpath:jasper/soum.jrxml");
-		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(soum);
-		Map<String, Object> parameters= new HashMap<>();
-		parameters.put("Title", "Liste des Soumissionnaires");
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
-		
-		return pdfBytes;
-	}
+    public byte[] exportListeSoumissionnaires(String format) throws FileNotFoundException, JRException {
+        List<Soumissionnaire> soumissionnaires = repo.findAll();
+        
+        ExportStrategy strategy = exportStrategies.get(format.toLowerCase() + "ExportStrategy");
+        if (strategy == null) {
+            throw new IllegalArgumentException("Format non supporté: " + format);
+        }
+        
+        return strategy.exporter(soumissionnaires);
+    }
 	
 }

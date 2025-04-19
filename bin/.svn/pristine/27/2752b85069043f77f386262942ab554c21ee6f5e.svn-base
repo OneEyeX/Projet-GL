@@ -1,0 +1,17 @@
+package com.xtensus.passosyf.services;
+
+import java.util.List;
+
+import com.xtensus.passosyf.entities.ReunionType;
+
+public interface ReunionTypeService {
+	
+	public List<ReunionType> findAllReunionTypes();
+	public void saveReunionTypes(ReunionType reunionType);
+	public void editReunionTypes(ReunionType reunionType);
+	public void deleteReunionTypes(ReunionType reunionType);
+	public ReunionType findById(int id);
+	public void deleteReunionTypes(int reunionTypeId);
+
+
+}

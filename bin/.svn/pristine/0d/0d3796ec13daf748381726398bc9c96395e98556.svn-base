@@ -1,0 +1,93 @@
+package com.xtensus.passosyf.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xtensus.passosyf.entities.MembreType;
+import com.xtensus.passosyf.gnl.aop.LogClass;
+import com.xtensus.passosyf.services.MembreTypeService;
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping(path = "/api/v1")
+
+public class MembreTypeController {
+	
+	private MembreTypeService membreTypeService;
+	
+	
+	@Autowired
+	private LogClass logClass;
+	
+	
+	public MembreTypeController(MembreTypeService membreTypeService) {
+		this.membreTypeService=membreTypeService;
+	}
+	
+	
+	@GetMapping(path = "getAllMembreType")
+	public ResponseEntity<Iterable<MembreType>> getAllMembreType(){	
+		Iterable<MembreType> types=membreTypeService.ListTypeMembres();
+		
+		logClass.addTrack(
+				"consultation","Evénement de log consultation list type membre ",/*vb.getPerson(),*/ "INFO");
+		
+		return new ResponseEntity<>(types,HttpStatus.OK);
+	}
+	
+	@PostMapping(path = "addMembreType")
+	public ResponseEntity<MembreType> save(@RequestBody MembreType membreType) {		
+		MembreType typeMembres=membreTypeService.save(membreType);
+		logClass.addTrack(
+				"ajout","Evénement de log ajout type membre "+membreType.getMembreTypeId()+"-"+membreType.getMembreTypeLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+		
+		return new ResponseEntity<>(typeMembres,HttpStatus.CREATED);
+	}
+	
+	@GetMapping(path = "findMembreType/{ref}")
+	public MembreType getMembreTypeByRef(@PathVariable(name = "ref") Integer ref){
+		System.out.println("ref" +ref);
+		
+		MembreType membreTypeById = membreTypeService.getMembreTypeById(ref);
+		logClass.addTrack(
+				"consultation","Evénement de log consultation list type membre "+membreTypeById.getMembreTypeId()+"-"+membreTypeById.getMembreTypeLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+		return membreTypeById; 
+	}
+	
+	@DeleteMapping(path = "deleteMembreType/{id}")
+	public void delete(@PathVariable(name = "id") Integer id) {		
+		MembreType membreTypeById = membreTypeService.getMembreTypeById(id);
+
+		membreTypeService.delete(id);
+		
+		logClass.addTrack(
+				"suppression","Evénement de log suppression type membre "+membreTypeById.getMembreTypeId()+"-"+membreTypeById.getMembreTypeLibelle(),/*vb.getPerson(),*/ "INFO");
+		
+	}
+
+	 @PutMapping("/updateMembreType/{id}")
+	    public ResponseEntity<MembreType> updateEmployee(@RequestBody MembreType membreType,@PathVariable(name = "id") Integer id) {
+		 MembreType updateTypeMembre = membreTypeService.update(membreType,id);
+		 
+		 logClass.addTrack(
+					"modification","Evénement de log modification type membre "+updateTypeMembre.getMembreTypeId()+"-"+updateTypeMembre.getMembreTypeLibelle(),/*vb.getPerson(),*/ "INFO");
+			
+	        return new ResponseEntity<>(updateTypeMembre, HttpStatus.OK);
+	    }
+	
+	
+	
+}

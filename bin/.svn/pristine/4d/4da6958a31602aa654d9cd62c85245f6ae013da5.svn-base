@@ -1,0 +1,59 @@
+package com.xtensus.passosyf.servicesImp;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xtensus.passosyf.entities.CommissionType;
+import com.xtensus.passosyf.repositories.CommissionTypeRepository;
+import com.xtensus.passosyf.services.CommissionTypeService;
+
+@Service
+@Transactional
+public class CommissionTypeServiceImpl implements CommissionTypeService {
+	
+	private CommissionTypeRepository  commissionTypeRepository;
+ 
+	@Autowired
+	public CommissionTypeServiceImpl(CommissionTypeRepository  commissionTypeRepository) {
+		this.commissionTypeRepository=commissionTypeRepository;
+	}
+	
+	@Override
+	public CommissionType save(CommissionType commissionType) {
+		
+		return commissionTypeRepository.save(commissionType);
+	}
+
+	@Override
+	public CommissionType update(CommissionType commissionType) {
+		// TODO Auto-generated method stub
+		return commissionTypeRepository.save(commissionType);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		commissionTypeRepository.deleteById(id);
+	}
+
+	@Override
+	public List<CommissionType> listCommissionType() {
+		// TODO Auto-generated method stub
+		return commissionTypeRepository.findAll();
+	}
+
+	@Override
+	public CommissionType getCommissionTypeById(Integer id) {
+		return commissionTypeRepository.findById(id).get();
+		// TODO Auto-generated method stub
+//		return commissionTypeRepository.findCommissionTypeByCommissionTypeReference(id).orElseThrow(() -> 
+//		new CommissionTypeNotFoundException("type commision par référence "+id +"n existe pas"));
+				
+	}
+
+}

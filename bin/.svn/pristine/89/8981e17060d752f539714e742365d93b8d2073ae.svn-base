@@ -1,0 +1,12 @@
+package com.xtensus.passosyf.repositories;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.xtensus.passosyf.entities.TypeSalle;
+
+@Repository
+public interface TypeSalleRepository extends JpaRepository<TypeSalle, Integer> {
+	
+}

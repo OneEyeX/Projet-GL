@@ -1,0 +1,29 @@
+package com.xtensus.passosyf.entities;
+
+
+import java.util.List;
+
+import com.xtensus.passosyf.utils.EquipementModel;
+
+
+public class SalleModel {
+private Salle salle;
+private List<EquipementModel> salleEquipement ;
+public Salle getSalle() {
+	return salle;
+}
+public void setSalle(Salle salle) {
+	this.salle = salle;
+}
+public List<EquipementModel> getSalleEquipement() {
+	return salleEquipement;
+}
+public void setSalleEquipement(List<EquipementModel> salleEquipement) {
+	this.salleEquipement = salleEquipement;
+}
+@Override
+public String toString() {
+	return "SalleModel [salle=" + salle + ", salleEquipement=" + salleEquipement + "]";
+}
+
+}

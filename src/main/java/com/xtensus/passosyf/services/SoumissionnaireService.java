@@ -17,7 +17,7 @@ public interface SoumissionnaireService {
 	
 	public List<Soumissionnaire> getAll();
 	
-	public byte[] exportListeSoumissionnaires () throws FileNotFoundException, JRException;
+	//public byte[] exportListeSoumissionnaires () throws FileNotFoundException, JRException;
 	
 	public Page<Soumissionnaire> findAll(int pageNum,int pageSize, String sortDir, String sortField,String search);
 	
@@ -36,4 +36,6 @@ public interface SoumissionnaireService {
 	public Soumissionnaire  findSoumissionnaireByMatricule(String matricule);
 
 	public Integer isUsedBySoumissionnaireId(Integer soumissionnaireId);
+
+	byte[] exportListeSoumissionnaires(String format) throws FileNotFoundException, JRException;
 }
