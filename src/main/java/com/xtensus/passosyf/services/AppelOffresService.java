@@ -25,4 +25,6 @@ public interface AppelOffresService {
 	public Page<AppelOffres> searchAppelOffres(String search, int pageNum, int pageSize, String sortField, String sortDir);
 
 	public void setEtat(AppelOffres appelOffres, int etatId);
+
+	public void addCommissionToAppelOffres(int commissionId, int appelOffreId);
 }
