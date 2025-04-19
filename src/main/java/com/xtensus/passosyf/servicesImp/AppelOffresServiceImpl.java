@@ -2,8 +2,6 @@ package com.xtensus.passosyf.servicesImp;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -13,11 +11,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.xtensus.passosyf.commands.AddCommissionToAppelOffresCommand;
 import com.xtensus.passosyf.entities.AppelOffres;
-import com.xtensus.passosyf.entities.Commission;
 import com.xtensus.passosyf.entities.Etat;
 import com.xtensus.passosyf.exceptions.NotFoundException;
-import com.xtensus.passosyf.exceptions.ResourceNotFoundException;
 import com.xtensus.passosyf.repositories.AppelOffresRepository;
 import com.xtensus.passosyf.repositories.EtatRepository;
 import com.xtensus.passosyf.services.AppelOffresService;
@@ -34,24 +31,15 @@ public class AppelOffresServiceImpl implements AppelOffresService {
 
 	@Autowired
 	CommissionService commissionService;
-	private static final Logger log = LoggerFactory.getLogger(AppelOffresServiceImpl.class);
-
 	// code corrigé
 	// Déplacement de la logique métier ici
 	@Override
-	public void addCommissionToAppelOffres(int commissionId, int appelOffreId) {
-		AppelOffres appelOffres = getAppelOffresById(appelOffreId);
-		if (appelOffres == null) {
-			throw new ResourceNotFoundException("Appel d'offres non trouvé");
-		}
-		Commission commission = commissionService.getCommissionById(commissionId);
-		if (commission == null) {
-			throw new ResourceNotFoundException("Commission non trouvée");
-		}
-		appelOffres.getCommissions().add(commission);
-		commission.getAppelOffres().add(appelOffres);
-		appelOffresDao.save(appelOffres);
-	}
+    public void addCommissionToAppelOffres(int commissionId, int appelOffreId) {
+        // Création et exécution de la commande
+        AddCommissionToAppelOffresCommand command =
+            new AddCommissionToAppelOffresCommand(commissionId, appelOffreId, this, commissionService);
+        command.execute();
+    }
 
 	@Override
 	public List<AppelOffres> getAllAppelOffres() {
