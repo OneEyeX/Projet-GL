@@ -1,4 +1,4 @@
-# 📄 README - Projet Génie Logiciel - Application Passosyf
+# 📄 Projet Génie Logiciel - Application Passosyf
 
 ## 🎓 Module : Génie Logiciel
 
@@ -90,7 +90,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PassosyfApplication implements CommandLineRunner {
 
-    // ✅ Singleton (GoF) pour Logger : instancié une fois, partagé dans la classe
+    // ✅ Singleton (GoF - Creation) pour Logger : instancié une fois, partagé dans la classe
     private static final Logger log = LoggerFactory.getLogger(PassosyfApplication.class);
 
     // ✅ GRASP - Contrôle délégué à une classe spécialisée
@@ -141,7 +141,7 @@ public class StartupService {
 |----------------------|------------------------------------------------------------------------|
 | 🔧 Classe modifiée    | `PassosyfApplication.java`                                             |
 | ➕ Classe ajoutée     | `StartupService.java`                                                  |
-| ✅ Patron GoF         | **Singleton** (Logger instancié une seule fois par classe)             |
+| ✅ Patron de création GoF         | **Singleton** (Logger instancié une seule fois par classe)             |
 | ✅ Patron GRASP       | **Contrôleur** (StartupService gère la logique métier de démarrage)    |
 | ✅ Principe SOLID     | **SRP (Responsabilité unique)** : chaque classe a une responsabilité   |
 

@@ -12,7 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PassosyfApplication implements CommandLineRunner {
 
 	// AVANT : Logger était basé sur une classe externe comme Document.class
-	// APRÈS : Respect du principe SRP (Single Responsibility Principle) et cohérence → Logger associé à la classe actuelle
+	// APRÈS : Respect du principe SRP (Single Responsibility Principle) et
+	// cohérence → Logger associé à la classe actuelle
 	private static final Logger log = LoggerFactory.getLogger(PassosyfApplication.class);
 
 	// AJOUTÉ : Respect du principe de GRASP → Controleur
@@ -29,9 +30,10 @@ public class PassosyfApplication implements CommandLineRunner {
 	public void run(String... args) {
 		// AJOUTÉ : Meilleure traçabilité pour le monitoring et les logs système
 		log.info("🚀 Passosyf is starting...");
-		
+
 		// AVANT : aucune action définie à l'exécution
-		// APRÈS : Appel explicite d'une logique de démarrage externalisée → meilleur respect de SRP
+		// APRÈS : Appel explicite d'une logique de démarrage externalisée → meilleur
+		// respect de SRP
 		startupService.executeStartupLogic();
 	}
 }

@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class StartupService {
 
-	// Logger associé à la classe actuelle, respecte SRP et permet une traçabilité efficace
+	// Logger associé à la classe actuelle, respecte SRP et permet une traçabilité
+	// efficace
 	private static final Logger log = LoggerFactory.getLogger(StartupService.class);
 
 	// Fonction principale de démarrage (appelée depuis PassosyfApplication)
