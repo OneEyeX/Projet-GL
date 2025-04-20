@@ -200,11 +200,11 @@ public class StartupFacade {
 
 - **Avantage** : Chaque classe a une **responsabilité unique** et clairement définie. Le refactoring permet de séparer la logique de démarrage du code d'exécution de l'application, améliorant ainsi la lisibilité et la maintenabilité du code.
 
-#### **2. Application du patron de conception GoF - Singleton**
+#### **2. Application du patron de création GoF - Singleton**
 
 - **Avantage** : Le logger est désormais instancié une seule fois par classe et réutilisé à chaque fois, assurant une gestion efficace de la mémoire et des ressources tout en respectant le principe **Single Instance**.
 
-#### **3. Application du patron GoF - Façade**
+#### **3. Application du patron de structure GoF - Façade**
 
 - **Avantage** : La façade `StartupFacade` simplifie l'accès aux services métiers en centralisant l'appel aux logiques d'initialisation. Cela permet une **extensibilité facile** et une meilleure organisation du code en réduisant les dépendances directes entre la classe `PassosyfApplication` et la logique métier.
 
