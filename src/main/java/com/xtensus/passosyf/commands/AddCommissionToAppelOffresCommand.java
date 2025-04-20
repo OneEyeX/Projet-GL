@@ -14,8 +14,8 @@ public class AddCommissionToAppelOffresCommand implements Command {
     private final CommissionService commissionService;
 
     public AddCommissionToAppelOffresCommand(int commissionId, int appelOffreId,
-                                             AppelOffresService appelOffresService,
-                                             CommissionService commissionService) {
+            AppelOffresService appelOffresService,
+            CommissionService commissionService) {
         this.commissionId = commissionId;
         this.appelOffreId = appelOffreId;
         this.appelOffresService = appelOffresService;
@@ -25,10 +25,12 @@ public class AddCommissionToAppelOffresCommand implements Command {
     @Override
     public void execute() {
         AppelOffres appelOffres = appelOffresService.getAppelOffresById(appelOffreId);
-        if (appelOffres == null) throw new ResourceNotFoundException("Appel d'offres non trouvé");
+        if (appelOffres == null)
+            throw new ResourceNotFoundException("Appel d'offres non trouvé");
 
         Commission commission = commissionService.getCommissionById(commissionId);
-        if (commission == null) throw new ResourceNotFoundException("Commission non trouvée");
+        if (commission == null)
+            throw new ResourceNotFoundException("Commission non trouvée");
 
         appelOffres.getCommissions().add(commission);
         commission.getAppelOffres().add(appelOffres);

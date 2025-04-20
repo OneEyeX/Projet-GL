@@ -31,15 +31,16 @@ public class AppelOffresServiceImpl implements AppelOffresService {
 
 	@Autowired
 	CommissionService commissionService;
+
 	// code corrigé
 	// Déplacement de la logique métier ici
 	@Override
-    public void addCommissionToAppelOffres(int commissionId, int appelOffreId) {
-        // Création et exécution de la commande
-        AddCommissionToAppelOffresCommand command =
-            new AddCommissionToAppelOffresCommand(commissionId, appelOffreId, this, commissionService);
-        command.execute();
-    }
+	public void addCommissionToAppelOffres(int commissionId, int appelOffreId) {
+		// Création et exécution de la commande
+		AddCommissionToAppelOffresCommand command = new AddCommissionToAppelOffresCommand(commissionId, appelOffreId,
+				this, commissionService);
+		command.execute();
+	}
 
 	@Override
 	public List<AppelOffres> getAllAppelOffres() {
