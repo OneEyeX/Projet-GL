@@ -114,7 +114,7 @@ public class PassosyfApplication implements CommandLineRunner {
 
 - **SRP (Single Responsibility Principle)** : La responsabilité de démarrer l'application et de gérer les initialisations a été séparée, chaque classe ayant désormais une responsabilité unique.
 - **GoF - Singleton** : Le logger est désormais un singleton par classe, ce qui optimise la gestion des ressources.
-- **GRASP - Façade** : La classe `StartupFacade` centralise la logique métier d'initialisation, simplifiant l'organisation du code et facilitant les extensions futures.
+- **GRASP - Contrôleur** : La classe `StartupFacade` centralise la logique métier d'initialisation, simplifiant l'organisation du code et facilitant les extensions futures.
 
 ---
 
