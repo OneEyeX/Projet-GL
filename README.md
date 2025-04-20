@@ -238,7 +238,7 @@ Ces contraintes OCL renforcent la **cohérence métier** au niveau du modèle de
 | 🔧 Classe modifiée         | `AppelOffresServiceImpl.java` : utilise une commande dédiée pour encapsuler l'action       |
 | 🔧 Classe modifiée         | `AppelOffres.java` : validations OCL via `@PrePersist` / `@PreUpdate`                       |
 | ➕ Nouvelle classe          | `AddCommissionToAppelOffresCommand.java` : implémente l'interface `Command`                |
-| ✅ Patron GoF              | **Command** : encapsulation d'une requête comme objet (`AddCommissionToAppelOffresCommand`) |
+| ✅ Patron de comportement GoF              | **Command** : encapsulation d'une requête comme objet (`AddCommissionToAppelOffresCommand`) |
 | ✅ Patron GRASP            | **Contrôleur** : délégation métier vers le service (`AppelOffresControlleur`)              |
 | ✅ Principes SOLID         | **SRP** : chaque classe a une responsabilité unique <br> &nbsp;&nbsp;&nbsp;&nbsp;• `AppelOffresControlleur` : uniquement rôle de routeur <br> &nbsp;&nbsp;&nbsp;&nbsp;• `AddCommissionToAppelOffresCommand` : encapsule une seule action métier <br> **OCP** : ajout d'une nouvelle commande sans modifier le contrôleur ou le service (`AppelOffresServiceImpl`) |
 | ✅ Contraintes OCL         | 3 invariants ajoutés dans `AppelOffres` : coût estimé > 0, nombre de lots > 0, commissions sans doublon |
