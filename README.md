@@ -112,8 +112,8 @@ public class PassosyfApplication implements CommandLineRunner {
 
 #### 📌 Conséquences de cette modification :
 
-- **SRP (Single Responsibility Principle)** : La responsabilité de démarrer l'application et de gérer les initialisations a été séparée, chaque classe ayant désormais une responsabilité unique.
-- **GoF - Singleton** : Le logger est désormais un singleton par classe, ce qui optimise la gestion des ressources.
+- **SOLID - SRP (Single Responsibility Principle)** : La responsabilité de démarrer l'application et de gérer les initialisations a été séparée, chaque classe ayant désormais une responsabilité unique.
+- **Patron de création GoF - Singleton** : Le logger est désormais un singleton par classe, ce qui optimise la gestion des ressources.
 - **GRASP - Contrôleur** : La classe `StartupFacade` centralise la logique métier d'initialisation, simplifiant l'organisation du code et facilitant les extensions futures.
 
 ---
@@ -143,7 +143,7 @@ public class StartupService {
 
 #### 📌 Conséquences de cette modification :
 
-- **SRP** : La logique d'initialisation est maintenant concentrée dans une seule classe, ce qui améliore la clarté et la maintenabilité.
+- **SOLID - SRP** : La logique d'initialisation est maintenant concentrée dans une seule classe, ce qui améliore la clarté et la maintenabilité.
 - **Encapsulation de la logique métier** : `StartupService` est désormais responsable uniquement de l'initialisation, rendant l'application plus modulaire.
 
 ---
@@ -180,7 +180,7 @@ public class StartupFacade {
 
 #### 📌 Conséquences de cette modification :
 
-- **GoF - Façade** : Centralisation de l'appel à la logique d'initialisation dans `StartupFacade`, ce qui simplifie l'utilisation de la fonctionnalité et améliore la lisibilité.
+- **Patron de strucrure GoF - Façade** : Centralisation de l'appel à la logique d'initialisation dans `StartupFacade`, ce qui simplifie l'utilisation de la fonctionnalité et améliore la lisibilité.
 - **Encapsulation** : `StartupFacade` isole la complexité et rend l'interface d'initialisation plus simple et plus cohérente.
 - **Testabilité améliorée** : Grâce à l'injection de dépendances, les tests unitaires deviennent plus faciles à mettre en œuvre.
 
@@ -190,7 +190,7 @@ public class StartupFacade {
 
 | Membre           | Tâche prise en charge                                                                                             |
 |------------------|-------------------------------------------------------------------------------------------------------------------|
-| **Chedly CHAHED** | ✅ Refactoring de `PassosyfApplication` <br> ✅ Implémentation de `StartupService` <br> ✅ Ajout de `StartupFacade` <br> ✅ Application des patrons SRP, Singleton, Façade, GRASP |
+| **Chedly CHAHED** | ✅ Refactoring de `PassosyfApplication` <br> ✅ Implémentation de `StartupService` <br> ✅ Ajout de `StartupFacade` <br> ✅ Application des principes **SOLID** (*SRP*), des patrons **GoF** (Création - *Singleton*, Structure - *Façade*) et **GRASP** (*Contrôleur*) |
 
 ---
 
