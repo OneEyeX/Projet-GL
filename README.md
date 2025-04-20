@@ -135,7 +135,7 @@ inv CoutEstimePositif: self.appelOffreCoutEstime > 0
 
 ```java
 private void validateCoutEstime() {
-    if (appelOffreCoutEstime <= 0) {
+    if (this.appelOffreCoutEstime <= 0) {
         throw new IllegalArgumentException("Le coût estimé doit être strictement positif.");
     }
 }
@@ -156,7 +156,7 @@ inv NombreLotsPositif: self.appelOffreNbrLots > 0
 
 ```java
 private void validateNombreLots() {
-    if (appelOffreNbrLots <= 0) {
+    if (this.appelOffreNbrLots <= 0) {
         throw new IllegalArgumentException("Le nombre de lots doit être strictement positif.");
     }
 }

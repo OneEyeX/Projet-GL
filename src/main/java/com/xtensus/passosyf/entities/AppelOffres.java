@@ -7,7 +7,17 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -61,10 +71,10 @@ public class AppelOffres implements Serializable {
     }
 
     public AppelOffres(Integer appelOffreId, String appelOffreCode, String appelOffreIntitule, String appelOffreObjet,
-                       String appelOffreAvis, Nature nature, ModeReglement modeReglement, Float appelOffrePrixDoc,
-                       int appelOffreNbrLots, float appelOffreCoutEstime, Date appelOffreDatePublication,
-                       Date appelOffreDateLimiteRemise, Date appelOffreDateSeanceOuverturePlis, Set<Commission> commissions,
-                       Etat etat) {
+            String appelOffreAvis, Nature nature, ModeReglement modeReglement, Float appelOffrePrixDoc,
+            int appelOffreNbrLots, float appelOffreCoutEstime, Date appelOffreDatePublication,
+            Date appelOffreDateLimiteRemise, Date appelOffreDateSeanceOuverturePlis, Set<Commission> commissions,
+            Etat etat) {
         this.appelOffreId = appelOffreId;
         this.appelOffreCode = appelOffreCode;
         this.appelOffreIntitule = appelOffreIntitule;
@@ -81,61 +91,62 @@ public class AppelOffres implements Serializable {
         this.commissions = commissions;
         this.etat = etat;
     }
- 
- // ===========================================================
- // ================== VALIDATION DES CONTRAINTES OCL =========
- // ===========================================================
- // Cette classe applique des contraintes métiers (OCL) sur 
- // l'entité AppelOffres avant sa persistance ou sa mise à jour
- // ===========================================================
 
- /**
-  * Contrainte OCL n°1 :
-  * Le coût estimé d'un appel d'offres doit être strictement supérieur à 0.
-  */
- private void validateCoutEstime() {
-     if (appelOffreCoutEstime <= 0) {
-         throw new IllegalArgumentException("Le coût estimé doit être strictement positif.");
-     }
- }
+    // ===========================================================
+    // ================== VALIDATION DES CONTRAINTES OCL =========
+    // ===========================================================
+    // Cette classe applique des contraintes métiers (OCL) sur
+    // l'entité AppelOffres avant sa persistance ou sa mise à jour
+    // ===========================================================
 
- /**
-  * Contrainte OCL n°2 :
-  * Le nombre de lots d'un appel d'offres doit être strictement supérieur à 0.
-  */
- private void validateNombreLots() {
-     if (appelOffreNbrLots <= 0) {
-         throw new IllegalArgumentException("Le nombre de lots doit être strictement positif.");
-     }
- }
+    /**
+     * Contrainte OCL n°1 :
+     * Le coût estimé d'un appel d'offres doit être strictement supérieur à 0.
+     */
+    private void validateCoutEstime() {
+        if (this.appelOffreCoutEstime <= 0) {
+            throw new IllegalArgumentException("Le coût estimé doit être strictement positif.");
+        }
+    }
 
- /**
-  * Contrainte OCL n°3 :
-  * Chaque commission associée à un appel d’offres doit avoir une référence unique.
-  */
- private void validateCommissionsUniques() {
-     Set<Integer> references = new HashSet<>();
-     for (Commission c : commissions) {
-         if (c.getCommissionReference() != null && !references.add(c.getCommissionReference())) {
-             throw new IllegalStateException("Doublon détecté dans la liste des commissions.");
-         }
-     }
- }
+    /**
+     * Contrainte OCL n°2 :
+     * Le nombre de lots d'un appel d'offres doit être strictement supérieur à 0.
+     */
+    private void validateNombreLots() {
+        if (this.appelOffreNbrLots <= 0) {
+            throw new IllegalArgumentException("Le nombre de lots doit être strictement positif.");
+        }
+    }
 
- /**
-  * Méthode de validation globale appelée automatiquement :
-  * - Avant la création de l'entité en base (@PrePersist)
-  * - Avant toute mise à jour de l'entité en base (@PreUpdate)
-  * 
-  * Elle regroupe les contraintes OCL à respecter.
-  */
- @PrePersist
- @PreUpdate
- private void validateOCLConstraints() { 
-     validateCoutEstime();
-     validateNombreLots();
-     validateCommissionsUniques();
- }
+    /**
+     * Contrainte OCL n°3 :
+     * Chaque commission associée à un appel d'offres doit avoir une référence
+     * unique.
+     */
+    private void validateCommissionsUniques() {
+        Set<Integer> references = new HashSet<>();
+        for (Commission c : commissions) {
+            if (c.getCommissionReference() != null && !references.add(c.getCommissionReference())) {
+                throw new IllegalStateException("Doublon détecté dans la liste des commissions.");
+            }
+        }
+    }
+
+    /**
+     * Méthode de validation globale appelée automatiquement :
+     * - Avant la création de l'entité en base (@PrePersist)
+     * - Avant toute mise à jour de l'entité en base (@PreUpdate)
+     * 
+     * Elle regroupe les contraintes OCL à respecter.
+     */
+    @PrePersist
+    @PreUpdate
+    private void validateOCLConstraints() {
+        validateCoutEstime();
+        validateNombreLots();
+        validateCommissionsUniques();
+    }
 
     // ========== Getters & Setters ==========
     public Integer getAppelOffreId() {
