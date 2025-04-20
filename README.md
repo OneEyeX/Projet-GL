@@ -110,6 +110,12 @@ public class PassosyfApplication implements CommandLineRunner {
 }
 ```
 
+#### 📌 Conséquences de cette modification :
+
+- **SRP (Single Responsibility Principle)** : La responsabilité de démarrer l'application et de gérer les initialisations a été séparée, chaque classe ayant désormais une responsabilité unique.
+- **GoF - Singleton** : Le logger est désormais un singleton par classe, ce qui optimise la gestion des ressources.
+- **GRASP - Façade** : La classe `StartupFacade` centralise la logique métier d'initialisation, simplifiant l'organisation du code et facilitant les extensions futures.
+
 ---
 
 ### ✔ Nouvelle classe : `StartupService.java`
@@ -134,6 +140,11 @@ public class StartupService {
     }
 }
 ```
+
+#### 📌 Conséquences de cette modification :
+
+- **SRP** : La logique d'initialisation est maintenant concentrée dans une seule classe, ce qui améliore la clarté et la maintenabilité.
+- **Encapsulation de la logique métier** : `StartupService` est désormais responsable uniquement de l'initialisation, rendant l'application plus modulaire.
 
 ---
 
@@ -167,18 +178,11 @@ public class StartupFacade {
 }
 ```
 
----
+#### 📌 Conséquences de cette modification :
 
-## 📌 Résumé des améliorations
-
-| Élément               | Détail                                                                 |
-|-----------------------|------------------------------------------------------------------------|
-| 🔧 Classe modifiée     | `PassosyfApplication.java`                                             |
-| ➕ Classes ajoutées     | `StartupService.java`, `StartupFacade.java`                            |
-| ✅ Patron de création GoF  | **Singleton** (Logger unique par classe)                             |
-| ✅ Patron GoF structurel   | **Facade** (StartupFacade centralise les appels)                     |
-| ✅ Patron GRASP        | **Contrôleur** (StartupService = contrôleur logique métier)            |
-| ✅ Principe SOLID      | **SRP** (chaque classe a une responsabilité claire)                    |
+- **GoF - Façade** : Centralisation de l'appel à la logique d'initialisation dans `StartupFacade`, ce qui simplifie l'utilisation de la fonctionnalité et améliore la lisibilité.
+- **Encapsulation** : `StartupFacade` isole la complexité et rend l'interface d'initialisation plus simple et plus cohérente.
+- **Testabilité améliorée** : Grâce à l'injection de dépendances, les tests unitaires deviennent plus faciles à mettre en œuvre.
 
 ---
 
@@ -190,25 +194,25 @@ public class StartupFacade {
 
 ---
 
-## 💡 Avantages des modifications
+### 💡 Avantages des modifications
 
-### **1. Application du principe SOLID - SRP (Single Responsibility Principle)**
+#### **1. Application du principe SOLID - SRP (Single Responsibility Principle)**
 
 - **Avantage** : Chaque classe a une **responsabilité unique** et clairement définie. Le refactoring permet de séparer la logique de démarrage du code d'exécution de l'application, améliorant ainsi la lisibilité et la maintenabilité du code.
 
-### **2. Application du patron de conception GoF - Singleton**
+#### **2. Application du patron de conception GoF - Singleton**
 
 - **Avantage** : Le logger est désormais instancié une seule fois par classe et réutilisé à chaque fois, assurant une gestion efficace de la mémoire et des ressources tout en respectant le principe **Single Instance**.
 
-### **3. Application du patron GoF - Façade**
+#### **3. Application du patron GoF - Façade**
 
 - **Avantage** : La façade `StartupFacade` simplifie l'accès aux services métiers en centralisant l'appel aux logiques d'initialisation. Cela permet une **extensibilité facile** et une meilleure organisation du code en réduisant les dépendances directes entre la classe `PassosyfApplication` et la logique métier.
 
-### **4. Application du patron GRASP - Contrôleur**
+#### **4. Application du patron GRASP - Contrôleur**
 
 - **Avantage** : En déléguant la logique métier à une classe `StartupService`, nous appliquons le principe de **contrôle** (controller) de manière à centraliser et organiser l'initialisation du système, rendant la gestion du processus plus claire et moins sujette aux erreurs.
 
-### **5. Meilleure testabilité**
+#### **5. Meilleure testabilité**
 
 - **Avantage** : La structure du code rend plus facile l'écriture de tests unitaires grâce à la séparation claire des responsabilités entre `PassosyfApplication`, `StartupService` et `StartupFacade`.
 
