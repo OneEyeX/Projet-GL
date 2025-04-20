@@ -8,6 +8,16 @@
 
 ---
 
+## 🔧 Contexte
+
+Ce projet s'inscrit dans le cadre du module **Génie Logiciel** et vise à appliquer des principes avancés de conception orientée objet, à savoir :
+
+- Les **principes SOLID**
+- Les **patrons de conception GoF**
+- Les **patrons GRASP**
+
+---
+
 ## 🧩 Modifications apportées - Classe principale `PassosyfApplication.java`
 
 ### ✅ Objectif :
@@ -16,7 +26,7 @@ Améliorer l'organisation du code selon les principes **SOLID**, les patrons **G
 
 ---
 
-## ⛔ Avant modification
+## ⛔ Problème initial (Avant refactoring)
 
 ### Classe concernée : `PassosyfApplication.java`
 
@@ -41,7 +51,7 @@ public class PassosyfApplication implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        // ❌ Vide
+        // ❌ Aucune logique de démarrage définie
     }
 
     public static Logger getLog() {
@@ -53,6 +63,13 @@ public class PassosyfApplication implements CommandLineRunner{
     }
 }
 ```
+
+### 🧨 Problèmes identifiés :
+
+- ❗ **Violation du principe SRP** (Single Responsibility Principle) : la classe gérait à la fois le démarrage et le logger.
+- ❗ **Logger incorrectement configuré** : il pointait vers la mauvaise classe (`Document.class`).
+- ❗ **Absence de logique de démarrage** : `run()` est vide.
+- ❗ **Manque d'encapsulation claire** : setter inutile pour le logger.
 
 ---
 
@@ -73,10 +90,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PassosyfApplication implements CommandLineRunner {
 
-    // ✅ Application du patron Singleton pour Logger
+    // ✅ Singleton (GoF) pour Logger : instancié une fois, partagé dans la classe
     private static final Logger log = LoggerFactory.getLogger(PassosyfApplication.class);
 
-    // ✅ GRASP - Contrôleur délégué à une classe dédiée
+    // ✅ GRASP - Contrôle délégué à une classe spécialisée
     @Autowired
     private StartupService startupService;
 
@@ -87,7 +104,7 @@ public class PassosyfApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         log.info("🚀 Passosyf is starting...");
-        startupService.executeStartupLogic(); // 🧠 Logique extraite
+        startupService.executeStartupLogic(); // ✅ Logique métier extraite dans une classe dédiée
     }
 }
 ```
@@ -108,8 +125,10 @@ public class StartupService {
 
     private static final Logger log = LoggerFactory.getLogger(StartupService.class);
 
+    // ✅ Responsabilité unique : contient uniquement la logique de démarrage
     public void executeStartupLogic() {
         log.info("✅ Startup logic executed");
+        // 🔧 Future logique métier initiale ici (connexion, chargement config, etc.)
     }
 }
 ```
@@ -132,16 +151,12 @@ public class StartupService {
 
 | Membre                 | Tâche prise en charge                                                                                           |
 |------------------------|-----------------------------------------------------------------------------------------------------------------|
-| **Chedly CHAHED**       | ✅ Implémentation de `StartupService` (GRASP) <br> ✅ Refactoring de `PassosyfApplication` selon SRP et Singleton |
+| **Chedly CHAHED**       | ✅ Refactoring de `PassosyfApplication` <br> ✅ Implémentation de `StartupService` <br> ✅ Application SRP, Singleton, GRASP |
 
 ---
 
 ## 📚 Références utilisées
 
-- *Design Patterns* - GoF (Gamma, Helm, Johnson, Vlissides)
+- *Design Patterns: Elements of Reusable Object-Oriented Software* - GoF
 - *Clean Code* - Robert C. Martin
 - *Applying UML and Patterns* - Craig Larman
-
----
-
-✅ Les modifications ci-dessus seront complétées par des sections similaires pour les autres classes impactées (ex. `AppelOffresControlleur`, `AppelOffresService`, etc.) avec l'historique **avant/après**, les **principes appliqués** et les **rôles GRASP/GoF/SOLID** identifiés.
