@@ -1,4 +1,4 @@
-# 📄 README - Projet Génie Logiciel - Application Passosyf
+# 📄 Projet Génie Logiciel - Application Passosyf
 
 ## 🎓 Module : Génie Logiciel
 
