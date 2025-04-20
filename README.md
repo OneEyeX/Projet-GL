@@ -2,7 +2,7 @@
 
 ## 🎓 Module : Génie Logiciel
 
-**Projet** : Passosyf  
+**Projet** : Passosyf
 **Étudiant responsable** : **Chedly CHAHED**
 
 ---
@@ -65,16 +65,36 @@ public ResponseEntity<?> addCommissionToAppelOffres(@PathVariable int commission
 ### ✔ Service : `AppelOffresServiceImpl.java`
 
 ```java
-@Override
-public void addCommissionToAppelOffres(int commissionId, int appelOffreId) {
-    AddCommissionToAppelOffresCommand command =
-        new AddCommissionToAppelOffresCommand(commissionId, appelOffreId, this, commissionService);
-    command.execute();
+@Service
+public class AppelOffresServiceImpl implements AppelOffresService {
+    @Autowired
+    CommissionService commissionService;
+    @Override
+    public void addCommissionToAppelOffres(int commissionId, int appelOffreId) {
+        // Création et exécution de la commande
+        AddCommissionToAppelOffresCommand command = new AddCommissionToAppelOffresCommand(commissionId, appelOffreId,this, commissionService);
+        command.execute();
+    }
+    // Reste du code...
 }
 ```
 
-- ✅ Utilisation du **patron GoF - Command** pour encapsuler l'action dans une classe dédiée.
+- ✅ Utilisation du **patron de comportement GoF - Command** pour encapsuler l'action dans une classe dédiée.
 - ✅ Meilleure modularité, testabilité, réutilisabilité.
+
+---
+
+### ✔ Interface Commande : `Command.java`
+
+```java
+public interface Command {
+    void execute();
+}
+```
+
+- ✅ Cette interface définit le contrat de toutes les commandes exécutables.
+- ✅ Elle permet d'unifier l'exécution d'actions complexes, tout en respectant le **principe d'ouverture/fermeture (OCP)**.
+- ✅ Utile pour intégrer un **invocateur**, un historique d'annulation (Undo/Redo), ou une file d'attente de commandes, si nécessaire.
 
 ---
 
@@ -112,7 +132,7 @@ public class AddCommissionToAppelOffresCommand implements Command {
 ```
 
 - ✅ Respect du **principe SRP** : chaque classe a une responsabilité claire.
-- ✅ Respect du **patron GoF - Command** : encapsulation d'une action comme objet.
+- ✅ Respect du **patron de comportement GoF - Command** : encapsulation d'une action comme objet.
 
 ---
 
@@ -212,16 +232,16 @@ Ces contraintes OCL renforcent la **cohérence métier** au niveau du modèle de
 
 ## 📌 Résumé des modifications
 
-| Élément              | Détail                                                                 |
-|----------------------|------------------------------------------------------------------------|
-| 🔧 Classe modifiée    | `AppelOffresControlleur.java`                                          |
-| 🔧 Classe modifiée    | `AppelOffresServiceImpl.java`                                          |
-| 🔧 Classe modifiée    | `AppelOffres.java` (ajout des validations OCL via `@PrePersist`/`@PreUpdate`) |
-| ➕ Nouvelle classe     | `AddCommissionToAppelOffresCommand.java` (implémente `Command`)        |
-| ✅ Patron GoF         | **Command** : encapsulation d'une requête comme objet                 |
-| ✅ Patron GRASP       | **Contrôleur** : délégation au service                                |
-| ✅ Principe SOLID     | **SRP** : séparation claire des responsabilités                       |
-| ✅ Contraintes OCL    | **3 invariants ajoutés** à `AppelOffres` : coût > 0, lots > 0, commissions uniques |
+| Élément                   | Détail                                                                                      |
+|---------------------------|---------------------------------------------------------------------------------------------|
+| 🔧 Classe modifiée         | `AppelOffresControlleur.java` : logique métier supprimée, délégation vers le service       |
+| 🔧 Classe modifiée         | `AppelOffresServiceImpl.java` : utilise une commande dédiée pour encapsuler l'action       |
+| 🔧 Classe modifiée         | `AppelOffres.java` : validations OCL via `@PrePersist` / `@PreUpdate`                       |
+| ➕ Nouvelle classe          | `AddCommissionToAppelOffresCommand.java` : implémente l'interface `Command`                |
+| ✅ Patron GoF              | **Command** : encapsulation d'une requête comme objet (`AddCommissionToAppelOffresCommand`) |
+| ✅ Patron GRASP            | **Contrôleur** : délégation métier vers le service (`AppelOffresControlleur`)              |
+| ✅ Principes SOLID         | **SRP** : chaque classe a une responsabilité unique <br> &nbsp;&nbsp;&nbsp;&nbsp;• `AppelOffresControlleur` : uniquement rôle de routeur <br> &nbsp;&nbsp;&nbsp;&nbsp;• `AddCommissionToAppelOffresCommand` : encapsule une seule action métier <br> **OCP** : ajout d'une nouvelle commande sans modifier le contrôleur ou le service (`AppelOffresServiceImpl`) |
+| ✅ Contraintes OCL         | 3 invariants ajoutés dans `AppelOffres` : coût estimé > 0, nombre de lots > 0, commissions sans doublon |
 
 ---
 
@@ -235,7 +255,7 @@ Ces contraintes OCL renforcent la **cohérence métier** au niveau du modèle de
 
 ## 📚 Références utilisées
 
-- *Design Patterns* - GoF (Gamma, Helm, Johnson, Vlissides)  
-- *Clean Code* - Robert C. Martin  
-- *Applying UML and Patterns* - Craig Larman  
+- *Design Patterns* - GoF (Gamma, Helm, Johnson, Vlissides)
+- *Clean Code* - Robert C. Martin
+- *Applying UML and Patterns* - Craig Larman
 - *OCL Specification* - OMG
