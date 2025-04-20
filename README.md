@@ -11,7 +11,7 @@
 
 ### ✅ Objectif :
 
-Améliorer l'organisation du code selon les principes **SOLID**, les patrons **GoF** (*Command*), et les **patrons GRASP**.
+Améliorer l'organisation du code selon les principes **SOLID**, les patrons **GoF** (*Command*), les **patrons GRASP**, ainsi que garantir l'intégrité métier avec des **contraintes OCL**.
 
 ---
 
@@ -38,9 +38,9 @@ public ResponseEntity<?> addCommissionToAppelOffres(@PathVariable int commission
 
 ### Problèmes :
 
-- Violation du **SRP** (Single Responsibility Principle) : logique métier incluse dans le contrôleur.
-- Aucun usage de **patrons de conception** pour isoler la commande métier.
-- Le contrôleur devient difficile à tester, maintenir et faire évoluer.
+- ❌ Violation du **SRP** (Single Responsibility Principle) : logique métier incluse dans le contrôleur.
+- ❌ Aucun usage de **patrons de conception** pour isoler la commande métier.
+- ❌ Le contrôleur devient difficile à tester, maintenir et faire évoluer.
 
 ---
 
@@ -57,8 +57,8 @@ public ResponseEntity<?> addCommissionToAppelOffres(@PathVariable int commission
 }
 ```
 
-- Le contrôleur délègue désormais **toute la logique métier** au service.
-- Respect du **principe de GRASP - Contrôleur**.
+- ✅ Le contrôleur délègue désormais **toute la logique métier** au service.
+- ✅ Respect du **principe de GRASP - Contrôleur**.
 
 ---
 
@@ -73,8 +73,8 @@ public void addCommissionToAppelOffres(int commissionId, int appelOffreId) {
 }
 ```
 
-- Utilisation du **patron GoF - Command** pour encapsuler l'action dans une classe dédiée.
-- Meilleure modularité, testabilité, réutilisabilité.
+- ✅ Utilisation du **patron GoF - Command** pour encapsuler l'action dans une classe dédiée.
+- ✅ Meilleure modularité, testabilité, réutilisabilité.
 
 ---
 
@@ -111,8 +111,102 @@ public class AddCommissionToAppelOffresCommand implements Command {
 }
 ```
 
-- Respect du **principe SRP** : chaque classe a une responsabilité claire.
-- Respect du **patron GoF - Command** : encapsulation d'une action comme objet.
+- ✅ Respect du **principe SRP** : chaque classe a une responsabilité claire.
+- ✅ Respect du **patron GoF - Command** : encapsulation d'une action comme objet.
+
+---
+
+## 🔒 Contraintes OCL - Entité `AppelOffres`
+
+Dans le cadre de la validation métier, des contraintes OCL (*Object Constraint Language*) ont été intégrées afin de garantir la cohérence et l'intégrité des données au sein de l'entité `AppelOffres`.
+
+---
+
+### ✅ Contrainte 1 : Coût estimé strictement positif
+
+- **OCL (formelle)** :
+
+```ocl
+context AppelOffres
+inv CoutEstimePositif: self.appelOffreCoutEstime > 0
+```
+
+- **Java (implémentation)** :
+
+```java
+private void validateCoutEstime() {
+    if (appelOffreCoutEstime <= 0) {
+        throw new IllegalArgumentException("Le coût estimé doit être strictement positif.");
+    }
+}
+```
+
+---
+
+### ✅ Contrainte 2 : Nombre de lots strictement positif
+
+- **OCL (formelle)** :
+
+```ocl
+context AppelOffres
+inv NombreLotsPositif: self.appelOffreNbrLots > 0
+```
+
+- **Java (implémentation)** :
+
+```java
+private void validateNombreLots() {
+    if (appelOffreNbrLots <= 0) {
+        throw new IllegalArgumentException("Le nombre de lots doit être strictement positif.");
+    }
+}
+```
+
+---
+
+### ✅ Contrainte 3 : Références de commissions uniques dans un appel d'offres
+
+- **OCL (formelle)** :
+
+```ocl
+context AppelOffres
+inv CommissionsUniques: self.commissions->isUnique(c | c.commissionReference)
+```
+
+- **Java (implémentation)** :
+
+```java
+private void validateCommissionsUniques() {
+    Set<Integer> references = new HashSet<>();
+    for (Commission c : commissions) {
+        if (c.getCommissionReference() != null && !references.add(c.getCommissionReference())) {
+            throw new IllegalStateException("Doublon détecté dans la liste des commissions.");
+        }
+    }
+}
+```
+
+---
+
+### 🧪 Validation automatique via JPA
+
+L'ensemble des contraintes est déclenché **automatiquement** avant chaque persistance ou mise à jour en base de données grâce à l'annotation JPA :
+
+```java
+@PrePersist
+@PreUpdate
+private void validateOCLConstraints() {
+    validateCoutEstime();
+    validateNombreLots();
+    validateCommissionsUniques();
+}
+```
+
+---
+
+### 🎯 Objectif
+
+Ces contraintes OCL renforcent la **cohérence métier** au niveau du modèle de domaine, garantissant que les règles métiers essentielles sont systématiquement respectées, indépendamment de la couche applicative.
 
 ---
 
@@ -122,10 +216,12 @@ public class AddCommissionToAppelOffresCommand implements Command {
 |----------------------|------------------------------------------------------------------------|
 | 🔧 Classe modifiée    | `AppelOffresControlleur.java`                                          |
 | 🔧 Classe modifiée    | `AppelOffresServiceImpl.java`                                          |
+| 🔧 Classe modifiée    | `AppelOffres.java` (ajout des validations OCL via `@PrePersist`/`@PreUpdate`) |
 | ➕ Nouvelle classe     | `AddCommissionToAppelOffresCommand.java` (implémente `Command`)        |
 | ✅ Patron GoF         | **Command** : encapsulation d'une requête comme objet                 |
 | ✅ Patron GRASP       | **Contrôleur** : délégation au service                                |
 | ✅ Principe SOLID     | **SRP** : séparation claire des responsabilités                       |
+| ✅ Contraintes OCL    | **3 invariants ajoutés** à `AppelOffres` : coût > 0, lots > 0, commissions uniques |
 
 ---
 
@@ -133,7 +229,7 @@ public class AddCommissionToAppelOffresCommand implements Command {
 
 | Membre            | Tâche prise en charge                                                                                           |
 |-------------------|-----------------------------------------------------------------------------------------------------------------|
-| **Chedly CHAHED** | ✅ Refactoring `AppelOffresControlleur` et `AppelOffresServiceImpl` <br> ✅ Implémentation de `AddCommissionToAppelOffresCommand` |
+| **Chedly CHAHED** | ✅ Refactoring `AppelOffresControlleur` et `AppelOffresServiceImpl` <br> ✅ Implémentation de `AddCommissionToAppelOffresCommand` <br> ✅ Ajout des contraintes OCL dans `AppelOffres` |
 
 ---
 
@@ -141,8 +237,5 @@ public class AddCommissionToAppelOffresCommand implements Command {
 
 - *Design Patterns* - GoF (Gamma, Helm, Johnson, Vlissides)  
 - *Clean Code* - Robert C. Martin  
-- *Applying UML and Patterns* - Craig Larman
-
----
-
-✅ Les mêmes principes (GRASP, SOLID, GoF) peuvent être appliqués à d'autres cas d'usage similaires dans l'application, notamment pour les entités telles que `CahierCharges`, `Commission`, `Critere`, etc. Chaque action métier importante (ex. : lier un critère à un cahier des charges, affecter une commission à un appel d'offres, etc.) peut être encapsulée dans une commande dédiée, ce qui garantit une architecture robuste, modulaire et facilement testable.
+- *Applying UML and Patterns* - Craig Larman  
+- *OCL Specification* - OMG
