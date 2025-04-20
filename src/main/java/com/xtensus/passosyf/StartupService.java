@@ -4,17 +4,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-// @Service : Annotation Spring pour désigner une classe de service métier
+// @Service : classe métier qui encapsule une logique fonctionnelle (initialisation ici)
 @Service
 public class StartupService {
 
-	// Logger associé à la classe actuelle, respecte SRP et permet une traçabilité
-	// efficace
+	// 🔸 AVANT : Aucun logger ou traçabilité dans la logique métier
+	// 🔸 APRÈS : Logger dédié à la classe → respect du SRP + observabilité
+	// renforcée
 	private static final Logger log = LoggerFactory.getLogger(StartupService.class);
 
-	// Fonction principale de démarrage (appelée depuis PassosyfApplication)
+	// 🔸 AVANT : Logique de démarrage non définie ou incluse directement dans
+	// PassosyfApplication
+	// 🔸 APRÈS : Externalisation dans un service testable et modulaire
 	public void executeStartupLogic() {
-		// Message de log clair, utile pour observer l'état du système à l'exécution
-		log.info("✅ Startup logic executed");
+		log.info("✅ Startup logic executed (from Service)"); // Journalisation de l'exécution de la logique
+																// d'initialisation
 	}
 }
