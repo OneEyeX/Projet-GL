@@ -33,6 +33,7 @@ public class AppelOffresControlleur {
 		return ResponseEntity.ok().build();
 	}
 
+	
 	@GetMapping(value = "/getAppelOffres", produces = "application/json")
 	public Page<AppelOffres> getAllAppelOffres(@RequestParam(defaultValue = "0") int pageNum,
 			@RequestParam(defaultValue = "10") int pageSize,
