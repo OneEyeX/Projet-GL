@@ -197,11 +197,11 @@ public class StartupFacade {
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v2.7.1)
 
-2025-04-20T14:52:11.234Z  INFO 14123 --- [           main] c.x.p.PassosyfApplication               : 🚀 Passosyf is starting...(from Main)
-2025-04-20T14:52:11.254Z  INFO 14123 --- [           main] c.x.p.startup.StartupFacade             : Starting up (from Facade)
-2025-04-20T14:52:11.256Z  INFO 14123 --- [           main] c.x.p.startup.StartupService            : ✅ Startup logic executed (from Service)
-2025-04-20T14:52:11.258Z  INFO 14123 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2025-04-20T14:52:11.259Z  INFO 14123 --- [           main] c.x.p.PassosyfApplication               : Started PassosyfApplication in 2.345 seconds (JVM running for 2.789)
+2025-04-20T14:52:11.234Z  INFO 14123 --- [main] c.x.p.PassosyfApplication               : 🚀 Passosyf is starting...(from Main)
+2025-04-20T14:52:11.254Z  INFO 14123 --- [main] c.x.p.startup.StartupFacade             : Starting up (from Facade)
+2025-04-20T14:52:11.256Z  INFO 14123 --- [main] c.x.p.startup.StartupService            : ✅ Startup logic executed (from Service)
+2025-04-20T14:52:11.258Z  INFO 14123 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
+2025-04-20T14:52:11.259Z  INFO 14123 --- [main] c.x.p.PassosyfApplication               : Started PassosyfApplication in 2.345 seconds (JVM running for 2.789)
 ```
 
 ---
