@@ -173,6 +173,12 @@ Dans le cadre de la validation métier, des contraintes OCL (*Object Constraint 
 
 ---
 
+### 📊 Diagramme de classe initial (`AppelOffres` sans contraintes OCL)
+
+<img src="img/diagInitial.png" alt="Diagramme initial de AppelOffres" style="width:100%; max-width:700px;">
+
+---
+
 ### ✅ Contrainte 1 : Coût estimé strictement positif
 
 - **OCL (formelle)** :
@@ -258,6 +264,12 @@ private void validateOCLConstraints() {
 ### 🎯 Objectif
 
 Ces contraintes OCL renforcent la **cohérence métier** au niveau du modèle de domaine, garantissant que les règles métiers essentielles sont systématiquement respectées, indépendamment de la couche applicative.
+
+---
+
+### 📊 Diagramme de classe mis à jour (avec validation métier OCL)
+
+<img src="img/diagFinal.png" alt="Diagramme final de AppelOffres avec contraintes OCL" style="width:100%; max-width:700px;">
 
 ---
 
