@@ -215,14 +215,6 @@ public class StartupFacade {
 
 ---
 
-## 📋 Répartition des responsabilités
-
-| Membre           | Tâche prise en charge                                                                                             |
-|------------------|-------------------------------------------------------------------------------------------------------------------|
-| **Chedly CHAHED** | ✅ Refactoring de `PassosyfApplication` <br> ✅ Implémentation de `StartupService` <br> ✅ Ajout de `StartupFacade` <br> ✅ Application des principes **SOLID** (*SRP*), des patrons **GoF** (Création - *Singleton*, Structure - *Façade*) et **GRASP** (*Contrôleur*) |
-
----
-
 ### 💡 Avantages des modifications
 
 #### **1. Application du principe SOLID - SRP (Single Responsibility Principle)**
@@ -235,7 +227,7 @@ public class StartupFacade {
 
 #### **3. Application du patron de structure GoF - Façade**
 
-- **Avantage** : La façade `StartupFacade` simplifie l'accès aux services métiers en centralisant l'appel aux logiques d'initialisation. Cela permet une **extensibilité facile** et une meilleure organisation du code en réduisant les dépendances directes entre la classe `PassosyfApplication` et la logique métier.
+- **Avantage** : La façade `StartupFacade`  simplifie l'accès à la logique d'initialisation en centralisant l'appel aux logiques d'initialisation. Cela permet une **extensibilité facile** et une meilleure organisation du code en réduisant les dépendances directes entre la classe `PassosyfApplication` et la logique métier.
 
 #### **4. Application du patron GRASP - Contrôleur**
 
@@ -244,6 +236,28 @@ public class StartupFacade {
 #### **5. Meilleure testabilité**
 
 - **Avantage** : La structure du code rend plus facile l'écriture de tests unitaires grâce à la séparation claire des responsabilités entre `PassosyfApplication`, `StartupService` et `StartupFacade`.
+
+---
+
+## 📌 **Résumé des modifications**
+
+| **Élément**               | **Détail**                                                                                              |
+|---------------------------|----------------------------------------------------------------------------------------------------------|
+| 🔧 **Classe modifiée**     | `PassosyfApplication.java` : logique d'initialisation extraite vers une **façade dédiée** (`StartupFacade`) |
+| ➕ **Nouvelle classe**     | `StartupFacade.java` : encapsule l'ensemble des actions à réaliser au démarrage                          |
+| ➕ **Nouvelle classe**     | `StartupService.java` : exécute les actions concrètes (chargement de données, configuration, etc.)      |
+| ✅ **Patron GoF (Structure)** | **Façade** : `StartupFacade` fournit une interface unifiée aux services d'initialisation                 |
+| ✅ **Patron GoF (Création)** | **Singleton** : démarrage via une seule instance centralisée                                            |
+| ✅ **Patron GRASP**         | **Contrôleur** : `StartupFacade` orchestre les appels aux services de démarrage                          |
+| ✅ **Principes SOLID**      | - **SRP** : séparation claire entre démarrage (`PassosyfApplication`), orchestration (`Facade`) et logique (`Service`) <br> - **OCP** : ajout possible de nouveaux comportements de démarrage <br> - **DIP** : `StartupFacade` dépend de l'abstraction de services (via interface si ajoutée plus tard) |
+
+---
+
+## 📋 Répartition des responsabilités
+
+| Membre           | Tâche prise en charge                                                                                             |
+|------------------|-------------------------------------------------------------------------------------------------------------------|
+| **Chedly CHAHED** | ✅ Refactoring de `PassosyfApplication` <br> ✅ Implémentation de `StartupService` <br> ✅ Ajout de `StartupFacade` <br> ✅ Application des principes **SOLID** (*SRP*), des patrons **GoF** (Création - *Singleton*, Structure - *Façade*) et **GRASP** (*Contrôleur*) |
 
 ---
 
