@@ -61,7 +61,7 @@ public class AppelOffresControlleur {
 @PostMapping("/addCommissionToAppelOffres/{commissionId}/{appelOffreId}")
 public ResponseEntity<?> addCommissionToAppelOffres(@PathVariable int commissionId,
                                                     @PathVariable int appelOffreId) {
-    log.info("calling Service... (from AppelOffresControlleur)");
+    log.info("⏳ Calling Service... (from AppelOffresControlleur)");
     appelOffresService.addCommissionToAppelOffres(commissionId, appelOffreId); // Délégation complète
     return ResponseEntity.ok().build();
 }
@@ -81,7 +81,7 @@ public class AppelOffresServiceImpl implements AppelOffresService {
     CommissionService commissionService;
     @Override
     public void addCommissionToAppelOffres(int commissionId, int appelOffreId) {
-        log.info("Adding commission with ID: {} to AppelOffres with ID: {} (from AppelOffresServiceImpl)", commissionId, appelOffreId);
+        log.info("🔄 Adding commission with ID: {} to AppelOffres with ID: {} (from AppelOffresServiceImpl)", commissionId, appelOffreId);
         // Création et exécution de la commande
         AddCommissionToAppelOffresCommand command = new AddCommissionToAppelOffresCommand(commissionId, appelOffreId,this, commissionService);
         command.execute();
@@ -130,7 +130,7 @@ public class AddCommissionToAppelOffresCommand implements Command {
 
     @Override
     public void execute() {
-        log.info("Executing... (from AddCommissionToAppelOffresCommand)");
+        log.info("⚙️ Executing... (from AddCommissionToAppelOffresCommand)");
         AppelOffres appelOffres = appelOffresService.getAppelOffresById(appelOffreId);
         if (appelOffres == null) throw new ResourceNotFoundException("Appel d'offres non trouvé");
 
