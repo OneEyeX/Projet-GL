@@ -16,6 +16,7 @@ import org.springframework.util.ResourceUtils;
 
 import com.xtensus.passosyf.entities.Etat;
 import com.xtensus.passosyf.entities.Soumissionnaire;
+import com.xtensus.passosyf.factories.EtatFactory;
 import com.xtensus.passosyf.repositories.EtatRepository;
 import com.xtensus.passosyf.repositories.FonctionRepository;
 import com.xtensus.passosyf.repositories.FormejuridiqueRepository;
@@ -55,6 +56,9 @@ public class SoumissionnaireServiceImpl implements SoumissionnaireService {
 	
 	@Autowired
     private Map<String, ExportStrategy> exportStrategies; 
+	
+	@Autowired
+	private EtatFactory etatFactory;
 
 	
 	
@@ -106,16 +110,11 @@ public class SoumissionnaireServiceImpl implements SoumissionnaireService {
 		repo.save(t1);
 	}
 	
-	public Soumissionnaire changeEtatCompte(int soummissionnaireReference ,int etatId) {
-		Soumissionnaire soumissionnaire=repo.findById(soummissionnaireReference).get();
-
-			Etat etat=new Etat();
-			etat.setEtatId(etatId);
-			soumissionnaire.setSoumissionnaireEtatCompte(etat);
-			Soumissionnaire soumissionnaireSaved=repo.save(soumissionnaire);
-			return soumissionnaireSaved;
-	
-		
+	public Soumissionnaire changeEtatCompte(int soumissionnaireReference ,int etatId) {
+	    Soumissionnaire soumissionnaire = repo.findById(soumissionnaireReference).get();
+	    Etat etat = etatFactory.createEtat(etatId); // 👍 usage du Creator
+	    soumissionnaire.setSoumissionnaireEtatCompte(etat);
+	    return repo.save(soumissionnaire);
 	}
 	
 	public Page<Soumissionnaire> soumissionnaireByAppelOffreReference(int appelOffreSoumissionnaireReference,int pageNum,int pageSize, String sortDir, String sortField,String search){
