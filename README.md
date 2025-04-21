@@ -17,22 +17,31 @@ Améliorer l'organisation du code selon les principes **SOLID**, les patrons **G
 
 ## ⛔ Avant modification
 
-### Classe concernée : `AppelOffresControlleur.java`
+### Classe concernée : `AppelOffresControlleur.java` méthode `addCommissionToAppelOffres()`
 
 ```java
-@PostMapping("/addCommissionToAppelOffres/{commissionId}/{appelOffreId}")
-public ResponseEntity<?> addCommissionToAppelOffres(@PathVariable int commissionId, @PathVariable int appelOffreId) {
-    AppelOffres appelOffres = appelOffresService.getAppelOffresById(appelOffreId);
-    if (appelOffres == null) return ResponseEntity.notFound().build();
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(path = "AppelOffres")
+public class AppelOffresControlleur {
+    // code avant...
 
-    Commission commission = commissionService.getCommissionById(commissionId);
-    if (commission == null) return ResponseEntity.notFound().build();
+    //méthode concernée
+    @PostMapping("/addCommissionToAppelOffres/{commissionId}/{appelOffreId}")
+    public ResponseEntity<?> addCommissionToAppelOffres(@PathVariable int commissionId, @PathVariable int appelOffreId) {
+        AppelOffres appelOffres = appelOffresService.getAppelOffresById(appelOffreId);
+        if (appelOffres == null) return ResponseEntity.notFound().build();
 
-    appelOffres.getCommissions().add(commission);
-    commission.getAppelOffres().add(appelOffres);
+        Commission commission = commissionService.getCommissionById(commissionId);
+        if (commission == null) return ResponseEntity.notFound().build();
 
-    appelOffresService.saveAppelOffres(appelOffres);
-    return ResponseEntity.ok().build();
+        appelOffres.getCommissions().add(commission);
+        commission.getAppelOffres().add(appelOffres);
+
+        appelOffresService.saveAppelOffres(appelOffres);
+        return ResponseEntity.ok().build();
+    }
+    // reste du code
 }
 ```
 
@@ -52,6 +61,7 @@ public ResponseEntity<?> addCommissionToAppelOffres(@PathVariable int commission
 @PostMapping("/addCommissionToAppelOffres/{commissionId}/{appelOffreId}")
 public ResponseEntity<?> addCommissionToAppelOffres(@PathVariable int commissionId,
                                                     @PathVariable int appelOffreId) {
+    log.info("calling Service... (from AppelOffresControlleur)");
     appelOffresService.addCommissionToAppelOffres(commissionId, appelOffreId); // Délégation complète
     return ResponseEntity.ok().build();
 }
@@ -71,6 +81,7 @@ public class AppelOffresServiceImpl implements AppelOffresService {
     CommissionService commissionService;
     @Override
     public void addCommissionToAppelOffres(int commissionId, int appelOffreId) {
+        log.info("Adding commission with ID: {} to AppelOffres with ID: {} (from AppelOffresServiceImpl)", commissionId, appelOffreId);
         // Création et exécution de la commande
         AddCommissionToAppelOffresCommand command = new AddCommissionToAppelOffresCommand(commissionId, appelOffreId,this, commissionService);
         command.execute();
@@ -106,6 +117,7 @@ public class AddCommissionToAppelOffresCommand implements Command {
     private final int appelOffreId;
     private final AppelOffresService appelOffresService;
     private final CommissionService commissionService;
+    private static final Logger log = LoggerFactory.getLogger(AddCommissionToAppelOffresCommand.class);
 
     public AddCommissionToAppelOffresCommand(int commissionId, int appelOffreId,
                                              AppelOffresService appelOffresService,
@@ -118,6 +130,7 @@ public class AddCommissionToAppelOffresCommand implements Command {
 
     @Override
     public void execute() {
+        log.info("Executing... (from AddCommissionToAppelOffresCommand)");
         AppelOffres appelOffres = appelOffresService.getAppelOffresById(appelOffreId);
         if (appelOffres == null) throw new ResourceNotFoundException("Appel d'offres non trouvé");
 
@@ -133,6 +146,24 @@ public class AddCommissionToAppelOffresCommand implements Command {
 
 - ✅ Respect du **principe SRP** : chaque classe a une responsabilité claire.
 - ✅ Respect du **patron de comportement GoF - Command** : encapsulation d'une action comme objet.
+
+---
+
+### 🖥️ Résultat d'exécution (console Spring Boot)
+
+```plaintext
+2025-04-21 01:25:02.399  INFO 15364 --- [] c.x.p.s.AppelOffresServiceImpl           : ⏳ Calling Service... (from AppelOffresControlleur)
+2025-04-21 01:25:02.399  INFO 15364 --- [] c.x.p.s.AppelOffresServiceImpl           : 🔄 Adding commission with ID: 4 to AppelOffres with ID: 3 (from AppelOffresServiceImpl)
+2025-04-21 01:25:02.404  INFO 15364 --- [] .x.p.c.AddCommissionToAppelOffresCommand : ⚙️ Executing... (from AddCommissionToAppelOffresCommand)
+```
+
+---
+
+### ✅ Explication du résultat
+
+- `⏳ Calling Service... (from AppelOffresControlleur)` → Ce log est émis par le contrôleur `AppelOffresControlleur`, indiquant qu'une méthode du service `AppelOffresServiceImpl` a été invoquée pour traiter la demande. Cela correspond à l'appel au service où une commission doit être ajoutée à un appel d'offres.
+- `🔄 Adding commission with ID: 4 to AppelOffres with ID: 3 (from AppelOffresServiceImpl)` → Ici, le service `AppelOffresServiceImpl` affiche un message pour indiquer que l'ajout d'une commission (ID 4) à un appel d'offres (ID 3) est en cours. Cela reflète la logique métier derrière l'ajout de la commission.
+- `⚙️ Executing... (from AddCommissionToAppelOffresCommand)` → Log émis par la commande `AddCommissionToAppelOffresCommand`, signalant que la commande pour ajouter la commission à l'appel d'offres est en cours d'exécution. Cette étape exécute la logique spécifique à l'ajout de la commission et enregistre les modifications dans la base de données.
 
 ---
 

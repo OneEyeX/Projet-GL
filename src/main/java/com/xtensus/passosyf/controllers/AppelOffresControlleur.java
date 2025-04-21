@@ -1,5 +1,7 @@
 package com.xtensus.passosyf.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xtensus.passosyf.entities.AppelOffres;
 import com.xtensus.passosyf.services.AppelOffresService;
+import com.xtensus.passosyf.servicesImp.AppelOffresServiceImpl;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "AppelOffres")
 public class AppelOffresControlleur {
+	private static final Logger log = LoggerFactory.getLogger(AppelOffresServiceImpl.class);
 
 	@Autowired
 	private AppelOffresService appelOffresService;
@@ -29,6 +33,7 @@ public class AppelOffresControlleur {
 	@PostMapping("/addCommissionToAppelOffres/{commissionId}/{appelOffreId}")
 	public ResponseEntity<?> addCommissionToAppelOffres(@PathVariable int commissionId,
 			@PathVariable int appelOffreId) {
+		log.info("⏳ Calling Service... (from AppelOffresControlleur)");
 		appelOffresService.addCommissionToAppelOffres(commissionId, appelOffreId);
 		return ResponseEntity.ok().build();
 	}

@@ -2,6 +2,8 @@ package com.xtensus.passosyf.servicesImp;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ import com.xtensus.passosyf.services.CommissionService;
 
 @Service
 public class AppelOffresServiceImpl implements AppelOffresService {
+	private static final Logger log = LoggerFactory.getLogger(AppelOffresServiceImpl.class);
 
 	@Autowired
 	AppelOffresRepository appelOffresDao;
@@ -36,6 +39,8 @@ public class AppelOffresServiceImpl implements AppelOffresService {
 	// Déplacement de la logique métier ici
 	@Override
 	public void addCommissionToAppelOffres(int commissionId, int appelOffreId) {
+		log.info("🔄 Adding commission with ID: {} to AppelOffres with ID: {} (from AppelOffresServiceImpl)",
+				commissionId, appelOffreId);
 		// Création et exécution de la commande
 		AddCommissionToAppelOffresCommand command = new AddCommissionToAppelOffresCommand(commissionId, appelOffreId,
 				this, commissionService);
