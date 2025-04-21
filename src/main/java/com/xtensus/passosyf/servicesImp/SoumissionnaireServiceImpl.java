@@ -148,7 +148,7 @@ public class SoumissionnaireServiceImpl implements SoumissionnaireService {
 		return repo.isUsedBySoumissionnaireId(soumissionnaireId);
 	}
 
-	@Override
+	@Override //appliquer un patron GoF sur cette fonction 
     public byte[] exportListeSoumissionnaires(String format) throws FileNotFoundException, JRException {
         List<Soumissionnaire> soumissionnaires = repo.findAll();
         
