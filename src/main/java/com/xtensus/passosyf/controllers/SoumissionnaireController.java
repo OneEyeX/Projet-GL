@@ -67,20 +67,20 @@ public class SoumissionnaireController {
 		return soumissionnaireService.findAll(pageNum, pageSize, sortDir, sortField,search);
 	}
 	
-	@GetMapping("/export")
-    public ResponseEntity<byte[]> exportSoumissionnaires(@RequestParam String format) {
-        try {
-            byte[] fileContent = soumissionnaireService.exportListeSoumissionnaires(format);
-            String contentType = format.equalsIgnoreCase("pdf") ? "application/pdf" : "text/csv";
-            
-            return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header("Content-Disposition", "attachment; filename=soumissionnaires." + format)
-                .body(fileContent);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
+//	@GetMapping("/export")
+//    public ResponseEntity<byte[]> exportSoumissionnaires(@RequestParam String format) {
+//        try {
+//            byte[] fileContent = soumissionnaireService.exportListeSoumissionnaires(format);
+//            String contentType = format.equalsIgnoreCase("pdf") ? "application/pdf" : "text/csv";
+//            
+//            return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(contentType))
+//                .header("Content-Disposition", "attachment; filename=soumissionnaires." + format)
+//                .body(fileContent);
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//    }
 
 	@DeleteMapping(value = "/supp/{id}")
 	public List<Soumissionnaire> supp(@PathVariable int id) {

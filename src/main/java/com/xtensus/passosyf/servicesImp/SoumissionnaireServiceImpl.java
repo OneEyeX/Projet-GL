@@ -112,7 +112,7 @@ public class SoumissionnaireServiceImpl implements SoumissionnaireService {
 	
 	public Soumissionnaire changeEtatCompte(int soumissionnaireReference ,int etatId) {
 	    Soumissionnaire soumissionnaire = repo.findById(soumissionnaireReference).get();
-	    Etat etat = etatFactory.createEtat(etatId); // 👍 usage du Creator
+	    Etat etat = etatFactory.createEtat(etatId); // usage du Creator
 	    soumissionnaire.setSoumissionnaireEtatCompte(etat);
 	    return repo.save(soumissionnaire);
 	}
