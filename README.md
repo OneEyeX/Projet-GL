@@ -152,9 +152,9 @@ public class AddCommissionToAppelOffresCommand implements Command {
 ### 🖥️ Résultat d'exécution (console Spring Boot)
 
 ```plaintext
-2025-04-21 01:25:02.399  INFO 15364 --- [] c.x.p.s.AppelOffresServiceImpl           : ⏳ Calling Service... (from AppelOffresControlleur)
-2025-04-21 01:25:02.399  INFO 15364 --- [] c.x.p.s.AppelOffresServiceImpl           : 🔄 Adding commission with ID: 4 to AppelOffres with ID: 3 (from AppelOffresServiceImpl)
-2025-04-21 01:25:02.404  INFO 15364 --- [] .x.p.c.AddCommissionToAppelOffresCommand : ⚙️ Executing... (from AddCommissionToAppelOffresCommand)
+2025  INFO --- [] c.x.p.s.AppelOffresServiceImpl           : ⏳ Calling Service... (from AppelOffresControlleur)
+2025  INFO --- [] c.x.p.s.AppelOffresServiceImpl           : 🔄 Adding commission with ID: 4 to AppelOffres with ID: 3 (from AppelOffresServiceImpl)
+2025  INFO --- [] .x.p.c.AddCommissionToAppelOffresCommand : ⚙️ Executing... (from AddCommissionToAppelOffresCommand)
 ```
 
 ---
