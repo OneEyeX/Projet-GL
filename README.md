@@ -1,6 +1,6 @@
 # 📄 Projet Génie Logiciel - Application Passosyf
 
-[![Retour à main](https://img.shields.io/badge/🔙_Retour-main-blue)](https://github.com/OneEyeX/Projet-GL/)
+[⬅️ Retour à la branche principale (main)](https://github.com/OneEyeX/Projet-GL/)
 
 ## 🎓 Module : Génie Logiciel
 
@@ -268,3 +268,5 @@ public class StartupFacade {
 - *Design Patterns: Elements of Reusable Object-Oriented Software* — GoF
 - *Clean Code* — Robert C. Martin
 - *Applying UML and Patterns* — Craig Larman
+
+[![Retour à main](https://img.shields.io/badge/🔙_Retour-main-blue)](https://github.com/OneEyeX/Projet-GL/)
