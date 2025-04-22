@@ -1,7 +1,3 @@
-Voici le **README complet** avec toutes les sections intégrées, mises en forme, et enrichies :
-
----
-
 # 📘 Passosyf - Refonte Génie Logiciel
 
 > ⚠️⚠️⚠️  
