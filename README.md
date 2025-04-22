@@ -12,7 +12,6 @@ Ce projet fait partie d'une **refonte structurelle et logique** dans le cadre du
 - Les contraintes **OCL**
 - Un **diagramme de classe** bien structuré
 - Un **modèle conceptuel de données (MCD)**
-- Des tests unitaires de validation métier
 
 ## 💡 Objectifs pédagogiques
 
