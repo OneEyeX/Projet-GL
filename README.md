@@ -1,5 +1,12 @@
 # 📘 Passosyf - Refonte Génie Logiciel
 
+> ⚠️⚠️⚠️
+> **IMPORTANT : Toutes les modifications et améliorations (patrons de conception, SOLID, GRASP, OCL, refactoring) sont réparties dans les branches spécifiques !**
+> Merci de consulter les branches correspondantes pour chaque type de mise à jour.
+> ⚠️⚠️⚠️
+
+---
+
 ## 🔎 Description générale
 
 **Passosyf** (Plateforme d'Aide à la Sélection de Soumissionnaires et à l'Organisation de la Passation des Marchés Publics/Privés) est une application web dédiée à la gestion du cycle de vie des appels d'offres dans les secteurs public et privé.
@@ -42,12 +49,6 @@ Les objectifs principaux de ce projet sont :
 - **/docs** : Documentation technique, diagrammes, et rapports
 - **/models** : Diagrammes UML, MCD, générés automatiquement
 
-### Tâches et responsabilités par membre :
-
-- **Chedly CHAHED** : Responsable de la gestion des appels d'offres (branch `Chedly-CHAHED-PassosyfApplication-corrections` et `Chedly-CHAHED-AppelOffres-corrections`)
-- **Mohamed Chedly KLAA** : Application des patrons GoF (branches `KLAA-GOF`, `KLAA-GRASP`, `KLAA-SOLID`)
-- **Amal BEN DJEMAA** : Application des patrons GRASP, SOLID et des contraintes OCL (branches `Gof_AMAL`, `Grasp_Amal`, `SOLID_AMAL`)
-
 ## 📝 Spécifications et fonctionnalités
 
 L'application vise à gérer tout le cycle de vie des appels d'offres. Voici les fonctionnalités principales :
@@ -81,7 +82,7 @@ Avant de pouvoir exécuter l'application, assurez-vous que les éléments suivan
 1. **Clonez le repository** :
 
    ```bash
-   git clone https://github.com/your-repo/Passosyf.git
+   git clone https://github.com/OneEyeX/Projet-GL/
    cd Passosyf
    ```
 
@@ -113,20 +114,12 @@ Avant de pouvoir exécuter l'application, assurez-vous que les éléments suivan
 ## 🌐 Liens utiles
 
 - **GitHub repository** : [Passosyf - GitHub](https://github.com/OneEyeX/Projet-GL/)
-- **Branches** :
-  - `Chedly-CHAHED-PassosyfApplication-corrections` (Chedly CHAHED)
-  - `Chedly-CHAHED-AppelOffres-corrections` (Chedly CHAHED)
-  - `KLAA-GoF` (Mohamed Chedly KLAA)
-  - `KLAA-GRASP` (Mohamed Chedly KLAA)
-  - `KLAA-SOLID` (Mohamed Chedly KLAA)
-  - `GoF_Amal` (Amal BEN DJEMAA)
-  - `GRASP_Amal` (Amal BEN DJEMAA)
-  - `SOLID_AMAL` (Amal BEN DJEMAA)
-
----
-
-### Mise à jour réalisée par :
-
-- **Chedly CHAHED**
-- **Mohamed Chedly KLAA**
-- **Amal BEN DJEMAA**
+- **Branches à consulter** :
+  - `Chedly-CHAHED-PassosyfApplication-corrections`
+  - `Chedly-CHAHED-AppelOffres-corrections`
+  - `KLAA-GoF`
+  - `KLAA-GRASP`
+  - `KLAA-SOLID`
+  - `GoF_Amal`
+  - `GRASP_Amal`
+  - `SOLID_AMAL`
