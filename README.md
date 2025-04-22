@@ -112,7 +112,7 @@ Avant de pouvoir exécuter l'application, assurez-vous que les éléments suivan
 
 ## 🌐 Liens utiles
 
-- **GitHub repository** : [Passosyf - GitHub](https://github.com/your-repo/Passosyf)
+- **GitHub repository** : [Passosyf - GitHub](https://github.com/OneEyeX/Projet-GL/)
 - **Branches** :
   - `Chedly-CHAHED-PassosyfApplication-corrections` (Chedly CHAHED)
   - `Chedly-CHAHED-AppelOffres-corrections` (Chedly CHAHED)
