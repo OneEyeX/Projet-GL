@@ -1,5 +1,7 @@
 # 📄 Projet Génie Logiciel - Application Passosyf
 
+[⬅️ Retour à la branche principale (main)](https://github.com/OneEyeX/Projet-GL/)
+
 ## 🎓 Module : Génie Logiciel
 
 **Projet** : Passosyf
@@ -302,3 +304,5 @@ Ces contraintes OCL renforcent la **cohérence métier** au niveau du modèle de
 - *Clean Code* - Robert C. Martin
 - *Applying UML and Patterns* - Craig Larman
 - *OCL Specification* - OMG
+
+[![Retour à main](https://img.shields.io/badge/🔙_Retour-main-blue)](https://github.com/OneEyeX/Projet-GL/)
