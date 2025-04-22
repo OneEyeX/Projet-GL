@@ -60,8 +60,12 @@ Ce projet s'inscrit dans le cadre du module **Génie Logiciel** et vise à illus
 │       │       ├── services/          # Interfaces des services métiers
 │       │       ├── servicesImpl/      # Implémentations (Façade, SRP, DIP)
 │       │       └── PassosyfApplication.java  # Point d'entrée (Singleton, Façade)
-│       └── resources/
-│           └── application.properties
+│       └── resources/                  # Fichiers de configuration et de ressources
+│           ├── jasper/                # Templates JasperReports (JRXML & fichiers compilés)
+│           │   ├── soum.jasper         # Fichier compilé utilisé pour générer les rapports
+│           │   └── soum.jrxml          # Fichier source éditable des rapports
+│           ├── application.properties # Configuration Spring Boot (format clé-valeur)
+│           └── application.yml        # Alternative YAML pour la configuration Spring Boot
 ├── test/                      # Tests unitaires et d'intégration
 ├── target/                    # Répertoire de compilation Maven
 ├── pom.xml                    # Configuration du projet Maven
@@ -118,7 +122,7 @@ cd Projet-GL
 # 2. Créer la base de données
 # via phpMyAdmin ou client SQL : `CREATE DATABASE passosyf_db;`
 
-# 3. Configurer la BDD dans src/main/resources/application.properties
+# 3. Configurer la BDD dans src/main/resources/application.yml
 
 # 4. Construire et exécuter
 mvn clean install
@@ -142,4 +146,4 @@ mvn spring-boot:run
 
 - 📁 [Repository GitHub](https://github.com/OneEyeX/Projet-GL)
 - 📸 [Diagrammes UML & MCD](./models)
-- 📋 [Documentation technique complète](./)
+- 📋 [Documentation technique complète](./README.md)
