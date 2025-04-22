@@ -95,7 +95,7 @@ Ce projet s'inscrit dans le cadre du module **Génie Logiciel** et vise à illus
 
 | 👤 Membre                | 🌿 Branches associées |
 |-------------------------|----------------------|
-| **Chedly CHAHED**       | [Chedly-CHAHED-AppelOffres-corrections](https://github.com/OneEyeX/Projet-GL/tree/Chedly-CHAHED-AppelOffres-corrections)<br>[Chedly-CHAHED-PassosyfApplication-corrections](https://github.com/OneEyeX/Projet-GL/tree/Chedly-CHAHED-PassosyfApplication-corrections) |
+| **Chedly CHAHED**       | [Chedly-CHAHED-PassosyfApplication-corrections](https://github.com/OneEyeX/Projet-GL/tree/Chedly-CHAHED-PassosyfApplication-corrections)<br>[Chedly-CHAHED-AppelOffres-corrections](https://github.com/OneEyeX/Projet-GL/tree/Chedly-CHAHED-AppelOffres-corrections) |
 | **Mohamed Chedly KLAA** | [KLAA-GoF](https://github.com/OneEyeX/Projet-GL/tree/KLAA-GoF)<br>[KLAA-GRASP](https://github.com/OneEyeX/Projet-GL/tree/KLAA-GRASP)<br>[KLAA-SOLID](https://github.com/OneEyeX/Projet-GL/tree/KLAA-SOLID) |
 | **Amal BEN DJEMAA**     | [GoF_Amal](https://github.com/OneEyeX/Projet-GL/tree/GoF_Amal)<br>[GRASP_Amal](https://github.com/OneEyeX/Projet-GL/tree/GRASP_Amal)<br>[SOLID_AMAL](https://github.com/OneEyeX/Projet-GL/tree/SOLID_AMAL) |
 
