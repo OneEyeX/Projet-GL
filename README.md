@@ -1,8 +1,8 @@
 # 📘 Passosyf - Refonte Génie Logiciel
 
-> ⚠️⚠️⚠️  
-> **IMPORTANT : Toutes les modifications et améliorations (patrons de conception, SOLID, GRASP, OCL, refactoring) sont réparties dans les branches spécifiques !**  
-> Merci de consulter les branches correspondantes pour chaque type de mise à jour.  
+> ⚠️⚠️⚠️
+> **IMPORTANT : Toutes les modifications et améliorations (patrons de conception, SOLID, GRASP, OCL, refactoring) sont réparties dans les branches spécifiques !**
+> Merci de consulter les branches correspondantes pour chaque type de mise à jour.
 > ⚠️⚠️⚠️
 
 ---
@@ -39,8 +39,6 @@ Ce projet s'inscrit dans le cadre du module **Génie Logiciel** et vise à illus
 - **Backend** : Spring Boot, Java
 - **Base de données** : MySQL
 - **Modélisation** : UML, OCL, StarUML
-- **Tests** : JUnit, Mockito
-- **Documentation** : Swagger, PlantUML
 - **Version Control** : Git + GitHub
 
 ---
@@ -81,10 +79,10 @@ Ce projet s'inscrit dans le cadre du module **Génie Logiciel** et vise à illus
 
 ### Diagrammes
 
-- 📘 **Diagramme de classes (initial)** :  
+- 📘 **Diagramme de classes (initial)** :
   ![Diagramme de classe initial](models/classDiag.png)
 
-- 🎯 **Diagramme des cas d'utilisation** :  
+- 🎯 **Diagramme des cas d'utilisation** :
   ![Diagramme des cas d'utilisation](models/useCase.png)
 
 ---
@@ -126,7 +124,7 @@ cd Projet-GL
 mvn clean install
 mvn spring-boot:run
 
-# 5. Accès via : http://localhost:8080
+# 5. Accès via : http://localhost:8584
 ```
 
 ---
