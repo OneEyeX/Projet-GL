@@ -19,6 +19,10 @@ Améliorer l'organisation du code selon les principes **SOLID**, les patrons **G
 
 ## ⛔ Avant modification
 
+### Diagramme de Classes initial
+
+<img src="img/before.png" alt="Diagramme de Classes Avant modification" style="width:100%;" />
+
 ### Classe concernée : `AppelOffresControlleur.java` méthode `addCommissionToAppelOffres()`
 
 ```java
@@ -56,6 +60,10 @@ public class AppelOffresControlleur {
 ---
 
 ## ✅ Après modification
+
+### Diagramme de Classes final
+
+<img src="img/after.png" alt="Diagramme de Classes Après modification" style="width:100%;" />
 
 ### ✔ Contrôleur allégé : `AppelOffresControlleur.java`
 
