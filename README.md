@@ -30,6 +30,10 @@ Améliorer l'organisation du code selon les principes **SOLID**, les patrons **G
 
 ## ⛔ Problème initial (Avant refactoring)
 
+### Diagramme de Classes
+
+![Diagramme de Classes Avant modification](img/before.png)
+
 ### Classe concernée : `PassosyfApplication.java`
 
 ```java
@@ -185,6 +189,12 @@ public class StartupFacade {
 - **Patron de strucrure GoF - Façade** : Centralisation de l'appel à la logique d'initialisation dans `StartupFacade`, ce qui simplifie l'utilisation de la fonctionnalité et améliore la lisibilité.
 - **Encapsulation** : `StartupFacade` isole la complexité et rend l'interface d'initialisation plus simple et plus cohérente.
 - **Testabilité améliorée** : Grâce à l'injection de dépendances, les tests unitaires deviennent plus faciles à mettre en œuvre.
+
+---
+
+### Diagramme de Classes Après les modifications
+
+![Diagramme de Classes Après modification](img/after.png)
 
 ---
 
